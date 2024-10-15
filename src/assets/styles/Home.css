@@ -1,0 +1,16 @@
+.dog-section {
+  text-align: center;
+  margin: 2rem 0;
+  font-family: "Nunito", sans-serif;
+}
+
+.dog-section h2 {
+  color: #f38b32;
+  font-size: 36px;
+}
+.dog-card-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
