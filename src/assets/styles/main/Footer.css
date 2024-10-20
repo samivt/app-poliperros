@@ -5,31 +5,36 @@
   justify-content: space-between;
   align-items: center;
   padding: 20px;
-  flex-direction: row;
   flex-wrap: wrap;
   font-family: "Nunito", sans-serif;
 }
+
 .footer-logo {
   flex: 1;
   text-align: center;
+  margin-bottom: 20px;
 }
 .footer-logo img {
   width: auto;
-  height: 100px;
+  height: 80px;
 }
 
 .contact-info {
   flex: 2;
   text-align: center;
+  margin-bottom: 20px;
 }
+
 .social-media {
   color: #008eb6;
   flex: 1;
   text-align: center;
 }
+
 .social-media a {
-  margin: 0 50px;
+  margin: 0 20px;
 }
+
 .social-media i {
   font-size: 30px;
 }
@@ -41,5 +46,19 @@
 @media (max-width: 768px) {
   .footer {
     flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .social-media a {
+    margin: 0 10px;
+  }
+
+  .footer-logo img {
+    height: 60px;
+
+    .contact-info p {
+      margin: 10px 0;
+    }
   }
 }

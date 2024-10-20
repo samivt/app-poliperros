@@ -1,6 +1,6 @@
 import React from "react";
-import "../assets/styles/Navbar.css";
-import logo from "../assets/images/logo_poliperros.png";
+import "../../assets/styles/main/Navbar.css";
+import logo from "../../assets/images/logo_poliperros.png";
 
 const Navbar = () => {
   return (
@@ -10,23 +10,17 @@ const Navbar = () => {
       </div>
       <ul className="nav-links" role="navigation">
         <li>
-          <a href="#">Quiénes somos</a>
+          <a href="#">Perros</a>
         </li>
         <li>
-          <a href="#">Donaciones</a>
+          <a href="#">Historial</a>
         </li>
         <li>
           <a href="#">Adopción</a>
         </li>
-        <li>
-          <a href="#">Inscripciones</a>
-        </li>
-        <li>
-          <a href="#">Contacto</a>
-        </li>
       </ul>
       <button className="login-btn">
-        <i class="fas fa-user"></i>Iniciar Sesión
+        <i className="fas fa-user"></i>Iniciar Sesión
       </button>
     </nav>
   );

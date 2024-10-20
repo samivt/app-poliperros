@@ -1,0 +1,39 @@
+.navbar {
+  font-family: "Nunito", sans-serif;
+}
+
+.bg-custom {
+  background-color: rgba(0, 142, 182, 0.5) !important; /* Forzamos el color */
+}
+
+.nav-link {
+  color: white !important;
+  font-weight: 600;
+  font-size: 20px;
+}
+
+.login-btn {
+  background-color: #008eb6;
+  color: white;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.login-btn i {
+  margin-right: 10px;
+  font-size: 25px;
+}
+
+.logo {
+  width: 135px;
+  height: auto;
+}
+
+@media (max-width: 768px) {
+  .login-btn {
+    width: 100%;
+    margin-top: 10px;
+  }
+}

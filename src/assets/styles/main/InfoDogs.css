@@ -1,0 +1,59 @@
+.info-dog {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  justify-content: space-between;
+  text-align: left;
+
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+#name-dog {
+  color: #bb7223;
+  font-size: 28px;
+  padding: 0;
+  margin: 0 0 10px 0;
+}
+
+#info-dog {
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.info-dog img {
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+
+  object-fit: cover;
+  margin: 0 20px;
+}
+
+.ver-mas button {
+  background-color: #f38b32;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  font-weight: 600;
+  border-radius: 10px;
+}
+
+@media (max-width: 768px) {
+  .info-dog {
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+  }
+
+  .info-dog img {
+    margin-bottom: 20px;
+  }
+
+  #name-dog {
+    font-size: 24px;
+  }
+}

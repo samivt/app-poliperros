@@ -5,19 +5,20 @@
   background-color: rgba(243, 139, 50, 0.2);
   font-family: "Nunito", sans-serif;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  max-width: 413px;
-  margin: 20px auto;
 }
+
 .dog-card img {
-  width: 350px;
-  height: 275px;
+  width: 100%;
+  height: auto;
   border-radius: 10px;
 }
+
 .dog-card h3 {
   margin: 0.5rem 0;
   color: #f38b32;
   font-weight: 700;
 }
+
 .dog-card button {
   background-color: #f38b32;
   color: white;
@@ -28,8 +29,9 @@
   border-radius: 10px;
 }
 
-@media (max-width: 768px) {
-  .dog-card {
-    max-width: 100%;
-  }
+.dog-section h2 {
+  color: #f38b32;
+  font-size: 36px;
+  margin-bottom: 1.5rem;
+  font-family: "Nunito", sans-serif;
 }

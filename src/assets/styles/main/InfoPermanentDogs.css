@@ -1,0 +1,22 @@
+.info-dog-section {
+  text-align: center;
+  margin: 2rem 0;
+  font-family: "Nunito", sans-serif;
+}
+
+.info-dog-section h2 {
+  color: #f38b32;
+  font-size: 2.5rem;
+}
+
+.info-dog-container img {
+  max-width: 100%;
+  height: auto;
+}
+
+@media (max-width: 768px) {
+  .info-dog-container {
+    flex-direction: column;
+    text-align: left;
+  }
+}
