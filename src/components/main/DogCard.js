@@ -4,12 +4,14 @@ import "../../assets/styles/main/DogCard.css";
 
 const DogCard = ({ title, image, link }) => {
   return (
-    <div className="card dog-card shadow-sm">
+    <div className="card dog-card shadow">
       <img src={image} alt={title} className="card-img-top" />
       <div className="card-body text-center">
         <h3 className="card-title">{title}</h3>
         <Link to={link}>
-          <button className="btn btn-primary mt-3">Ver más</button>
+          <button className="btn btn-primary mt-3 dog-card-button">
+            Ver más
+          </button>
         </Link>
       </div>
     </div>

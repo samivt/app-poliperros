@@ -1,0 +1,31 @@
+.container {
+  max-width: 700px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  padding: 0 50px 50px 50px;
+  border: 1px solid #f38b32;
+  border-radius: 10px;
+}
+
+.form-title {
+  color: #f38b32;
+  font-weight: bold;
+  margin: 0px;
+}
+
+.custom-label {
+  color: #008eb6;
+}
+
+.custom-button {
+  max-width: 200px;
+  margin-top: 30px;
+  background-color: #f38b32;
+  border-color: #f38b32;
+  width: 100%;
+}
+
+.custom-button:hover {
+  background-color: #e59400;
+  border-color: #e59400;
+}

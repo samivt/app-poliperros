@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { Form, Button, Col, Row } from "react-bootstrap";
+import { Form, Button } from "react-bootstrap";
 import "../../assets/styles/admin/Login.css";
 
-const FormDogs = () => {
+const Login = () => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -22,16 +22,13 @@ const FormDogs = () => {
     };
     console.log(dogData);
     try {
-      const response = await fetch(
-        "http://192.168.100.88:8000/dog/static_dog/create",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(dogData),
-        }
-      );
+      const response = await fetch("", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(dogData),
+      });
       if (response.ok) {
         const result = await response.json();
         console.log("Inicio sesión:", result);
@@ -45,40 +42,36 @@ const FormDogs = () => {
 
   return (
     <div className="login-container">
+      <div className="logo">
+        <img
+          src={require("../../assets/images/logo_poliperros.png")}
+          alt="PoliPerros Logo"
+        />
+      </div>
       <div className="login-box">
-        <div className="logo">
-          <img
-            src={require("../../assets/images/logo_poliperros.png")}
-            alt="PoliPerros Logo"
-          />
-        </div>
         <Form onSubmit={handleSubmit}>
-          <Form.Group as={Row} className="mb-3">
-            <Form.Label htmlFor="email">Correo:</Form.Label>
-            <Col>
-              <Form.Control
-                type="email"
-                id="email"
-                name="email"
-                required
-                value={formData.email}
-                onChange={handleChange}
-              />
-            </Col>
+          <Form.Group className="mb-3">
+            <Form.Label className="custom-label">Correo:</Form.Label>
+            <Form.Control
+              type="email"
+              id="email"
+              name="email"
+              required
+              value={formData.email}
+              onChange={handleChange}
+            />
           </Form.Group>
 
-          <Form.Group as={Row} className="mb-3">
-            <Form.Label htmlFor="password">Contraseña:</Form.Label>
-            <Col>
-              <Form.Control
-                type="password"
-                id="password"
-                name="password"
-                required
-                value={formData.password}
-                onChange={handleChange}
-              />
-            </Col>
+          <Form.Group className="mb-3">
+            <Form.Label className="custom-label">Contraseña:</Form.Label>
+            <Form.Control
+              type="password"
+              id="password"
+              name="password"
+              required
+              value={formData.password}
+              onChange={handleChange}
+            />
           </Form.Group>
 
           <div className="forgot-password">
@@ -94,4 +87,4 @@ const FormDogs = () => {
   );
 };
 
-export default FormDogs;
+export default Login;

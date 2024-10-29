@@ -1,0 +1,10 @@
+.contact-section {
+  text-align: center;
+  padding: 2rem;
+}
+
+.tiktok-video {
+  display: flex;
+  justify-content: center;
+  margin: 2rem 0;
+}

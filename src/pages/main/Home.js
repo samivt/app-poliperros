@@ -16,16 +16,16 @@ const Home = () => {
           <div className="row justify-content-center">
             <div className="col-12 col-md-6 col-lg-4 mb-4">
               <DogCard
-                title="Perros Permanentes"
+                title="Poli Perros"
                 image={require("../../assets/images/perros_permanentes.jpg")}
-                link="/permanent-dogs"
+                link="/view-permanent-dogs"
               />
             </div>
             <div className="col-12 col-md-6 col-lg-4 mb-4">
               <DogCard
-                title="Perros en Adopción"
+                title="Perros en adopción"
                 image={require("../../assets/images/perros_temporales.jpg")}
-                link="/adoption-dogs"
+                link="/view-adoption-dogs"
               />
             </div>
           </div>

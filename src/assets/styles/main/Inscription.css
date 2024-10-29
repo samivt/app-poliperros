@@ -1,0 +1,71 @@
+/* Estilos generales de la sección */
+.inscription-section {
+  padding: 2rem;
+  color: #333;
+  font-family: "Nunito", sans-serif;
+}
+
+/* Títulos */
+.title {
+  color: #008eb6;
+  font-size: 1.8rem;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.cost-title {
+  color: #f38b32;
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+.description,
+.date {
+  text-align: center;
+  color: #333;
+}
+
+/* Botón de inscripción */
+.inscription-button {
+  background-color: #f38b32;
+  color: white;
+  border: none;
+  padding: 0.5rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 5px;
+  cursor: pointer;
+  display: block;
+  margin: 1rem auto;
+  transition: background-color 0.3s ease;
+}
+
+.inscription-button:hover {
+  background-color: #e59400;
+}
+
+/* Tabla de horarios */
+.schedule-table {
+  margin-top: 1.5rem;
+  text-align: center;
+}
+
+.schedule-table thead {
+  background-color: #008eb6;
+  color: white;
+}
+
+.schedule-table th,
+.schedule-table td {
+  padding: 1rem;
+  font-size: 1rem;
+}
+
+.schedule-table tbody tr:nth-child(odd) {
+  background-color: #f9f9f9;
+}
+
+.schedule-table tbody tr:hover {
+  background-color: #f38b32;
+  color: white;
+}

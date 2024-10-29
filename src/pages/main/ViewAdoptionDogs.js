@@ -1,7 +1,7 @@
 import React from "react";
 import Navbar from "../../components/main/Navbar";
 import Footer from "../../components/main/Footer";
-import "../../assets/styles/main/ViewDogs.css";
+import "../../assets/styles/main/ViewAdoptionDogs.css";
 import { Link } from "react-router-dom";
 
 const ViewDogs = ({ nameDog, imageDog, link }) => {
@@ -21,27 +21,27 @@ const Dogs = () => {
     <div>
       <Navbar />
       <section className="view-info">
-        <h2>Poli Perros</h2>
+        <h2>Perros en adopción</h2>
         <div className="view-container">
           <ViewDogs
-            imageDog={require("../../assets/images/max.jpg")}
-            nameDog="Max"
-            link="/info-permanent-dogs"
+            imageDog={require("../../assets/images/Kira.png")}
+            nameDog="Kira"
+            link="/info-adoption-dogs"
           />
           <ViewDogs
-            imageDog={require("../../assets/images/max.jpg")}
-            nameDog="Asiri"
-            link="/info-permanent-dogs"
+            imageDog={require("../../assets/images/Kira.png")}
+            nameDog="Kira"
+            link="/info-adoption-dogs"
           />
           <ViewDogs
-            imageDog={require("../../assets/images/max.jpg")}
+            imageDog={require("../../assets/images/Kira.png")}
             nameDog="Bruna"
-            link="/info-permanent-dogs"
+            link="/info-adoption-dogs"
           />
           <ViewDogs
-            imageDog={require("../../assets/images/max.jpg")}
+            imageDog={require("../../assets/images/Kira.png")}
             nameDog="Franzua"
-            link="/info-permanent-dogs"
+            link="/info-adoption-dogs"
           />
         </div>
       </section>

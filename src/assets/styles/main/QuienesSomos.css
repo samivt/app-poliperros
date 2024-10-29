@@ -1,0 +1,28 @@
+.Container .row {
+  display: flex;
+  justify-content: center;
+  gap: 40px; /* Ajusta el espacio entre tarjetas */
+}
+@media (max-width: 768px) {
+  .text-info-qs {
+    font-size: 1.5rem;
+  }
+
+  .icon-container i {
+    font-size: 2.5rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .text-info-qs {
+    font-size: 1.25rem;
+  }
+
+  .icon-container i {
+    font-size: 2rem;
+  }
+
+  .border-card {
+    margin: 10px auto;
+  }
+}

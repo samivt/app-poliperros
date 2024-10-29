@@ -1,0 +1,55 @@
+.view-dog {
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+  background-color: rgba(0, 142, 180, 0.2);
+  font-family: "Nunito", sans-serif;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  max-width: 413px;
+  margin: 20px auto;
+  transition: all 0.3s ease-in-out;
+}
+
+.view-dog.expanded {
+  max-width: 100%;
+  background-color: rgba(0, 142, 180, 0.4);
+}
+
+.dog-description {
+  margin-top: 10px;
+  font-size: 16px;
+  color: #333;
+}
+
+#nameDog {
+  color: #008eb6;
+  font-size: 36px;
+}
+
+.view-dog img {
+  width: 250px;
+  height: 250px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.view-info h2 {
+  color: #f38b32;
+  font-style: italic;
+}
+
+.view-info button {
+  background-color: #008eb6;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  font-weight: 600;
+  border-radius: 10px;
+}
+
+@media (max-width: 768px) {
+  .view-info {
+    max-width: 100%;
+  }
+}

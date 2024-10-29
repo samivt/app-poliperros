@@ -1,32 +1,6 @@
-.dog-card {
-  border-radius: 10px;
-  padding: 20px;
-  text-align: center;
-  background-color: rgba(243, 139, 50, 0.2);
-  font-family: "Nunito", sans-serif;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.dog-card img {
-  width: 100%;
-  height: auto;
-  border-radius: 10px;
-}
-
-.dog-card h3 {
-  margin: 0.5rem 0;
-  color: #f38b32;
-  font-weight: 700;
-}
-
-.dog-card button {
-  background-color: #f38b32;
-  color: white;
-  border: none;
-  padding: 0.5rem 1rem;
-  cursor: pointer;
-  font-weight: 600;
-  border-radius: 10px;
+.dog-section {
+  padding: 2rem 0;
+  text-align: center; /* Centra el título y el contenido */
 }
 
 .dog-section h2 {
@@ -34,4 +8,10 @@
   font-size: 36px;
   margin-bottom: 1.5rem;
   font-family: "Nunito", sans-serif;
+}
+
+.dog-section .row {
+  display: flex;
+  justify-content: center; /* Centra las tarjetas en la fila */
+  gap: 20px; /* Espacio entre las tarjetas */
 }

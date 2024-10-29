@@ -3,7 +3,7 @@
 }
 
 .bg-custom {
-  background-color: rgba(0, 142, 182, 0.5) !important; /* Forzamos el color */
+  background-color: rgba(0, 142, 182, 0.5) !important;
 }
 
 .nav-link {
@@ -19,6 +19,9 @@
   border: none;
   border-radius: 10px;
   cursor: pointer;
+}
+.login-btn :hover {
+  background-color: white;
 }
 
 .login-btn i {
