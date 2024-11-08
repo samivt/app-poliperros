@@ -1,31 +1,43 @@
-/* Contenedor principal: flexbox para alinear logo y formulario en una sola fila */
+/* Contenedor principal para centrar todo en la pantalla */
 .login-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  height: 100vh; /* Asegura que ocupe toda la pantalla */
   background-color: #f5f5f5;
   padding: 20px;
+  box-sizing: border-box;
+}
+
+/* Caja de Login con el logo y el formulario */
+.login-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centra el contenido dentro de la caja */
+  border: 2px solid #f38b32;
+  padding: 30px;
+  border-radius: 10px;
+  background-color: rgb(255, 255, 255); /* Fondo semitransparente */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+  box-sizing: border-box;
 }
 
 /* Estilo para el contenedor del logo */
 .logo {
-  margin-right: 40px;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px; /* Espacio debajo del logo */
 }
 
 .logo img {
-  width: 200px; /* Tamaño de la imagen del logo */
+  width: 250px; /* Ajusta el tamaño de la imagen si es necesario */
 }
 
-/* Caja de Login */
-.login-box {
-  border: 1px solid #f38b32;
-  padding: 30px;
-  border-radius: 10px;
-  background-color: white;
-  width: 100%;
-  max-width: 400px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+/* Contenedor del formulario */
+.form-container {
+  width: 100%; /* Asegura que el formulario ocupe todo el ancho de .login-box */
 }
 
 .mb-3 {

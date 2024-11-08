@@ -1,0 +1,36 @@
+/* Estilos del Header */
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 60px; /* Reduce la altura en pantallas pequeñas */
+  z-index: 1000;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #a0a0a0 !important;
+}
+
+.header-title {
+  font-size: 20px;
+  font-weight: bold;
+  color: white;
+}
+
+/* Alineación del contenido en pantallas pequeñas */
+@media (max-width: 768px) {
+  .header {
+    height: 60px; /* Menor altura en pantallas pequeñas */
+  }
+
+  .header-title {
+    font-size: 18px; /* Reduce el tamaño del texto en pantallas pequeñas */
+  }
+
+  /* Oculta los elementos de perfil en pantallas pequeñas si es necesario */
+  .header .nav-item {
+    font-size: 14px; /* Ajusta el tamaño de fuente para que se vea mejor */
+  }
+}

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import "../../assets/styles/admin/Login.css";
+import { Link } from "react-router-dom";
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -42,46 +43,50 @@ const Login = () => {
 
   return (
     <div className="login-container">
-      <div className="logo">
-        <img
-          src={require("../../assets/images/logo_poliperros.png")}
-          alt="PoliPerros Logo"
-        />
-      </div>
       <div className="login-box">
-        <Form onSubmit={handleSubmit}>
-          <Form.Group className="mb-3">
-            <Form.Label className="custom-label">Correo:</Form.Label>
-            <Form.Control
-              type="email"
-              id="email"
-              name="email"
-              required
-              value={formData.email}
-              onChange={handleChange}
-            />
-          </Form.Group>
+        <div className="logo">
+          <img
+            src={require("../../assets/images/logo_poliperros.png")}
+            alt="PoliPerros Logo"
+          />
+        </div>
+        <div className="form-container">
+          <Form onSubmit={handleSubmit}>
+            <Form.Group className="mb-3">
+              <Form.Label className="custom-label">Correo:</Form.Label>
+              <Form.Control
+                type="email"
+                id="email"
+                name="email"
+                required
+                value={formData.email}
+                onChange={handleChange}
+              />
+            </Form.Group>
 
-          <Form.Group className="mb-3">
-            <Form.Label className="custom-label">Contraseña:</Form.Label>
-            <Form.Control
-              type="password"
-              id="password"
-              name="password"
-              required
-              value={formData.password}
-              onChange={handleChange}
-            />
-          </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label className="custom-label">Contraseña:</Form.Label>
+              <Form.Control
+                type="password"
+                id="password"
+                name="password"
+                required
+                value={formData.password}
+                onChange={handleChange}
+              />
+            </Form.Group>
 
-          <div className="forgot-password">
-            <a href="/forgot-password">¿Olvidaste tu contraseña?</a>
-          </div>
+            <div className="forgot-password">
+              <a href="/forgot-password">¿Olvidaste tu contraseña?</a>
+            </div>
 
-          <Button variant="warning" type="submit" className="login-button">
-            Ingresar
-          </Button>
-        </Form>
+            <Link to="/admin/*">
+              <Button variant="warning" type="submit" className="login-button">
+                Ingresar
+              </Button>
+            </Link>
+          </Form>
+        </div>
       </div>
     </div>
   );

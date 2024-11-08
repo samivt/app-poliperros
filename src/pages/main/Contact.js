@@ -17,12 +17,8 @@ const Contact = () => {
       <Navbar />
       <section className="contact-section">
         <h2>Contáctanos</h2>
-        <p>
-          Si tienes alguna pregunta o deseas saber más sobre nuestro curso de
-          adiestramiento, no dudes en contactarnos.
-        </p>
+        <p>Siguenos</p>
 
-        {/* Inserción del video de TikTok */}
         <div className="tiktok-video">
           <blockquote
             className="tiktok-embed"

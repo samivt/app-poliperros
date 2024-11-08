@@ -1,20 +1,20 @@
-.container {
-  max-width: 700px;
+.custom-form-container {
+  max-width: 600px;
   margin-top: 30px;
   margin-bottom: 30px;
-  padding: 0 50px 50px 50px;
-  border: 1px solid #f38b32;
+  padding: 10px 50px 50px 50px;
   border-radius: 10px;
+  background-color: rgb(255, 255, 255); /* Fondo blanco */
+  box-shadow: 0px 4px 8px rgb(160, 160, 160); /* Sombra gris */
 }
 
 .form-title {
   color: #f38b32;
   font-weight: bold;
-  margin: 0px;
 }
 
 .custom-label {
-  color: #008eb6;
+  color: #000000;
 }
 
 .custom-button {

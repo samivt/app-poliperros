@@ -2,6 +2,9 @@
   text-align: center;
   padding: 2rem;
 }
+.contact-section h2 {
+  color: #f38b32;
+}
 
 .tiktok-video {
   display: flex;

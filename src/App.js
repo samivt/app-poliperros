@@ -12,6 +12,8 @@ import Login from "./pages/admin/Login.js";
 import FormDogs from "./pages/admin/FormDogs.js";
 
 import "./App.css";
+import FormInscription from "./pages/main/FormInscription.js";
+import AdminPanel from "./pages/admin/AdminPanel.js";
 
 const App = () => {
   return (
@@ -25,7 +27,9 @@ const App = () => {
         <Route path="/view-adoption-dogs" element={<ViewAdoptionDogs />} />
         <Route path="/view-permanent-dogs" element={<ViewPermanentDogs />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/admin/*" element={<AdminPanel />} />
         <Route path="/form-dogs" element={<FormDogs />} />
+        <Route path="/form-inscription" element={<FormInscription />}></Route>
       </Routes>
     </Router>
   );

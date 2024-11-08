@@ -1,26 +1,25 @@
 import React, { useState } from "react";
+import Navbar from "../../components/main/Navbar";
 import { Form, Button, Col, Row } from "react-bootstrap";
-import "../../assets/styles/admin/FormDogs.css";
+import "../../assets/styles/main/FormInscription.css";
 
-const FormDogs = () => {
+const FormInscription = () => {
   const [formData, setFormData] = useState({
-    id: "",
     name: "",
-    sex: "",
-    age: "",
-    vaccinated: false,
-    description: "",
+    lastname: "",
+    email: "",
+    cellphone: "",
+    schedule: false,
     photo: null,
   });
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const dogData = {
+    const inscriptionData = {
       ...formData,
-      vaccinated: formData.vaccinated ? "Sí" : "No",
       photo: formData.photo ? formData.photo.name : "",
     };
-    console.log(dogData);
+    console.log(inscriptionData);
     try {
       const response = await fetch(
         "http://192.168.100.88:8000/dog/static_dog/create",
@@ -29,14 +28,14 @@ const FormDogs = () => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(dogData),
+          body: JSON.stringify(inscriptionData),
         }
       );
       if (response.ok) {
         const result = await response.json();
-        console.log("Perro registrado:", result);
+        console.log("Registro exitoso:", result);
       } else {
-        console.error("Error al registrar el perro:", response.status);
+        console.error("Error al inscribirse:", response.status);
       }
     } catch (error) {
       console.error("Error de conexión:", error);
@@ -45,7 +44,7 @@ const FormDogs = () => {
 
   const handleInputChange = (event) => {
     const { name, value, type, checked, files } = event.target;
-    if (type === "checkbox") {
+    if (type === "select") {
       setFormData({ ...formData, [name]: checked });
     } else if (type === "file") {
       setFormData({ ...formData, [name]: files[0] });
@@ -56,25 +55,10 @@ const FormDogs = () => {
 
   return (
     <div>
+      <Navbar />
       <div className="custom-form-container form-container mx-auto col-md-6">
-        <h2 className="my-4 text-center form-title">Registrar Perro</h2>
+        <h2 className="my-4 text-center form-title">Inscripción</h2>
         <Form className="custom-form" onSubmit={handleSubmit}>
-          <Form.Group as={Row} className="mb-3">
-            <Form.Label column sm={3} className="custom-label">
-              Identificador:
-            </Form.Label>
-            <Col sm={9}>
-              <Form.Control
-                type="text"
-                id="id"
-                name="id"
-                required
-                value={formData.id}
-                onChange={handleInputChange}
-              />
-            </Col>
-          </Form.Group>
-
           <Form.Group as={Row} className="mb-3">
             <Form.Label column sm={3} className="custom-label">
               Nombre:
@@ -93,43 +77,46 @@ const FormDogs = () => {
 
           <Form.Group as={Row} className="mb-3">
             <Form.Label column sm={3} className="custom-label">
-              Sexo:
+              Apellido:
             </Form.Label>
             <Col sm={9}>
-              <Form.Check
-                type="radio"
-                id="hembra"
-                label="Hembra"
-                name="sex"
-                value="hembra"
+              <Form.Control
+                type="text"
+                id="lastname"
+                name="lastname"
+                required
+                value={formData.lastname}
                 onChange={handleInputChange}
-                checked={formData.sex === "hembra"}
-                className="custom-radio"
               />
-              <Form.Check
-                type="radio"
-                id="macho"
-                label="Macho"
-                name="sex"
-                value="macho"
+            </Col>
+          </Form.Group>
+          <Form.Group as={Row} className="mb-3">
+            <Form.Label column sm={3} className="custom-label">
+              Email:
+            </Form.Label>
+            <Col sm={9}>
+              <Form.Control
+                type="email"
+                id="email"
+                name="email"
+                required
+                value={formData.email}
                 onChange={handleInputChange}
-                checked={formData.sex === "macho"}
-                className="custom-radio"
               />
             </Col>
           </Form.Group>
 
           <Form.Group as={Row} className="mb-3">
             <Form.Label column sm={3} className="custom-label">
-              Edad:
+              Teléfono:
             </Form.Label>
             <Col sm={9}>
               <Form.Control
                 type="number"
-                id="age"
-                name="age"
+                id="cellphone"
+                name="cellphone"
                 required
-                value={formData.age}
+                value={formData.cellphone}
                 onChange={handleInputChange}
               />
             </Col>
@@ -137,33 +124,16 @@ const FormDogs = () => {
 
           <Form.Group as={Row} className="mb-3">
             <Form.Label column sm={3} className="custom-label">
-              Vacunado:
+              Horario:
             </Form.Label>
             <Col sm={9}>
-              <Form.Check
-                type="checkbox"
-                id="vaccinated"
-                name="vaccinated"
-                label=""
-                checked={formData.vaccinated}
-                onChange={handleInputChange}
-              />
-            </Col>
-          </Form.Group>
-
-          <Form.Group as={Row} className="mb-3">
-            <Form.Label column sm={3} className="custom-label">
-              Descripción:
-            </Form.Label>
-            <Col sm={9}>
-              <Form.Control
-                as="textarea"
-                id="description"
-                name="description"
-                required
-                value={formData.description}
-                onChange={handleInputChange}
-              />
+              <Form.Select aria-label="Default select example">
+                <option>Seleccionar una opción</option>
+                <option value="1">Sábado (8:30 - 10:30)</option>
+                <option value="2">Domingo (11:00 - 13:00)</option>
+                <option value="3">Sábado (8:30 - 10:30)</option>
+                <option value="3">Domingo (11:00 - 13:00)</option>
+              </Form.Select>
             </Col>
           </Form.Group>
 
@@ -193,4 +163,4 @@ const FormDogs = () => {
   );
 };
 
-export default FormDogs;
+export default FormInscription;
