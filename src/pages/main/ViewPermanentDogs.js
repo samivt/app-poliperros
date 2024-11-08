@@ -34,7 +34,7 @@ const Dogs = () => {
         <h2>Poli Perros</h2>
         <div className="view-container">
           <ViewDogs
-            imageDog={require("../../assets/images/Max.jpg")}
+            imageDog={require("../../assets/images/max.jpg")}
             nameDog="Max"
             description="Max es un querido perro comunitario de la Escuela Politécnica Nacional. 
             A sus 14 años, es un mestizo de pelaje marrón claro con manchas blancas. Su personalidad tranquila y cariñosa lo convierte en el favorito de estudiantes y profesores. A menudo lo verás descansando bajo una sombra, 
