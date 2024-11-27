@@ -1,22 +1,21 @@
 import React from "react";
-import { Navbar, Nav, Button } from "react-bootstrap";
-import "../../assets/styles/admin/Header.css";
 
-const Header = ({ toggleSidebar }) => {
+const Header = ({ toggleSidebar, onLogout }) => {
   return (
-    <Navbar bg="primary" variant="dark" expand="lg" className="header">
-      <Button variant="primary" className="d-lg-none" onClick={toggleSidebar}>
-        <i class="fa-solid fa-bars"></i>
-      </Button>
-      <Navbar.Brand href="/admin" className="header-title">
-        Administración
-      </Navbar.Brand>
-      <Nav className="ml-auto d-flex align-items-center">
-        <Nav.Link href="/" className="nav-item">
-          <i class="fa-solid fa-right-from-bracket"></i> Cerrar Sesión
-        </Nav.Link>
-      </Nav>
-    </Navbar>
+    <header className="header">
+      {/* Botón de Toggle (solo visible en pantallas pequeñas) */}
+      <button className="sidebar-toggle" onClick={toggleSidebar}>
+        <i className="fas fa-bars"></i>
+      </button>
+
+      {/* Título del Panel */}
+      <h1 className="header-title">Panel de Administración</h1>
+
+      {/* Botón de Cerrar Sesión */}
+      <button className="logout-button" onClick={onLogout}>
+        <i className="fas fa-sign-out-alt"></i> Cerrar Sesión
+      </button>
+    </header>
   );
 };
 

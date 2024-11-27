@@ -1,6 +1,6 @@
 import React from "react";
 import "../../assets/styles/main/Navbar.css";
-import logo from "../../assets/images/logo_poliperros.png";
+import logo from "../../assets/images/Logo.jpg";
 import { Link } from "react-router-dom";
 
 const Navbar = () => {

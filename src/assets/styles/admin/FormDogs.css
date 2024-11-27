@@ -1,31 +1,79 @@
+/* Contenedor del formulario */
 .custom-form-container {
-  max-width: 600px;
-  margin-top: 30px;
-  margin-bottom: 30px;
-  padding: 10px 50px 50px 50px;
-  border-radius: 10px;
+  max-width: 600px; /* Limita el ancho del formulario */
+  margin: 30px auto; /* Centra horizontalmente */
+  padding: 20px 50px 50px 50px; /* Espaciado interno */
+  border-radius: 10px; /* Bordes redondeados */
   background-color: rgb(255, 255, 255); /* Fondo blanco */
-  box-shadow: 0px 4px 8px rgb(160, 160, 160); /* Sombra gris */
+  box-shadow: 0px 4px 8px rgb(160, 160, 160); /* Sombra */
 }
 
+/* Título del formulario */
 .form-title {
-  color: #f38b32;
+  color: #f38b32; /* Color del título */
   font-weight: bold;
+  text-align: center; /* Centra el título */
 }
 
+/* Etiquetas personalizadas */
 .custom-label {
-  color: #000000;
+  color: #000000; /* Color del texto */
+}
+
+/* Botón del formulario */
+.custom-button-container {
+  display: flex; /* Activa Flexbox */
+  justify-content: center; /* Centra el botón horizontalmente */
 }
 
 .custom-button {
-  max-width: 200px;
+  max-width: 200px; /* Ancho máximo del botón */
   margin-top: 30px;
-  background-color: #f38b32;
+  background-color: #f38b32; /* Fondo naranja */
   border-color: #f38b32;
-  width: 100%;
+  width: 100%; /* Botón ocupa todo el ancho disponible */
 }
 
 .custom-button:hover {
-  background-color: #e59400;
+  background-color: #e59400; /* Cambio de color al pasar el cursor */
   border-color: #e59400;
+}
+
+/* Imagen del formulario */
+.custom-form-container img {
+  display: block; /* Imagen centrada */
+  margin: 10px auto;
+  max-width: 100%; /* Ancho máximo de la imagen */
+  max-height: 200px; /* Altura máxima de la imagen */
+}
+.is-invalid {
+  border: 1px solid red;
+}
+
+.is-valid {
+  border: 1px solid green;
+}
+
+/* Ajustes responsivos para pantallas pequeñas */
+@media (max-width: 768px) {
+  .custom-form-container {
+    max-width: 100%; /* Ocupa todo el ancho en pantallas pequeñas */
+    padding: 10px; /* Reduce el padding */
+  }
+
+  .form-title {
+    font-size: 18px; /* Reduce el tamaño del título */
+  }
+
+  .custom-button {
+    max-width: 100%; /* Botón ocupa todo el ancho disponible */
+  }
+
+  .custom-label {
+    font-size: 14px; /* Tamaño más pequeño para las etiquetas */
+  }
+
+  .custom-form-container img {
+    max-height: 150px; /* Reduce la altura máxima de la imagen */
+  }
 }

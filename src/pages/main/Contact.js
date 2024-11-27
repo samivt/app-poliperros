@@ -17,36 +17,6 @@ const Contact = () => {
       <Navbar />
       <section className="contact-section">
         <h2>Contáctanos</h2>
-        <p>Siguenos</p>
-
-        <div className="tiktok-video">
-          <blockquote
-            className="tiktok-embed"
-            cite="https://www.tiktok.com/@poliperros/video/7430845399893544198"
-            data-video-id="7430845399893544198"
-            style={{ maxWidth: "605px", minWidth: "325px" }}
-          >
-            <section>
-              <a
-                target="_blank"
-                title="@poliperros"
-                href="https://www.tiktok.com/@poliperros?refer=embed"
-                rel="noreferrer"
-              >
-                @poliperros
-              </a>
-              <p>📢 ¡Bienvenidos a Poliperros News! 📰...</p>
-              <a
-                target="_blank"
-                title="♬ Breaking News, TV Shows, Report, Broadcast, Live, Serious, Business, World - SAKUMAMATATA"
-                href="https://www.tiktok.com/music/Breaking-News-TV-Shows-Report-Broadcast-Live-Serious-Business-World-1323125-7156999467639277569?refer=embed"
-                rel="noreferrer"
-              >
-                ♬ Breaking News - SAKUMAMATATA
-              </a>
-            </section>
-          </blockquote>
-        </div>
       </section>
       <Footer />
     </div>

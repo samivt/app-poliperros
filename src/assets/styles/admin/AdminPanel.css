@@ -1,66 +1,138 @@
-/* Estilos del Header */
+/* Estilo base del Header */
 .header {
-  position: fixed;
-  top: 0;
-  left: 0;
+  height: 60px;
   width: 100%;
-  height: 60px; /* Ajusta la altura en pantallas pequeñas */
-  z-index: 1000;
-  padding: 0 20px;
+  background-color: #343a40;
+  color: white;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: #007bff;
+  padding: 0 10px; /* Ajusta el padding */
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+/* Título del Header */
 .header-title {
-  font-size: 20px;
+  font-size: 18px;
   font-weight: bold;
-  color: white;
+  margin: 0;
+  text-align: center;
+  flex: 1; /* Permite que el título ocupe el espacio restante */
 }
 
-/* Sidebar para pantallas grandes */
+/* Botón de Toggle */
+.sidebar-toggle {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  display: none; /* Oculto por defecto */
+}
+
+@media (max-width: 768px) {
+  .sidebar-toggle {
+    display: block; /* Visible solo en pantallas pequeñas */
+  }
+}
+
+/* Botón de Cerrar Sesión */
+.logout-button {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  white-space: nowrap; /* Evita que el texto se corte */
+}
+
+.logout-button:hover {
+  color: #ffc107;
+}
+
+/* Sidebar */
 .sidebar {
   position: fixed;
-  top: 60px; /* Alinea el Sidebar justo debajo del Header */
+  top: 60px; /* Debajo del Header */
   left: 0;
   width: 250px;
-  height: calc(100vh - 60px); /* Altura del Sidebar sin cubrir el Header */
-  background-color: #007b8f;
-  padding-top: 20px;
-  transition: left 0.3s ease; /* Transición para mostrar/ocultar en pantallas pequeñas */
+  height: calc(100% - 60px); /* Altura completa menos el Header */
+  background-color: #343a40;
+  color: white;
+  overflow-y: auto;
+  transition: transform 0.3s ease-in-out;
   z-index: 1000;
 }
 
-/* Sidebar oculto en pantallas pequeñas */
-@media (max-width: 768px) {
+/* Sidebar oculto por defecto en pantallas pequeñas */
+.sidebar {
+  transform: translateX(-100%); /* Oculto inicialmente */
+}
+
+.sidebar.show {
+  transform: translateX(0); /* Muestra el Sidebar */
+}
+
+/* Mostrar Sidebar siempre en pantallas grandes */
+@media (min-width: 768px) {
   .sidebar {
-    left: -250px; /* Oculta el Sidebar a la izquierda */
-    top: 0; /* Ajusta la posición para cubrir toda la pantalla al mostrarse */
-    height: 100vh; /* Altura completa en dispositivos móviles */
-    z-index: 1100; /* Asegura que esté sobre el contenido */
+    transform: translateX(0); /* Siempre visible */
   }
 
-  /* Mostrar el Sidebar cuando se active la clase `show` */
-  .sidebar.show {
-    left: 0; /* Hace visible el Sidebar */
+  .sidebar-toggle {
+    display: none; /* Ocultar el botón Toggle */
   }
 }
 
-/* Estilos para el contenido principal */
+/* Links del Sidebar */
+.sidebar-link {
+  padding: 15px;
+  color: white;
+  text-decoration: none;
+  display: block;
+  font-size: 16px;
+}
+
+.sidebar-link:hover,
+.sidebar-link.active {
+  background-color: #495057;
+  color: #ffc107;
+}
+
+/* Subopciones del Sidebar */
+.sidebar-sublink {
+  padding: 10px 20px;
+  font-size: 14px;
+  color: white;
+  text-decoration: none;
+}
+
+.sidebar-sublink:hover {
+  color: #ffc107;
+}
+
+/* Contenido principal */
 .content {
-  margin-left: 250px; /* Deja espacio para el Sidebar en pantallas grandes */
+  margin-left: 250px; /* Espacio para el Sidebar */
   padding: 20px;
-  padding-top: 60px; /* Deja espacio para el Header */
-  width: calc(100% - 250px); /* Ancho del contenido sin el Sidebar */
-  transition: margin-left 0.3s ease;
+  margin-top: 60px; /* Espacio para el Header */
+  transition: margin-left 0.3s ease-in-out;
+  overflow-x: hidden; /* Evita scroll horizontal innecesario */
 }
 
-/* Ajuste de contenido en pantallas pequeñas */
 @media (max-width: 768px) {
   .content {
-    margin-left: 0;
-    width: 100%;
-    padding-top: 60px; /* Deja espacio para el Header */
+    margin-left: 0; /* Sin espacio para el Sidebar */
+  }
+
+  .content.sidebar-open {
+    margin-left: 250px; /* Ajusta el contenido si el Sidebar está visible */
   }
 }

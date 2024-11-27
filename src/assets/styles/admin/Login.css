@@ -28,7 +28,7 @@
 .logo {
   display: flex;
   justify-content: center;
-  margin-bottom: 20px; /* Espacio debajo del logo */
+  /* margin-bottom: 20px; /* Espacio debajo del logo */
 }
 
 .logo img {
@@ -72,4 +72,20 @@
 
 .login-button:hover {
   background-color: #e59400;
+}
+.password-input-container {
+  position: relative;
+}
+
+.password-toggle-icon {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #6c757d; /* Color del ícono */
+}
+
+.password-toggle-icon:hover {
+  color: #000; /* Cambia el color al pasar el mouse */
 }

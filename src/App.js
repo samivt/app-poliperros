@@ -9,11 +9,12 @@ import ViewAdoptionDogs from "./pages/main/ViewAdoptionDogs.js";
 import ViewPermanentDogs from "./pages/main/ViewPermanentDogs.js";
 
 import Login from "./pages/admin/Login.js";
-import FormDogs from "./pages/admin/FormDogs.js";
 
 import "./App.css";
 import FormInscription from "./pages/main/FormInscription.js";
 import AdminPanel from "./pages/admin/AdminPanel.js";
+import ProtectedRoute from "./components/admin/ProtectedRoute.js";
+import Unauthorized from "./pages/admin/Unauthorized.js";
 
 const App = () => {
   return (
@@ -26,10 +27,16 @@ const App = () => {
         <Route path="/info-adoption-dogs" element={<InfoAdoptionDogs />} />
         <Route path="/view-adoption-dogs" element={<ViewAdoptionDogs />} />
         <Route path="/view-permanent-dogs" element={<ViewPermanentDogs />} />
+        <Route path="/form-inscription" element={<FormInscription />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/admin/*" element={<AdminPanel />} />
-        <Route path="/form-dogs" element={<FormDogs />} />
-        <Route path="/form-inscription" element={<FormInscription />}></Route>
+        <Route path="/unauthorized" element={<Unauthorized />} />
+        {/* Rutas protegidas para el panel de administracion*/}
+        <Route
+          path="/admin/*"
+          element={<ProtectedRoute allowedRoles={["admin", "auxiliar"]} />}
+        >
+          <Route path="*" element={<AdminPanel />} />
+        </Route>
       </Routes>
     </Router>
   );
