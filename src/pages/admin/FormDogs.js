@@ -1,5 +1,6 @@
 import React, { useState, useRef } from "react";
 import { Form, Button, Col, Row } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 import "../../assets/styles/admin/FormDogs.css";
 import { createStaticDog, createAdoptionDog } from "../../services/dogsService";
 import {
@@ -26,6 +27,7 @@ const FormDogs = ({ onSave = () => {} }) => {
 
   const [imagePreview, setImagePreview] = useState(null);
   const fileInputRef = useRef(null);
+  const navigate = useNavigate(); // Hook para redireccionar
 
   // Resetea el formulario
   const resetForm = () => {
@@ -166,18 +168,24 @@ const FormDogs = ({ onSave = () => {} }) => {
   // Enviar datos al backend
   const sendPayload = async (payload, isForAdoption) => {
     try {
-      const result = isForAdoption
-        ? await createAdoptionDog(payload)
-        : await createStaticDog(payload);
+      if (isForAdoption) {
+        await createAdoptionDog(payload); // Llama directamente a la función sin asignarla a una variable
+      } else {
+        await createStaticDog(payload); // Llama directamente a la función sin asignarla a una variable
+      }
 
       showSuccessAlert(
         isForAdoption
-          ? "Perro registrado exitosamente para adopción."
-          : "Perro registrado exitosamente como permanente.",
+          ? "Perro registrado exitosamente para adopción"
+          : "Perro registrado exitosamente como permanente",
         "¡Registro exitoso!"
       );
 
-      onSave(result); // Callback para el padre
+      onSave({ is_for_adoption: isForAdoption }); // Callback para el padre
+      console.log("isForAdoption:", isForAdoption);
+      // Redirigir según el tipo de perro registrado
+      navigate(isForAdoption ? "/admin/adoption-dogs" : "/admin/static-dogs");
+
       resetForm(); // Resetear el formulario
     } catch (error) {
       console.error("Error al registrar el perro:", error);

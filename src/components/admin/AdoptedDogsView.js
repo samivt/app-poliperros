@@ -2,20 +2,21 @@ import React from "react";
 import { Button, Table, Spinner } from "react-bootstrap";
 import "../../assets/styles/admin/DogsView.css";
 
-const AdoptionDogsView = ({
+const AdoptedDogsView = ({
   dogs = [],
   loading,
-  onDelete,
-  onAddNew,
-  onAdopt,
+  onEdit,
+  onUnadopt,
+  onViewVisits,
+  onAddVisit,
 }) => {
   return (
     <div className="container mt-4">
       {/* Encabezado */}
       <div className="d-flex justify-content-between align-items-center mb-3">
-        <h1 className="h4">Perros Temporales</h1>
-        <Button variant="primary" onClick={onAddNew}>
-          <i className="fas fa-plus me-2"></i> Nuevo
+        <h1 className="h4">Perros Adoptados</h1>
+        <Button variant="primary" className="ms-auto" onClick={onAddVisit}>
+          <i className="fas fa-plus me-2"></i> Agregar Visita
         </Button>
       </div>
 
@@ -31,15 +32,11 @@ const AdoptionDogsView = ({
           <thead>
             <tr>
               <th style={{ width: "20%" }}>Acciones</th>
-              <th>ID</th>
-              <th>Nombre</th>
-              <th>Edad</th>
-              <th>Vacunado</th>
-              <th>Género</th>
-              <th>Esterilizado</th>
-              <th>Desparasitado</th>
-              <th>Fecha de ingreso</th>
-              <th>Operación</th>
+              <th>ID Perro</th>
+              <th>Nombre Perro</th>
+              <th>Nombre Dueño</th>
+              <th>Dirección</th>
+              <th>Teléfono</th>
             </tr>
           </thead>
           <tbody>
@@ -50,39 +47,32 @@ const AdoptionDogsView = ({
                     variant="warning"
                     size="sm"
                     className="me-2"
-                    onClick={() => console.log("Edit:", dog)}
+                    onClick={() => onEdit(dog)}
                   >
                     <i className="fas fa-edit"></i>
                   </Button>
                   <Button
                     variant="danger"
                     size="sm"
-                    className="me-2"
-                    onClick={() => onDelete(dog.id)}
+                    className="me-2 d-flex align-items-center justify-content-center"
+                    onClick={() => onUnadopt(dog.id)}
                   >
-                    <i className="fas fa-trash-alt"></i>
+                    <i className="fas fa-heart-crack me-1"></i> Desadoptar
                   </Button>
                   <Button
-                    variant="success"
+                    variant="info"
                     size="sm"
-                    onClick={() => onAdopt(dog)}
+                    className="me-2 d-flex align-items-center justify-content-center"
+                    onClick={() => onViewVisits(dog.id)}
                   >
-                    <i className="fas fa-hand-holding-heart"></i> Adoptar
+                    <i className="fas fa-eye me-1"></i> Ver Visitas
                   </Button>
                 </td>
                 <td>{dog.id}</td>
                 <td>{dog.name || "Sin nombre"}</td>
-                <td>{dog.age || "Desconocida"}</td>
-                <td>{dog.is_vaccinated ? "Sí" : "No"}</td>
-                <td>{dog.gender === "male" ? "Macho" : "Hembra"}</td>
-                <td>{dog.is_sterilized ? "Sí" : "No"}</td>
-                <td>{dog.is_dewormed ? "Sí" : "No"}</td>
-                <td>
-                  {dog.entry_date
-                    ? new Date(dog.entry_date).toLocaleDateString()
-                    : "Sin fecha"}
-                </td>
-                <td>{dog.operation || "Ninguna"}</td>
+                <td>{dog.owner?.name || "Sin asignar"}</td>
+                <td>{dog.owner?.direction || "Sin asignar"}</td>
+                <td>{dog.owner?.cellphone || "Sin asignar"}</td>
               </tr>
             ))}
           </tbody>
@@ -90,7 +80,7 @@ const AdoptionDogsView = ({
       ) : (
         !loading && (
           <div className="text-center">
-            <p className="text-muted">No hay perros temporales disponibles.</p>
+            <p className="text-muted">No hay perros adoptados disponibles.</p>
           </div>
         )
       )}
@@ -98,4 +88,4 @@ const AdoptionDogsView = ({
   );
 };
 
-export default AdoptionDogsView;
+export default AdoptedDogsView;

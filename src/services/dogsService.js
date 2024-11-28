@@ -193,3 +193,33 @@ export const adoptDog = async (dogId, adoptionDate, data) => {
     throw error;
   }
 };
+// Obtener perros adoptados
+export const fetchAdoptedDogs = async () => {
+  try {
+    console.log("Iniciando fetchAdoptedDogs..."); // Log inicial
+    const response = await fetch(
+      `${API_URL}/dog/adopted_dog/`, // Endpoint para obtener perros adoptados
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    console.log("Estado de la respuesta:", response.status); // Verifica el estado HTTP
+
+    if (!response.ok) {
+      const errorMessage = await response.text();
+      console.error("Error al obtener los perros adoptados:", errorMessage);
+      throw new Error("Error al obtener los perros adoptados.");
+    }
+
+    const data = await response.json();
+    console.log("Datos recibidos del backend (fetchAdoptedDogs):", data); // Log de los datos
+    return data;
+  } catch (error) {
+    console.error("Error en fetchAdoptedDogs:", error); // Log de errores
+    throw error;
+  }
+};

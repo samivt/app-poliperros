@@ -29,14 +29,14 @@
 .custom-button {
   max-width: 200px; /* Ancho máximo del botón */
   margin-top: 30px;
-  background-color: #f38b32; /* Fondo naranja */
-  border-color: #f38b32;
+  background-color: #f38b32 !important; /* Fondo naranja */
+  border-color: #f38b32 !important;
   width: 100%; /* Botón ocupa todo el ancho disponible */
 }
 
 .custom-button:hover {
-  background-color: #e59400; /* Cambio de color al pasar el cursor */
-  border-color: #e59400;
+  background-color: #e59400 !important; /* Cambio de color al pasar el cursor */
+  border-color: #e59400 !important;
 }
 
 /* Imagen del formulario */

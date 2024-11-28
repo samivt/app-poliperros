@@ -30,6 +30,7 @@ const App = () => {
         <Route path="/form-inscription" element={<FormInscription />} />
         <Route path="/login" element={<Login />} />
         <Route path="/unauthorized" element={<Unauthorized />} />
+
         {/* Rutas protegidas para el panel de administracion*/}
         <Route
           path="/admin/*"

@@ -13,6 +13,7 @@ import Welcome from "./Welcome";
 import FormDogs from "./FormDogs";
 import StaticDogsView from "../../components/admin/StaticDogsView";
 import AdoptionDogsView from "../../components/admin/AdoptionDogsView";
+import AdoptedDogsView from "../../components/admin/AdoptedDogsView";
 import FormAdoption from "./FormAdoption";
 
 import {
@@ -20,6 +21,7 @@ import {
   deleteStaticDog,
   fetchAdoptionDogs,
   deleteAdoptionDog,
+  fetchAdoptedDogs,
   adoptDog,
 } from "../../services/dogsService";
 
@@ -29,32 +31,53 @@ const AdminPanel = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [staticDogs, setStaticDogs] = useState([]);
   const [adoptionDogs, setAdoptionDogs] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [adoptedDogs, setAdoptedDogs] = useState([]);
+  const [isLoadingStaticDogs, setIsLoadingStaticDogs] = useState(true);
+  const [isLoadingAdoptionDogs, setIsLoadingAdoptionDogs] = useState(true);
+  const [isLoadingAdoptedDogs, setIsLoadingAdoptedDogs] = useState(true);
+
   const navigate = useNavigate();
 
-  const loadDogs = async () => {
-    setLoading(true);
+  const loadStaticDogs = async () => {
+    setIsLoadingStaticDogs(true);
     try {
-      console.log("Cargando datos de perros..."); // Log inicial
-      const [staticData, adoptionData] = await Promise.all([
-        fetchStaticDogs(),
-        fetchAdoptionDogs(),
-      ]);
-
-      console.log("Perros permanentes cargados:", staticData); // Verificar datos cargados
-      console.log("Perros en adopción cargados:", adoptionData);
-
-      setStaticDogs(staticData);
-      setAdoptionDogs(adoptionData);
+      const data = await fetchStaticDogs();
+      setStaticDogs(data);
     } catch (error) {
-      console.error("Error al cargar los datos de los perros:", error); // Log de errores
+      console.error("Error al cargar los perros permanentes:", error);
     } finally {
-      setLoading(false); // Asegura que se oculte el spinner
+      setIsLoadingStaticDogs(false);
+    }
+  };
+
+  const loadAdoptionDogs = async () => {
+    setIsLoadingAdoptionDogs(true);
+    try {
+      const data = await fetchAdoptionDogs();
+      setAdoptionDogs(data);
+    } catch (error) {
+      console.error("Error al cargar los perros temporales:", error);
+    } finally {
+      setIsLoadingAdoptionDogs(false);
+    }
+  };
+
+  const loadAdoptedDogs = async () => {
+    setIsLoadingAdoptedDogs(true);
+    try {
+      const data = await fetchAdoptedDogs();
+      setAdoptedDogs(data);
+    } catch (error) {
+      console.error("Error al cargar los perros adoptados:", error);
+    } finally {
+      setIsLoadingAdoptedDogs(false);
     }
   };
 
   useEffect(() => {
-    loadDogs();
+    loadStaticDogs();
+    loadAdoptionDogs();
+    loadAdoptedDogs();
   }, []);
 
   const handleAddNewDog = () => {
@@ -99,7 +122,7 @@ const AdminPanel = () => {
             element={
               <StaticDogsView
                 dogs={staticDogs}
-                loading={loading}
+                loading={isLoadingStaticDogs}
                 onDelete={handleDeleteStaticDog}
                 onAddNew={handleAddNewDog}
               />
@@ -111,10 +134,24 @@ const AdminPanel = () => {
             element={
               <AdoptionDogsView
                 dogs={adoptionDogs}
-                loading={loading}
+                loading={isLoadingAdoptionDogs}
                 onDelete={handleDeleteAdoptionDog}
                 onAddNew={handleAddNewDog}
                 onAdopt={handleAdoptDog}
+              />
+            }
+          />
+          {/* Vista de perros adoptados */}
+          <Route
+            path="adopted-dogs"
+            element={
+              <AdoptedDogsView
+                dogs={adoptedDogs}
+                loading={isLoadingAdoptedDogs}
+                onEdit={(dog) => console.log("Edit:", dog)}
+                onUnadopt={(id) => console.log("Unadoptar:", id)}
+                onViewVisits={(id) => console.log("Ver visitas:", id)}
+                onAddVisit={() => console.log("Agregar visita")}
               />
             }
           />
@@ -123,36 +160,42 @@ const AdminPanel = () => {
             path="register-dog"
             element={
               <FormDogs
-                formMode="register-static"
-                onSave={async () => {
-                  await loadDogs();
-                  navigate("/admin/static-dogs");
-                }}
-              />
-            }
-          />
-          {/* Formulario de adopción */}
-          <Route
-            path="adopt-dog/:id"
-            element={
-              <FormAdoption
-                initialDogId={useParams().id} // Usar useParams para pasar el ID
-                onSuccess={() => navigate("/admin/adoption-dogs")} // Redirigir tras éxito
-                onSubmit={async (formData) => {
-                  try {
-                    const { dog_id, adoption_date, ...ownerData } = formData;
-                    await adoptDog(dog_id, adoption_date, ownerData);
-                    alert("¡Adopción registrada exitosamente!");
-                    await loadDogs();
-                  } catch (error) {
-                    console.error("Error al registrar la adopción:", error);
-                    alert("Ocurrió un error al registrar la adopción.");
+                onSave={async ({ is_for_adoption }) => {
+                  if (is_for_adoption) {
+                    await loadAdoptionDogs(); // Refresca la lista de perros en adopción
+                    navigate("/admin/adoption-dogs"); // Redirige a la vista de perros en adopción
+                  } else {
+                    await loadStaticDogs(); // Refresca la lista de perros permanentes
+                    navigate("/admin/static-dogs"); // Redirige a la vista de perros permanentes
                   }
                 }}
               />
             }
           />
 
+          {/* Formulario de adopción */}
+          <Route
+            path="adopt-dog/:id"
+            element={
+              <FormAdoption
+                initialDogId={useParams().id}
+                onSuccess={async () => {
+                  await loadAdoptedDogs(); // Carga los datos de los perros adoptados
+                  navigate("/admin/adopted-dogs"); // Redirige a la tabla de perros adoptados
+                }}
+                onSubmit={async (formData) => {
+                  try {
+                    const { dog_id, adoption_date, ...ownerData } = formData;
+                    await adoptDog(dog_id, adoption_date, ownerData);
+
+                    await loadAdoptionDogs();
+                  } catch (error) {
+                    console.error("Error al registrar la adopción:", error);
+                  }
+                }}
+              />
+            }
+          />
           <Route path="*" element={<Navigate to="welcome" />} />
         </Routes>
       </div>

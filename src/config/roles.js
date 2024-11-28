@@ -3,7 +3,7 @@ export const rolePermissions = {
     {
       path: "register-dog",
       label: "Registrar Perro",
-      icon: "fas fa-dog",
+      icon: "fas fa-pen-square",
     },
     {
       path: "static-dogs",
@@ -14,6 +14,11 @@ export const rolePermissions = {
       path: "adoption-dogs",
       label: "Perros Temporales",
       icon: "fas fa-paw",
+    },
+    {
+      path: "adopted-dogs",
+      label: "Perros adoptados",
+      icon: "fas fa-hand-holding-heart",
     },
     {
       path: "form-visit",
@@ -36,6 +41,11 @@ export const rolePermissions = {
       path: "general-table",
       label: "Historial de Visitas",
       icon: "fas fa-list",
+    },
+    {
+      path: "adopted-dogs",
+      label: "Perros adoptados",
+      icon: "fas fa-paw",
     },
   ],
 };

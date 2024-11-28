@@ -72,7 +72,11 @@ const StaticDogsView = ({ dogs = [], loading, onDelete, onAddNew }) => {
           </tbody>
         </Table>
       ) : (
-        <p>No hay perros permanentes disponibles.</p>
+        !loading && (
+          <div className="text-center">
+            <p className="text-muted">No hay perros permanentes disponibles.</p>
+          </div>
+        )
       )}
     </div>
   );
