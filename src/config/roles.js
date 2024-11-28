@@ -30,8 +30,18 @@ export const rolePermissions = {
       label: "Historial de Visitas",
       icon: "fas fa-list",
     },
+    {
+      path: "register-user",
+      label: "Crear usuario",
+      icon: "fas fa-user-plus",
+    },
   ],
   auxiliar: [
+    {
+      path: "adopted-dogs",
+      label: "Perros adoptados",
+      icon: "fas fa-paw",
+    },
     {
       path: "form-visit",
       label: "Registrar Visita",
@@ -41,11 +51,6 @@ export const rolePermissions = {
       path: "general-table",
       label: "Historial de Visitas",
       icon: "fas fa-list",
-    },
-    {
-      path: "adopted-dogs",
-      label: "Perros adoptados",
-      icon: "fas fa-paw",
     },
   ],
 };

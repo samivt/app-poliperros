@@ -63,6 +63,10 @@ const Login = () => {
     }
   };
 
+  const handleCancel = () => {
+    navigate("/"); // Redirige al home
+  };
+
   return (
     <div className="login-container">
       <div className="login-box">
@@ -102,21 +106,29 @@ const Login = () => {
                   onClick={handleTogglePasswordVisibility}
                 >
                   {showPassword ? (
-                    <i class="fa-regular fa-eye-slash"></i>
+                    <i className="fa-regular fa-eye-slash"></i>
                   ) : (
-                    <i class="fa-regular fa-eye"></i>
+                    <i className="fa-regular fa-eye"></i>
                   )}
                 </span>
               </div>
             </Form.Group>
 
             <div className="forgot-password">
-              <a href="/forgot-password">¿Olvidaste tu contraseña?</a>
+              <a href="/send-code">¿Olvidaste tu contraseña?</a>
             </div>
             {errorMessage && <p className="error">{errorMessage}</p>}
 
-            <Button variant="warning" type="submit" className="login-button">
+            <Button variant="secondary" type="submit" className="login-button">
               Ingresar
+            </Button>
+
+            <Button
+              variant="secondary"
+              className="cancel-button"
+              onClick={handleCancel}
+            >
+              Cancelar
             </Button>
           </Form>
         </div>

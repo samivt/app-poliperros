@@ -15,6 +15,8 @@ import StaticDogsView from "../../components/admin/StaticDogsView";
 import AdoptionDogsView from "../../components/admin/AdoptionDogsView";
 import AdoptedDogsView from "../../components/admin/AdoptedDogsView";
 import FormAdoption from "./FormAdoption";
+import FormVisits from "./FormVisits";
+import FormRegisterUser from "./FormRegisterUser";
 
 import {
   fetchStaticDogs,
@@ -24,6 +26,8 @@ import {
   fetchAdoptedDogs,
   adoptDog,
 } from "../../services/dogsService";
+
+import { logout } from "../../services/auth-service";
 
 import "../../assets/styles/admin/AdminPanel.css";
 
@@ -37,6 +41,11 @@ const AdminPanel = () => {
   const [isLoadingAdoptedDogs, setIsLoadingAdoptedDogs] = useState(true);
 
   const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout(); // Elimina el token del almacenamiento
+    navigate("/"); // Redirige al login
+  };
 
   const loadStaticDogs = async () => {
     setIsLoadingStaticDogs(true);
@@ -105,10 +114,16 @@ const AdminPanel = () => {
   const handleAdoptDog = (dog) => {
     navigate(`/admin/adopt-dog/${dog.id}`);
   };
+  const handleAddVisit = () => {
+    navigate("/admin/register-visit"); // Redirige al formulario de visitas
+  };
 
   return (
     <div className="admin-panel">
-      <Header toggleSidebar={() => setIsSidebarOpen((prev) => !prev)} />
+      <Header
+        toggleSidebar={() => setIsSidebarOpen((prev) => !prev)}
+        onLogout={handleLogout}
+      />
       <Sidebar
         isSidebarOpen={isSidebarOpen}
         toggleSidebar={() => setIsSidebarOpen((prev) => !prev)}
@@ -151,7 +166,7 @@ const AdminPanel = () => {
                 onEdit={(dog) => console.log("Edit:", dog)}
                 onUnadopt={(id) => console.log("Unadoptar:", id)}
                 onViewVisits={(id) => console.log("Ver visitas:", id)}
-                onAddVisit={() => console.log("Agregar visita")}
+                onAddVisit={handleAddVisit}
               />
             }
           />
@@ -196,6 +211,11 @@ const AdminPanel = () => {
               />
             }
           />
+          {/*Formulario de visitas */}
+          <Route path="register-visit" element={<FormVisits />} />
+          <Route path="form-visit" element={<FormVisits />} />
+          <Route path="register-user" element={<FormRegisterUser />} />
+
           <Route path="*" element={<Navigate to="welcome" />} />
         </Routes>
       </div>

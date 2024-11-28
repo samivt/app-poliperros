@@ -1,4 +1,5 @@
 import { jwtDecode } from "jwt-decode";
+const API_URL = process.env.REACT_APP_API_URL;
 
 export const login = async (username, password) => {
   try {
@@ -10,17 +11,14 @@ export const login = async (username, password) => {
     body.append("client_id", "string");
     body.append("client_secret", "string");
 
-    const response = await fetch(
-      "https://poliperritosback.agreeableflower-431ed430.westus.azurecontainerapps.io/auth/token",
-      {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        body: body.toString(),
-      }
-    );
+    const response = await fetch(`${API_URL}/auth/token`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: body.toString(),
+    });
 
     // Lee el cuerpo de la respuesta una sola vez
     const responseBody = await response.text();
@@ -80,4 +78,113 @@ export const isAuthenticated = () => {
   const decoded = decodeToken(token);
   const now = Math.floor(Date.now() / 1000); // Tiempo actual en segundos
   return decoded?.exp > now; // Verifica si el token no ha expirado
+};
+
+//Cerrar sesion
+export const logout = () => {
+  // Elimina el token del almacenamiento
+  sessionStorage.removeItem("accessToken");
+};
+
+// Crear un nuevo usuario
+export const createUser = async (userData) => {
+  try {
+    const response = await fetch(`${API_URL}/auth/`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(userData),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      const errorMessage = errorData.detail || "Error al registrar el usuario.";
+      throw new Error(errorMessage);
+    }
+
+    return await response.json(); // Devuelve la respuesta en caso de éxito
+  } catch (error) {
+    console.error("Error al crear el usuario:", error.message);
+    throw error;
+  }
+};
+//Enviar correo para recuperar contrasena
+export const sendPasswordResetEmail = async (email) => {
+  try {
+    const body = new URLSearchParams();
+    body.append("email", email);
+
+    const response = await fetch(`${API_URL}/auth/reset_password/send`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: body.toString(),
+    });
+
+    if (!response.ok) {
+      const error = await response.text();
+      throw new Error(
+        error || "Error al enviar el correo de restablecimiento."
+      );
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error al enviar el correo de restablecimiento:", error);
+    throw error;
+  }
+};
+//Verificar codigo
+export const verifyResetCode = async (code) => {
+  try {
+    const response = await fetch(
+      `${API_URL}/auth/reset_password/verify?code=${code}`,
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    if (!response.ok) {
+      const error = await response.text();
+      throw new Error(error || "Error al verificar el código.");
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error en verifyResetCode:", error);
+    throw error;
+  }
+};
+
+//Restablecer contrasena
+export const resetPassword = async (code, newPassword) => {
+  try {
+    const response = await fetch(
+      `${API_URL}/auth/reset_password/reset?code=${code}&new_password=${newPassword}`,
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    if (!response.ok) {
+      const error = await response.text();
+      throw new Error(error || "Error al restablecer la contraseña.");
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error en resetPassword:", error);
+    throw error;
+  }
 };
