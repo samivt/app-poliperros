@@ -12,7 +12,7 @@ const FormDogs = ({ onSave = () => {} }) => {
   const [formData, setFormData] = useState({
     id: "",
     name: "",
-    about: "", // Campo de descripción
+    about: "",
     age: "",
     is_vaccinated: false,
     image: null,
@@ -21,7 +21,7 @@ const FormDogs = ({ onSave = () => {} }) => {
     is_sterilized: false,
     is_dewormed: false,
     operation: "",
-    is_for_adoption: false, // Campo para diferenciar estáticos y adopción
+    is_for_adoption: false, // Usado solo para lógica interna, no se envía al backend
   });
 
   const [imagePreview, setImagePreview] = useState(null);
@@ -91,6 +91,7 @@ const FormDogs = ({ onSave = () => {} }) => {
     // Validaciones
     if (!validateFields(id, name, about, age, gender, entry_date)) return;
 
+    // Construcción del payload sin incluir `is_for_adoption`
     const payload = {
       id: parseInt(id, 10),
       name,
@@ -106,7 +107,9 @@ const FormDogs = ({ onSave = () => {} }) => {
 
     // Confirmación
     const confirmed = await showConfirmationAlert(
-      "¿Estás seguro de que deseas registrar este perro?",
+      is_for_adoption
+        ? "¿Estás seguro de que deseas registrar este perro para adopción?"
+        : "¿Estás seguro de que deseas registrar este perro permanente?",
       "Confirmar registro"
     );
 
@@ -167,7 +170,12 @@ const FormDogs = ({ onSave = () => {} }) => {
         ? await createAdoptionDog(payload)
         : await createStaticDog(payload);
 
-      showSuccessAlert("Perro registrado exitosamente.", "¡Registro exitoso!");
+      showSuccessAlert(
+        isForAdoption
+          ? "Perro registrado exitosamente para adopción."
+          : "Perro registrado exitosamente como permanente.",
+        "¡Registro exitoso!"
+      );
 
       onSave(result); // Callback para el padre
       resetForm(); // Resetear el formulario
@@ -297,11 +305,111 @@ const FormDogs = ({ onSave = () => {} }) => {
           </Col>
         </Form.Group>
 
-        {/* Otros Campos */}
-        {/* Vacunado, Esterilizado, Desparasitado */}
+        {/* Vacunado */}
+        <Form.Group as={Row} className="mb-3">
+          <Form.Label column sm={3} className="custom-label">
+            ¿Está vacunado?
+          </Form.Label>
+          <Col sm={9}>
+            <Form.Check
+              type="checkbox"
+              id="is_vaccinated"
+              name="is_vaccinated"
+              checked={formData.is_vaccinated}
+              onChange={handleInputChange}
+            />
+          </Col>
+        </Form.Group>
+
+        {/* Esterilizado */}
+        <Form.Group as={Row} className="mb-3">
+          <Form.Label column sm={3} className="custom-label">
+            ¿Está esterilizado?
+          </Form.Label>
+          <Col sm={9}>
+            <Form.Check
+              type="checkbox"
+              id="is_sterilized"
+              name="is_sterilized"
+              checked={formData.is_sterilized}
+              onChange={handleInputChange}
+            />
+          </Col>
+        </Form.Group>
+
+        {/* Desparasitado */}
+        <Form.Group as={Row} className="mb-3">
+          <Form.Label column sm={3} className="custom-label">
+            ¿Está desparasitado?
+          </Form.Label>
+          <Col sm={9}>
+            <Form.Check
+              type="checkbox"
+              id="is_dewormed"
+              name="is_dewormed"
+              checked={formData.is_dewormed}
+              onChange={handleInputChange}
+            />
+          </Col>
+        </Form.Group>
+
         {/* Operación */}
+        <Form.Group as={Row} className="mb-3">
+          <Form.Label column sm={3} className="custom-label">
+            Operación:
+          </Form.Label>
+          <Col sm={9}>
+            <Form.Control
+              type="text"
+              id="operation"
+              name="operation"
+              value={formData.operation}
+              onChange={handleInputChange}
+            />
+          </Col>
+        </Form.Group>
+
         {/* Imagen */}
-        {/* Adopción */}
+        <Form.Group as={Row} className="mb-3">
+          <Form.Label column sm={3} className="custom-label">
+            Imagen:
+          </Form.Label>
+          <Col sm={9}>
+            <Form.Control
+              type="file"
+              id="image"
+              name="image"
+              accept="image/*"
+              ref={fileInputRef}
+              onChange={handleInputChange}
+            />
+            {imagePreview && (
+              <div className="mt-3">
+                <img
+                  src={imagePreview}
+                  alt="Vista previa"
+                  style={{ maxWidth: "100%", maxHeight: "200px" }}
+                />
+              </div>
+            )}
+          </Col>
+        </Form.Group>
+
+        {/* Disponible para adopción */}
+        <Form.Group as={Row} className="mb-3">
+          <Form.Label column sm={3} className="custom-label">
+            ¿Disponible para adopción?
+          </Form.Label>
+          <Col sm={9}>
+            <Form.Check
+              type="checkbox"
+              id="is_for_adoption"
+              name="is_for_adoption"
+              checked={formData.is_for_adoption}
+              onChange={handleInputChange}
+            />
+          </Col>
+        </Form.Group>
 
         <div className="custom-button-container">
           <Button type="submit">Registrar</Button>

@@ -6,7 +6,7 @@ export const showSuccessAlert = (message, title = "¡Éxito!") => {
     icon: "success",
     title: title,
     text: message,
-    timer: 3000,
+    timer: 2000,
     timerProgressBar: true,
     showConfirmButton: false,
   });

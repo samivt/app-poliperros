@@ -1,14 +1,27 @@
 import React, { useState, useEffect } from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
+import {
+  Routes,
+  Route,
+  Navigate,
+  useNavigate,
+  useParams,
+} from "react-router-dom";
 
 import Sidebar from "../../components/admin/Sidebar";
 import Header from "../../components/admin/Header";
 import Welcome from "./Welcome";
-import FormStaticDogs from "./FormStaticDogs";
-import FormAdoptionDogs from "./FormAdoptionDogs";
-import DogsTable from "../../components/admin/DogsTable";
+import FormDogs from "./FormDogs";
+import StaticDogsView from "../../components/admin/StaticDogsView";
+import AdoptionDogsView from "../../components/admin/AdoptionDogsView";
+import FormAdoption from "./FormAdoption";
 
-import { fetchStaticDogs, fetchAdoptionDogs } from "../../services/dogsService";
+import {
+  fetchStaticDogs,
+  deleteStaticDog,
+  fetchAdoptionDogs,
+  deleteAdoptionDog,
+  adoptDog,
+} from "../../services/dogsService";
 
 import "../../assets/styles/admin/AdminPanel.css";
 
@@ -16,124 +29,130 @@ const AdminPanel = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [staticDogs, setStaticDogs] = useState([]);
   const [adoptionDogs, setAdoptionDogs] = useState([]);
-  const [selectedDog, setSelectedDog] = useState(null);
-  const [formMode, setFormMode] = useState("");
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
-  const toggleSidebar = () => {
-    setIsSidebarOpen((prevState) => !prevState);
+  const loadDogs = async () => {
+    setLoading(true);
+    try {
+      console.log("Cargando datos de perros..."); // Log inicial
+      const [staticData, adoptionData] = await Promise.all([
+        fetchStaticDogs(),
+        fetchAdoptionDogs(),
+      ]);
+
+      console.log("Perros permanentes cargados:", staticData); // Verificar datos cargados
+      console.log("Perros en adopción cargados:", adoptionData);
+
+      setStaticDogs(staticData);
+      setAdoptionDogs(adoptionData);
+    } catch (error) {
+      console.error("Error al cargar los datos de los perros:", error); // Log de errores
+    } finally {
+      setLoading(false); // Asegura que se oculte el spinner
+    }
   };
 
-  const handleLogout = () => {
-    sessionStorage.removeItem("accessToken");
-    window.location.href = "/login";
-  };
-
-  const handleDogSelect = (dog, mode) => {
-    setSelectedDog(dog);
-    setFormMode(mode);
-  };
-
-  // Cargar los datos de perros permanentes y en adopción
   useEffect(() => {
-    const loadDogs = async () => {
-      try {
-        const [staticData, adoptionData] = await Promise.all([
-          fetchStaticDogs(),
-          fetchAdoptionDogs(),
-        ]);
-        setStaticDogs(staticData);
-        setAdoptionDogs(adoptionData);
-      } catch (error) {
-        console.error("Error al cargar los perros:", error);
-      }
-    };
-
     loadDogs();
   }, []);
 
+  const handleAddNewDog = () => {
+    navigate("/admin/register-dog");
+  };
+
+  const handleDeleteStaticDog = async (id) => {
+    try {
+      await deleteStaticDog(id);
+      setStaticDogs((prevDogs) => prevDogs.filter((dog) => dog.id !== id));
+    } catch (error) {
+      console.error("Error al eliminar el perro permanente:", error);
+    }
+  };
+
+  const handleDeleteAdoptionDog = async (id) => {
+    try {
+      await deleteAdoptionDog(id);
+      setAdoptionDogs((prevDogs) => prevDogs.filter((dog) => dog.id !== id));
+    } catch (error) {
+      console.error("Error al eliminar el perro en adopción:", error);
+    }
+  };
+
+  const handleAdoptDog = (dog) => {
+    navigate(`/admin/adopt-dog/${dog.id}`);
+  };
+
   return (
     <div className="admin-panel">
-      <Header toggleSidebar={toggleSidebar} onLogout={handleLogout} />
-      <Sidebar isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
+      <Header toggleSidebar={() => setIsSidebarOpen((prev) => !prev)} />
+      <Sidebar
+        isSidebarOpen={isSidebarOpen}
+        toggleSidebar={() => setIsSidebarOpen((prev) => !prev)}
+      />
       <div className={`content ${isSidebarOpen ? "sidebar-open" : ""}`}>
         <Routes>
           <Route path="welcome" element={<Welcome />} />
-
-          {/* Registrar Perros Permanentes */}
+          {/* Vista de perros permanentes */}
           <Route
-            path="register-dog/static"
+            path="static-dogs"
             element={
-              <FormStaticDogs
+              <StaticDogsView
+                dogs={staticDogs}
+                loading={loading}
+                onDelete={handleDeleteStaticDog}
+                onAddNew={handleAddNewDog}
+              />
+            }
+          />
+          {/* Vista de perros en adopción */}
+          <Route
+            path="adoption-dogs"
+            element={
+              <AdoptionDogsView
+                dogs={adoptionDogs}
+                loading={loading}
+                onDelete={handleDeleteAdoptionDog}
+                onAddNew={handleAddNewDog}
+                onAdopt={handleAdoptDog}
+              />
+            }
+          />
+          {/* Formulario de registro */}
+          <Route
+            path="register-dog"
+            element={
+              <FormDogs
                 formMode="register-static"
-                onSave={(newDog) => setStaticDogs([...staticDogs, newDog])}
+                onSave={async () => {
+                  await loadDogs();
+                  navigate("/admin/static-dogs");
+                }}
+              />
+            }
+          />
+          {/* Formulario de adopción */}
+          <Route
+            path="adopt-dog/:id"
+            element={
+              <FormAdoption
+                initialDogId={useParams().id} // Usar useParams para pasar el ID
+                onSuccess={() => navigate("/admin/adoption-dogs")} // Redirigir tras éxito
+                onSubmit={async (formData) => {
+                  try {
+                    const { dog_id, adoption_date, ...ownerData } = formData;
+                    await adoptDog(dog_id, adoption_date, ownerData);
+                    alert("¡Adopción registrada exitosamente!");
+                    await loadDogs();
+                  } catch (error) {
+                    console.error("Error al registrar la adopción:", error);
+                    alert("Ocurrió un error al registrar la adopción.");
+                  }
+                }}
               />
             }
           />
 
-          {/* Registrar Perros en Adopción */}
-          <Route
-            path="register-dog/adoption"
-            element={
-              <FormAdoptionDogs
-                formMode="register-adoption"
-                onSave={(newDog) => setAdoptionDogs([...adoptionDogs, newDog])}
-              />
-            }
-          />
-
-          {/* Actualizar Perros Permanentes */}
-          <Route
-            path="update-dog/static"
-            element={
-              <>
-                <DogsTable
-                  dogs={staticDogs}
-                  onSelect={(dog) => handleDogSelect(dog, "update-static")}
-                />
-                {selectedDog && formMode === "update-static" && (
-                  <FormStaticDogs
-                    selectedDog={selectedDog}
-                    formMode={formMode}
-                    onSave={(updatedDog) =>
-                      setStaticDogs((prevDogs) =>
-                        prevDogs.map((dog) =>
-                          dog.id === updatedDog.id ? updatedDog : dog
-                        )
-                      )
-                    }
-                  />
-                )}
-              </>
-            }
-          />
-
-          {/* Actualizar Perros en Adopción */}
-          <Route
-            path="update-dog/adoption"
-            element={
-              <>
-                <DogsTable
-                  dogs={adoptionDogs}
-                  onSelect={(dog) => handleDogSelect(dog, "update-adoption")}
-                />
-                {selectedDog && formMode === "update-adoption" && (
-                  <FormAdoptionDogs
-                    selectedDog={selectedDog}
-                    formMode={formMode}
-                    onSave={(updatedDog) =>
-                      setAdoptionDogs((prevDogs) =>
-                        prevDogs.map((dog) =>
-                          dog.id === updatedDog.id ? updatedDog : dog
-                        )
-                      )
-                    }
-                  />
-                )}
-              </>
-            }
-          />
-
-          {/* Ruta por defecto */}
           <Route path="*" element={<Navigate to="welcome" />} />
         </Routes>
       </div>

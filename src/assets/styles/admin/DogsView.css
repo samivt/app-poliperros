@@ -1,0 +1,112 @@
+/* General container styling */
+.container {
+  padding: 16px;
+  background-color: #f8f9fa; /* Light gray background for the view */
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Header styling */
+h1.h4 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #343a40; /* Dark text for contrast */
+}
+
+button.btn-primary {
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+}
+
+/* Table styling */
+.table {
+  background-color: white;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.table th {
+  background-color: #007bff; /* Bootstrap primary color */
+  color: white;
+  text-align: center;
+  vertical-align: middle;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  padding: 12px;
+}
+
+.table td {
+  text-align: center;
+  vertical-align: middle;
+  font-size: 0.85rem;
+}
+
+.table td:first-child {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+.table tbody tr:hover {
+  background-color: #f1f1f1; /* Subtle hover effect */
+  cursor: pointer;
+}
+
+/* Button styling for edit and delete */
+button.btn-warning {
+  background-color: #ffc107;
+  border: none;
+  color: #fff;
+  padding: 6px 8px;
+  font-size: 0.85rem;
+}
+
+button.btn-danger {
+  background-color: #dc3545;
+  border: none;
+  color: #fff;
+  padding: 6px 8px;
+  font-size: 0.85rem;
+}
+
+/* Make the buttons look rounder */
+button {
+  border-radius: 4px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .table thead {
+    display: none;
+  }
+
+  .table tbody tr {
+    display: block;
+    margin-bottom: 16px;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 8px;
+  }
+
+  .table tbody tr td {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    padding: 8px;
+  }
+
+  .table tbody tr td:first-child {
+    justify-content: flex-start;
+    gap: 16px;
+  }
+
+  .table tbody tr td::before {
+    content: attr(data-label);
+    font-weight: bold;
+    color: #343a40;
+    text-transform: uppercase;
+    margin-right: 8px;
+  }
+}

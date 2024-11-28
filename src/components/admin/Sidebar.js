@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Nav } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import "../../assets/styles/admin/AdminPanel.css";
@@ -6,14 +6,8 @@ import { getUserRole } from "../../services/auth-service";
 import { rolePermissions } from "../../config/roles";
 
 const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
-  const userRole = getUserRole();
-  const links = rolePermissions[userRole] || [];
-
-  const [activeLink, setActiveLink] = useState(null);
-
-  const handleLinkClick = (path) => {
-    setActiveLink((prevActive) => (prevActive === path ? null : path));
-  };
+  const userRole = getUserRole(); // Obtiene el rol del usuario
+  const links = rolePermissions[userRole] || []; // Obtiene las opciones según el rol
 
   return (
     <div className={`sidebar ${isSidebarOpen ? "show" : ""}`}>
@@ -28,33 +22,17 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
           <i className="fas fa-home sidebar-icon"></i> Inicio
         </Nav.Link>
 
-        {/* Otras opciones dinámicas */}
+        {/* Opciones dinámicas según el rol */}
         {links.map((link) => (
-          <div key={link.path}>
-            <Nav.Link
-              as="div"
-              onClick={() => handleLinkClick(link.path)}
-              className={`sidebar-link ${
-                activeLink === link.path ? "active" : ""
-              }`}
-            >
-              <i className={`${link.icon} sidebar-icon`}></i> {link.label}
-            </Nav.Link>
-            {link.subOptions &&
-              activeLink === link.path &&
-              link.subOptions.map((subLink) => (
-                <Nav.Link
-                  key={subLink.path}
-                  as={Link}
-                  to={`/admin/${link.path}/${subLink.path}`}
-                  className="sidebar-sublink"
-                  onClick={toggleSidebar}
-                >
-                  <i className={`${subLink.icon} sidebar-icon`}></i>{" "}
-                  {subLink.label}
-                </Nav.Link>
-              ))}
-          </div>
+          <Nav.Link
+            key={link.path}
+            as={Link}
+            to={`/admin/${link.path}`}
+            className="sidebar-link"
+            onClick={toggleSidebar}
+          >
+            <i className={`${link.icon} sidebar-icon`}></i> {link.label}
+          </Nav.Link>
         ))}
       </Nav>
     </div>
