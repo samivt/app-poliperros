@@ -34,8 +34,9 @@ const AdoptionDogsView = ({
               <th>ID</th>
               <th>Nombre</th>
               <th>Edad</th>
-              <th>Vacunado</th>
               <th>Género</th>
+              <th>Vacunado</th>
+
               <th>Esterilizado</th>
               <th>Desparasitado</th>
               <th>Fecha de ingreso</th>
@@ -73,8 +74,9 @@ const AdoptionDogsView = ({
                 <td>{dog.id}</td>
                 <td>{dog.name || "Sin nombre"}</td>
                 <td>{dog.age || "Desconocida"}</td>
-                <td>{dog.is_vaccinated ? "Sí" : "No"}</td>
                 <td>{dog.gender === "male" ? "Macho" : "Hembra"}</td>
+                <td>{dog.is_vaccinated ? "Sí" : "No"}</td>
+
                 <td>{dog.is_sterilized ? "Sí" : "No"}</td>
                 <td>{dog.is_dewormed ? "Sí" : "No"}</td>
                 <td>

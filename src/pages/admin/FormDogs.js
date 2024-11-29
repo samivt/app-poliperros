@@ -22,12 +22,12 @@ const FormDogs = ({ onSave = () => {} }) => {
     is_sterilized: false,
     is_dewormed: false,
     operation: "",
-    is_for_adoption: false, // Usado solo para lógica interna, no se envía al backend
+    is_for_adoption: false,
   });
 
   const [imagePreview, setImagePreview] = useState(null);
   const fileInputRef = useRef(null);
-  const navigate = useNavigate(); // Hook para redireccionar
+  const navigate = useNavigate();
 
   // Resetea el formulario
   const resetForm = () => {
@@ -59,11 +59,50 @@ const FormDogs = ({ onSave = () => {} }) => {
       setFormData({ ...formData, [name]: checked });
     } else if (type === "file") {
       const file = files[0];
-      setFormData({ ...formData, [name]: file });
-
       if (file) {
+        // Validar tamaño de la imagen
+        const maxSize = 5 * 1024 * 1024; // 5 MB
+        if (file.size > maxSize) {
+          showErrorAlert(
+            "La imagen excede el tamaño máximo de 5 MB.",
+            "Error de carga"
+          );
+          return;
+        }
+
+        // Procesar la imagen para redimensionar
         const reader = new FileReader();
-        reader.onload = () => setImagePreview(reader.result);
+        reader.onload = () => {
+          const img = new Image();
+          img.onload = () => {
+            const canvas = document.createElement("canvas");
+            const ctx = canvas.getContext("2d");
+            const MAX_WIDTH = 800; // Ancho estándar
+            const MAX_HEIGHT = 800; // Alto estándar
+
+            let width = img.width;
+            let height = img.height;
+
+            if (width > MAX_WIDTH || height > MAX_HEIGHT) {
+              if (width > height) {
+                height *= MAX_WIDTH / width;
+                width = MAX_WIDTH;
+              } else {
+                width *= MAX_HEIGHT / height;
+                height = MAX_HEIGHT;
+              }
+            }
+
+            canvas.width = width;
+            canvas.height = height;
+            ctx.drawImage(img, 0, 0, width, height);
+
+            const resizedImage = canvas.toDataURL("image/jpeg", 0.8); // Imagen comprimida en base64
+            setImagePreview(resizedImage);
+            setFormData({ ...formData, image: resizedImage.split(",")[1] }); // Guardar en base64
+          };
+          img.src = reader.result;
+        };
         reader.readAsDataURL(file);
       }
     } else {
@@ -91,7 +130,7 @@ const FormDogs = ({ onSave = () => {} }) => {
     } = formData;
 
     // Validaciones
-    if (!validateFields(id, name, about, age, gender, entry_date)) return;
+    if (!validateFields(id, name, about, age, gender)) return;
 
     // Construcción del payload sin incluir `is_for_adoption`
     const payload = {
@@ -101,13 +140,14 @@ const FormDogs = ({ onSave = () => {} }) => {
       age: parseInt(age, 10),
       is_vaccinated,
       gender,
-      entry_date,
+      entry_date: entry_date || null, // Si no hay fecha, se envía como `null`
       is_sterilized,
       is_dewormed,
       operation,
+      image,
     };
+    console.log("Payload enviado:", payload);
 
-    // Confirmación
     const confirmed = await showConfirmationAlert(
       is_for_adoption
         ? "¿Estás seguro de que deseas registrar este perro para adopción?"
@@ -117,21 +157,11 @@ const FormDogs = ({ onSave = () => {} }) => {
 
     if (!confirmed) return;
 
-    // Procesar la imagen si existe
-    if (image) {
-      const reader = new FileReader();
-      reader.onload = async () => {
-        payload.image = reader.result.split(",")[1]; // Base64 sin prefijo
-        await sendPayload(payload, is_for_adoption);
-      };
-      reader.readAsDataURL(image);
-    } else {
-      await sendPayload(payload, is_for_adoption);
-    }
+    await sendPayload(payload, is_for_adoption);
   };
 
   // Validación de campos
-  const validateFields = (id, name, about, age, gender, entry_date) => {
+  const validateFields = (id, name, about, age, gender) => {
     if (!id || isNaN(Number(id))) {
       showErrorAlert(
         "El identificador debe ser un número válido.",
@@ -155,13 +185,6 @@ const FormDogs = ({ onSave = () => {} }) => {
       showErrorAlert("La edad debe ser un número positivo.", "Edad inválida");
       return false;
     }
-    if (!entry_date) {
-      showErrorAlert(
-        "La fecha de ingreso es obligatoria.",
-        "Campo obligatorio"
-      );
-      return false;
-    }
     return true;
   };
 
@@ -169,9 +192,9 @@ const FormDogs = ({ onSave = () => {} }) => {
   const sendPayload = async (payload, isForAdoption) => {
     try {
       if (isForAdoption) {
-        await createAdoptionDog(payload); // Llama directamente a la función sin asignarla a una variable
+        await createAdoptionDog(payload);
       } else {
-        await createStaticDog(payload); // Llama directamente a la función sin asignarla a una variable
+        await createStaticDog(payload);
       }
 
       showSuccessAlert(
@@ -181,12 +204,9 @@ const FormDogs = ({ onSave = () => {} }) => {
         "¡Registro exitoso!"
       );
 
-      onSave({ is_for_adoption: isForAdoption }); // Callback para el padre
-      console.log("isForAdoption:", isForAdoption);
-      // Redirigir según el tipo de perro registrado
+      onSave({ is_for_adoption: isForAdoption });
       navigate(isForAdoption ? "/admin/adoption-dogs" : "/admin/static-dogs");
-
-      resetForm(); // Resetear el formulario
+      resetForm();
     } catch (error) {
       console.error("Error al registrar el perro:", error);
       showErrorAlert(
@@ -262,7 +282,6 @@ const FormDogs = ({ onSave = () => {} }) => {
               type="date"
               id="entry_date"
               name="entry_date"
-              required
               value={formData.entry_date}
               onChange={handleInputChange}
             />

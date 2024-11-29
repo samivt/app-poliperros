@@ -1,15 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Navbar from "../../components/main/Navbar";
 import Footer from "../../components/main/Footer";
 import "../../assets/styles/main/ViewPermanentDogs.css";
 
-const ViewDogs = ({ nameDog, imageDog, description }) => {
-  const [isExpanded, setIsExpanded] = useState(false);
-
-  const handleToggleExpand = () => {
-    setIsExpanded(!isExpanded);
-  };
-
+const ViewDogs = ({
+  id,
+  nameDog,
+  imageDog,
+  description,
+  isExpanded,
+  onToggleExpand,
+}) => {
   return (
     <div className={`view-dog ${isExpanded ? "expanded" : ""}`}>
       <img src={imageDog} alt={nameDog} />
@@ -19,7 +20,7 @@ const ViewDogs = ({ nameDog, imageDog, description }) => {
           <p>{description}</p>
         </div>
       )}
-      <button onClick={handleToggleExpand}>
+      <button onClick={() => onToggleExpand(id)}>
         {isExpanded ? "Ver menos" : "Ver más"}
       </button>
     </div>
@@ -27,39 +28,66 @@ const ViewDogs = ({ nameDog, imageDog, description }) => {
 };
 
 const Dogs = () => {
+  const [dogs, setDogs] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [expandedDogId, setExpandedDogId] = useState(null); // Estado para controlar la tarjeta expandida
+
+  // Cargar datos de los perros desde el backend
+  useEffect(() => {
+    const fetchDogs = async () => {
+      try {
+        const response = await fetch(
+          "https://poliperritosback.agreeableflower-431ed430.westus.azurecontainerapps.io/dog/static_dog/"
+        );
+
+        if (!response.ok) {
+          throw new Error("Error al cargar los datos de los perros");
+        }
+
+        const data = await response.json();
+        setDogs(data); // Guardar los datos en el estado
+      } catch (error) {
+        console.error("Error al cargar los perros:", error);
+        setDogs([]); // Asegúrate de que la lista quede vacía si falla
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchDogs();
+  }, []);
+
+  const handleToggleExpand = (id) => {
+    setExpandedDogId(expandedDogId === id ? null : id); // Alterna el estado de la tarjeta expandida
+  };
+
   return (
     <div>
       <Navbar />
       <section className="view-info">
-        <h2>Poli Perros</h2>
+        <h2>PoliPerros</h2>
         <div className="view-container">
-          <ViewDogs
-            imageDog={require("../../assets/images/Max.jpg")}
-            nameDog="Max"
-            description="Max es un querido perro comunitario de la Escuela Politécnica Nacional. 
-            A sus 14 años, es un mestizo de pelaje marrón claro con manchas blancas. Su personalidad tranquila y cariñosa lo convierte en el favorito de estudiantes y profesores. A menudo lo verás descansando bajo una sombra, 
-            disfrutando de la compañía y el cariño de la comunidad que lo adora."
-          />
-          <ViewDogs
-            imageDog={require("../../assets/images/Asiri.jpg")}
-            nameDog="Asiri"
-            description="Asiri es un encantador perro comunitario de 8 años que vive en la Escuela Politécnica Nacional. 
-            Con su pelaje suave y brillante, de color negro y marrón, se ha ganado el cariño de todos. Su personalidad juguetona y amigable lo convierte en el compañero perfecto para los estudiantes. A menudo lo verás correteando por el campus, siempre listo para jugar o recibir un poco de atención y cariño. Asiri es un símbolo de alegría y comunidad en la escuela.
-
-"
-          />
-          <ViewDogs
-            imageDog={require("../../assets/images/Bruna.jpg")}
-            nameDog="Bruna"
-            description="Bruna es una energética perrita de 5 años que forma parte de la comunidad de la Escuela Politécnica Nacional. Con su pelaje corto y oscuro, y ojos vivaces, Bruna es conocida por su curiosidad y su amor por explorar cada rincón del campus. Su carácter juguetón y afectuoso la hace popular entre los estudiantes, 
-            quienes la buscan para compartir momentos de alegría. Siempre está lista para recibir una caricia o un juego rápido.."
-          />
-          <ViewDogs
-            imageDog={require("../../assets/images/Franzua.jpg")}
-            nameDog="Franzúa"
-            description="Franzua es un alegre perro de 4 años que se ha convertido en parte integral de la vida en la Escuela Politécnica Nacional. Su pelaje de color blanco y manchas negras, junto con su energía inagotable, lo hacen inconfundible. Siempre está dispuesto a correr y jugar con los estudiantes, irradiando entusiasmo y vitalidad. Franzua es conocido 
-            por su actitud amigable y su amor por la compañía, lo que lo convierte en un querido amigo de la comunidad."
-          />
+          {isLoading ? (
+            <div className="loading-container">
+              <div className="paw-spinner">
+                <i className="fas fa-paw fa-spin"></i>
+              </div>
+            </div>
+          ) : dogs.length > 0 ? (
+            dogs.map((dog) => (
+              <ViewDogs
+                key={dog.id}
+                id={dog.id}
+                imageDog={dog.image} // Usar la URL de la imagen proporcionada por el backend
+                nameDog={dog.name}
+                description={dog.about}
+                isExpanded={expandedDogId === dog.id} // Verifica si esta tarjeta está expandida
+                onToggleExpand={handleToggleExpand} // Pasar función para alternar expansión
+              />
+            ))
+          ) : (
+            <p>No hay perros disponibles en este momento.</p>
+          )}
         </div>
       </section>
       <Footer />

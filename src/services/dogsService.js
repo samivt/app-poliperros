@@ -38,6 +38,7 @@ export const createStaticDog = async (dogData) => {
     throw error;
   }
 };
+
 //Servicio para crear perros en adopcion
 export const createAdoptionDog = async (dogData) => {
   const token = getToken();

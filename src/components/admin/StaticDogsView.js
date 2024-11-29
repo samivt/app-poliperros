@@ -30,8 +30,9 @@ const StaticDogsView = ({ dogs = [], loading, onDelete, onAddNew }) => {
               <th>ID</th>
               <th>Nombre</th>
               <th>Edad</th>
-              <th>Vacunado</th>
               <th>Género</th>
+              <th>Vacunado</th>
+
               <th>Esterilizado</th>
               <th>Desparasitado</th>
               <th>Fecha de ingreso</th>
@@ -61,12 +62,17 @@ const StaticDogsView = ({ dogs = [], loading, onDelete, onAddNew }) => {
                 <td>{dog.id}</td>
                 <td>{dog.name}</td>
                 <td>{dog.age}</td>
-                <td>{dog.is_vaccinated ? "Sí" : "No"}</td>
                 <td>{dog.gender === "male" ? "Macho" : "Hembra"}</td>
+                <td>{dog.is_vaccinated ? "Sí" : "No"}</td>
+
                 <td>{dog.is_sterilized ? "Sí" : "No"}</td>
                 <td>{dog.is_dewormed ? "Sí" : "No"}</td>
-                <td>{new Date(dog.entry_date).toLocaleDateString()}</td>
-                <td>{dog.operation}</td>
+                <td>
+                  {dog.entry_date
+                    ? new Date(dog.entry_date).toLocaleDateString()
+                    : "Sin fecha"}
+                </td>
+                <td>{dog.operation || "Ninguna"}</td>
               </tr>
             ))}
           </tbody>

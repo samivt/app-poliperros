@@ -1,3 +1,4 @@
+/* Contenedor principal */
 .view-container {
   display: flex;
   justify-content: center;
@@ -7,26 +8,32 @@
   padding: 20px;
   font-family: "Nunito", sans-serif;
 }
+
+/* Información de la sección */
 .view-info {
   text-align: center;
   margin: 2rem 0;
   font-family: "Nunito", sans-serif;
 }
+
+/* Estilo de cada tarjeta */
 .view-dog {
   border-radius: 10px;
   padding: 20px;
   text-align: center;
-  background-color: rgba(0, 142, 180, 0.2);
   font-family: "Nunito", sans-serif;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   max-width: 413px;
   margin: 20px auto;
 }
+
+/* Nombre del perro */
 #nameDog {
   color: #008eb6;
   font-size: 36px;
 }
 
+/* Imagen del perro */
 .view-dog img {
   width: 250px;
   height: 250px;
@@ -34,7 +41,8 @@
   object-fit: cover;
 }
 
-.view-info button {
+/* Botón */
+.view-dog button {
   background-color: #008eb6;
   color: white;
   border: none;
@@ -43,8 +51,51 @@
   font-weight: 600;
   border-radius: 10px;
 }
+
+.view-dog button:hover {
+  background-color: #005f80;
+}
+
+/* Contenedor de carga */
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50vh; /* Ajusta según el diseño */
+}
+
+/* Spinner personalizado de patita */
+.paw-spinner {
+  font-size: 50px;
+  color: #f38b32;
+  animation: paw-spin 1.5s linear infinite;
+}
+
+@keyframes paw-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Responsivo */
 @media (max-width: 768px) {
   .view-info {
     max-width: 100%;
+  }
+
+  .view-dog {
+    max-width: 100%;
+  }
+
+  #nameDog {
+    font-size: 28px;
+  }
+
+  .view-dog img {
+    width: 200px;
+    height: 200px;
   }
 }

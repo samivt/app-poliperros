@@ -11,7 +11,7 @@
   align-items: center; /* Centrado vertical */
   justify-content: center; /* Centrado horizontal */
   padding: 0px;
-  margin: 0px;
+  margin-left: 10px;
 }
 .navbar-brand img {
   width: 100%; /* Ajusta la imagen al tamaño del contenedor */
