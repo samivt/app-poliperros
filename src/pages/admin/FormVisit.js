@@ -1,38 +1,134 @@
 import React, { useState } from "react";
 import { Form, Button, Col, Row } from "react-bootstrap";
-import { useLocation } from "react-router-dom"; // Importa useLocation
-
+import { useLocation } from "react-router-dom";
 import "../../assets/styles/admin/FormVisit.css";
+import { createVisit } from "../../services/visitService";
+import { showSuccessAlert, showErrorAlert } from "../../services/alertService";
 
 const FormVisit = () => {
-  const location = useLocation(); // Obtiene la ubicación actual
-  const dogs = location.state?.dogs || []; // Accede a la lista de perros
+  const location = useLocation();
+  const dogs = location.state?.dogs || [];
   const [formData, setFormData] = useState({
-    dogId: "",
-    date: "",
-    generalState: "",
-    foodWaterAccess: "",
-    healthStatus: "",
-    safePlace: "",
-    regularExercise: "",
-    comments: "",
-    photo: null,
+    adopted_dog_id: "",
+    visit_date: "",
+    observations: "",
+    evidence: null,
+  });
+
+  const [ownerInfo, setOwnerInfo] = useState({
+    name: "",
+    direction: "",
   });
 
   const handleInputChange = (e) => {
-    const { name, value, type, checked, files } = e.target;
-    if (type === "checkbox") {
-      setFormData({ ...formData, [name]: checked });
-    } else if (type === "file") {
-      setFormData({ ...formData, [name]: files[0] });
+    const { name, value, type, files } = e.target;
+    if (type === "file") {
+      const file = files[0];
+      // Validar tamaño de la imagen
+      const maxSize = 5 * 1024 * 1024; // 5 MB
+      if (file.size > maxSize) {
+        showErrorAlert(
+          "La imagen no debe superar los 5 MB.",
+          "Error de imagen"
+        );
+        return;
+      }
+      setFormData({ ...formData, [name]: file });
     } else {
       setFormData({ ...formData, [name]: value });
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleDogChange = async (e) => {
+    const dogId = e.target.value;
+    setFormData({ ...formData, adopted_dog_id: dogId });
+
+    if (dogId) {
+      try {
+        const response = await fetch(
+          `https://poliperritosback.agreeableflower-431ed430.westus.azurecontainerapps.io/dog/adopted_dog/${dogId}`
+        );
+
+        if (!response.ok) {
+          throw new Error("Error al cargar la información del perro.");
+        }
+
+        const data = await response.json();
+        setOwnerInfo({
+          name: data.owner.name || "Desconocido",
+          direction: data.owner.direction || "No disponible",
+        });
+      } catch (error) {
+        console.error("Error al obtener información del dueño:", error);
+        setOwnerInfo({
+          name: "Desconocido",
+          direction: "No disponible",
+        });
+      }
+    } else {
+      setOwnerInfo({ name: "", direction: "" });
+    }
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Datos del formulario:", formData);
+
+    const { adopted_dog_id, visit_date, observations, evidence } = formData;
+
+    if (!adopted_dog_id || !visit_date) {
+      showErrorAlert(
+        "El perro y la fecha son obligatorios.",
+        "Formulario incompleto"
+      );
+      return;
+    }
+
+    let evidenceBase64 = null;
+    if (evidence) {
+      const reader = new FileReader();
+      reader.onload = async () => {
+        evidenceBase64 = reader.result.split(",")[1]; // Eliminar prefijo base64
+        await sendVisitData(
+          adopted_dog_id,
+          visit_date,
+          observations,
+          evidenceBase64
+        );
+      };
+      reader.readAsDataURL(evidence);
+    } else {
+      await sendVisitData(
+        adopted_dog_id,
+        visit_date,
+        observations,
+        evidenceBase64
+      );
+    }
+  };
+
+  const sendVisitData = async (
+    adopted_dog_id,
+    visit_date,
+    observations,
+    evidenceBase64
+  ) => {
+    try {
+      const visitData = {
+        adopted_dog_id: parseInt(adopted_dog_id, 10),
+        visit_date,
+        observations,
+        evidence: evidenceBase64 || "No se proporcionó evidencia",
+      };
+
+      await createVisit(visitData);
+      showSuccessAlert("Visita registrada exitosamente.", "¡Éxito!");
+    } catch (error) {
+      console.error("Error al registrar la visita:", error);
+      showErrorAlert(
+        "No se pudo registrar la visita. Inténtalo nuevamente.",
+        "Error"
+      );
+    }
   };
 
   return (
@@ -46,9 +142,9 @@ const FormVisit = () => {
           </Form.Label>
           <Col sm={9}>
             <Form.Select
-              name="dogId"
-              value={formData.dogId}
-              onChange={handleInputChange}
+              name="adopted_dog_id"
+              value={formData.adopted_dog_id}
+              onChange={handleDogChange}
               required
             >
               <option value="">Seleccione un perro</option>
@@ -61,6 +157,26 @@ const FormVisit = () => {
           </Col>
         </Form.Group>
 
+        {/* Nombre del dueño */}
+        <Form.Group as={Row} className="mb-3">
+          <Form.Label column sm={3} className="custom-label">
+            Dueño:
+          </Form.Label>
+          <Col sm={9}>
+            <Form.Control type="text" value={ownerInfo.name} readOnly />
+          </Col>
+        </Form.Group>
+
+        {/* Dirección */}
+        <Form.Group as={Row} className="mb-3">
+          <Form.Label column sm={3} className="custom-label">
+            Dirección:
+          </Form.Label>
+          <Col sm={9}>
+            <Form.Control type="text" value={ownerInfo.direction} readOnly />
+          </Col>
+        </Form.Group>
+
         {/* Fecha de la visita */}
         <Form.Group as={Row} className="mb-3">
           <Form.Label column sm={3} className="custom-label">
@@ -69,163 +185,34 @@ const FormVisit = () => {
           <Col sm={9}>
             <Form.Control
               type="date"
-              name="date"
-              value={formData.date}
+              name="visit_date"
+              value={formData.visit_date}
               onChange={handleInputChange}
               required
-            />
-          </Col>
-        </Form.Group>
-
-        {/* Estado general */}
-        <Form.Group as={Row} className="mb-3">
-          <Form.Label column sm={3} className="custom-label">
-            Estado general:
-          </Form.Label>
-          <Col sm={9}>
-            <Form.Select
-              name="generalState"
-              value={formData.generalState}
-              onChange={handleInputChange}
-              required
-            >
-              <option value="">Seleccione una opción</option>
-              <option value="excelente">Excelente</option>
-              <option value="bueno">Bueno</option>
-              <option value="regular">Regular</option>
-              <option value="malo">Malo</option>
-            </Form.Select>
-          </Col>
-        </Form.Group>
-
-        {/* Comida y Agua */}
-        <Form.Group as={Row} className="mb-3">
-          <Form.Label column sm={3} className="custom-label">
-            ¿Tiene acceso a comida y agua fresca?
-          </Form.Label>
-          <Col sm={9}>
-            <Form.Check
-              inline
-              label="Sí"
-              type="radio"
-              name="foodWaterAccess"
-              value="sí"
-              onChange={handleInputChange}
-              checked={formData.foodWaterAccess === "sí"}
-            />
-            <Form.Check
-              inline
-              label="No"
-              type="radio"
-              name="foodWaterAccess"
-              value="no"
-              onChange={handleInputChange}
-              checked={formData.foodWaterAccess === "no"}
-            />
-          </Col>
-        </Form.Group>
-
-        {/* Salud */}
-        <Form.Group as={Row} className="mb-3">
-          <Form.Label column sm={3} className="custom-label">
-            ¿Parece saludable?
-          </Form.Label>
-          <Col sm={9}>
-            <Form.Check
-              inline
-              label="Sí"
-              type="radio"
-              name="healthStatus"
-              value="sí"
-              onChange={handleInputChange}
-              checked={formData.healthStatus === "sí"}
-            />
-            <Form.Check
-              inline
-              label="No"
-              type="radio"
-              name="healthStatus"
-              value="no"
-              onChange={handleInputChange}
-              checked={formData.healthStatus === "no"}
-            />
-          </Col>
-        </Form.Group>
-
-        {/* Lugar Seguro */}
-        <Form.Group as={Row} className="mb-3">
-          <Form.Label column sm={3} className="custom-label">
-            ¿Tiene un lugar seguro y limpio?
-          </Form.Label>
-          <Col sm={9}>
-            <Form.Check
-              inline
-              label="Sí"
-              type="radio"
-              name="safePlace"
-              value="sí"
-              onChange={handleInputChange}
-              checked={formData.safePlace === "sí"}
-            />
-            <Form.Check
-              inline
-              label="No"
-              type="radio"
-              name="safePlace"
-              value="no"
-              onChange={handleInputChange}
-              checked={formData.safePlace === "no"}
-            />
-          </Col>
-        </Form.Group>
-
-        {/* Ejercicio */}
-        <Form.Group as={Row} className="mb-3">
-          <Form.Label column sm={3} className="custom-label">
-            ¿Realiza ejercicio regularmente?
-          </Form.Label>
-          <Col sm={9}>
-            <Form.Check
-              inline
-              label="Sí"
-              type="radio"
-              name="regularExercise"
-              value="sí"
-              onChange={handleInputChange}
-              checked={formData.regularExercise === "sí"}
-            />
-            <Form.Check
-              inline
-              label="No"
-              type="radio"
-              name="regularExercise"
-              value="no"
-              onChange={handleInputChange}
-              checked={formData.regularExercise === "no"}
             />
           </Col>
         </Form.Group>
 
         {/* Comentarios */}
         <Form.Group className="mb-3">
-          <Form.Label className="custom-label">
-            Comentarios adicionales:
-          </Form.Label>
+          <Form.Label className="custom-label">Observaciones:</Form.Label>
           <Form.Control
             as="textarea"
-            name="comments"
+            name="observations"
             rows={3}
-            value={formData.comments}
+            value={formData.observations}
             onChange={handleInputChange}
           />
         </Form.Group>
 
         {/* Subir Foto */}
         <Form.Group className="mb-3">
-          <Form.Label className="custom-label">Subir una foto:</Form.Label>
+          <Form.Label className="custom-label">
+            Subir evidencia (opcional):
+          </Form.Label>
           <Form.Control
             type="file"
-            name="photo"
+            name="evidence"
             accept="image/*"
             onChange={handleInputChange}
           />

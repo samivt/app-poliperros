@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Form, Button, Row, Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { fetchAdoptedDogs, createVisit } from "../../services/dogsService";
+import { fetchAdoptedDogs } from "../../services/dogsService";
+import { createVisit } from "../../services/visitService";
 import {
   showSuccessAlert,
   showErrorAlert,

@@ -224,27 +224,3 @@ export const fetchAdoptedDogs = async () => {
     throw error;
   }
 };
-
-//Crear visita
-//falta el token aun no registra
-export const createVisit = async (visitData) => {
-  try {
-    const response = await fetch(`${API_URL}/visits/create/`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(visitData),
-    });
-
-    if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.detail || "Error al registrar la visita.");
-    }
-
-    return await response.json();
-  } catch (error) {
-    console.error("Error en createVisit:", error);
-    throw error;
-  }
-};
