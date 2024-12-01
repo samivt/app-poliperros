@@ -1,17 +1,20 @@
 import React from "react";
 import "../../assets/styles/main/Navbar.css";
 import logo from "../../assets/images/Logo.jpg";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 const Navbar = () => {
   return (
     <nav className="navbar navbar-expand-lg bg-custom">
       <div className="container-fluid">
-        <a className="navbar-brand" href="/">
+        {/* Logo redondo */}
+        <NavLink to="/" className="navbar-brand">
           <img src={logo} alt="Poliperros Logo" className="logo" />
-        </a>
+        </NavLink>
+
+        {/* Botón del togglebar mejorado */}
         <button
-          className="navbar-toggler"
+          className="navbar-toggler custom-toggler"
           type="button"
           data-bs-toggle="collapse"
           data-bs-target="#navbarNav"
@@ -19,50 +22,84 @@ const Navbar = () => {
           aria-expanded="false"
           aria-label="Toggle navigation"
         >
-          <span className="navbar-toggler-icon"></span>
+          <div className="navbar-toggler-icon"></div>
         </button>
+
+        {/* Contenido colapsable */}
         <div
           className="collapse navbar-collapse justify-content-center"
           id="navbarNav"
         >
           <ul className="navbar-nav">
             <li className="nav-item me-4">
-              <a className="nav-link" href="/">
+              <NavLink
+                to="/"
+                className={({ isActive }) =>
+                  `nav-link ${isActive ? "active" : ""}`
+                }
+              >
                 Inicio
-              </a>
+              </NavLink>
             </li>
             <li className="nav-item me-4">
-              <a className="nav-link" href="/quienes-somos">
+              <NavLink
+                to="/quienes-somos"
+                className={({ isActive }) =>
+                  `nav-link ${isActive ? "active" : ""}`
+                }
+              >
                 Quiénes somos
-              </a>
+              </NavLink>
             </li>
             <li className="nav-item me-4">
-              <a className="nav-link" href="/view-permanent-dogs">
+              <NavLink
+                to="/view-permanent-dogs"
+                className={({ isActive }) =>
+                  `nav-link ${isActive ? "active" : ""}`
+                }
+              >
                 Poli Perros
-              </a>
+              </NavLink>
             </li>
             <li className="nav-item me-4">
-              <a className="nav-link" href="/view-adoption-dogs">
+              <NavLink
+                to="/view-adoption-dogs"
+                className={({ isActive }) =>
+                  `nav-link ${isActive ? "active" : ""}`
+                }
+              >
                 Adopciones
-              </a>
+              </NavLink>
             </li>
             <li className="nav-item me-4">
-              <a className="nav-link" href="/inscriptions">
-                Inscripciones
-              </a>
+              <NavLink
+                to="/inscriptions"
+                className={({ isActive }) =>
+                  `nav-link ${isActive ? "active" : ""}`
+                }
+              >
+                Cursos
+              </NavLink>
             </li>
             <li className="nav-item me-4">
-              <a className="nav-link" href="/contact">
+              <NavLink
+                to="/contact"
+                className={({ isActive }) =>
+                  `nav-link ${isActive ? "active" : ""}`
+                }
+              >
                 Contacto
-              </a>
+              </NavLink>
             </li>
           </ul>
         </div>
-        <Link to="/login">
+
+        {/* Botón de inicio de sesión */}
+        <NavLink to="/login">
           <button className="btn login-btn ms-auto">
-            <i className="fas fa-user"></i> Iniciar Sesión
+            <i className="fas fa-user"></i> <span>Iniciar Sesión</span>
           </button>
-        </Link>
+        </NavLink>
       </div>
     </nav>
   );

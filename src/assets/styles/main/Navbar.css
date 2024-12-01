@@ -1,53 +1,128 @@
+/* Estilo del navbar */
 .navbar {
   font-family: "Nunito", sans-serif;
-  height: 100px;
-}
-.navbar-brand {
-  width: 70px; /* Define el ancho del círculo */
-  height: 70px; /* Define el alto del círculo */
-  border-radius: 50%; /* Hace que el contenedor sea un círculo */
-  overflow: hidden; /* Oculta cualquier parte de la imagen fuera del círculo */
-  display: flex; /* Centra la imagen si es necesario */
-  align-items: center; /* Centrado vertical */
-  justify-content: center; /* Centrado horizontal */
-  padding: 0px;
-  margin-left: 10px;
-}
-.navbar-brand img {
-  width: 100%; /* Ajusta la imagen al tamaño del contenedor */
-  height: 100%; /* Asegura que la imagen cubra todo el contenedor */
-  object-fit: cover; /* Recorta y ajusta la imagen sin distorsionarla */
-}
-.bg-custom {
-  background-color: rgb(0, 142, 182) !important;
+  padding: 10px 20px;
+  background-color: rgb(0, 142, 182) !important; /* Fondo personalizado */
+  border-bottom: 2px solid #00bcd4;
 }
 
+/* Logo redondo */
+.navbar-brand {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0px;
+}
+
+.navbar-brand img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Asegura que el logo no se deforme */
+}
+
+/* Toggle bar mejorado */
+.custom-toggler {
+  border: none;
+  background: none;
+}
+
+.navbar-toggler-icon {
+  width: 30px;
+  height: 3px;
+  background-color: white;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.navbar-toggler-icon::before,
+.navbar-toggler-icon::after {
+  content: "";
+  width: 30px;
+  height: 3px;
+  background-color: white;
+  position: absolute;
+  transition: all 0.3s ease;
+}
+
+.navbar-toggler-icon::before {
+  top: -8px;
+}
+
+.navbar-toggler-icon::after {
+  top: 8px;
+}
+
+.navbar-toggler[aria-expanded="true"] .navbar-toggler-icon {
+  background-color: transparent;
+}
+
+.navbar-toggler[aria-expanded="true"] .navbar-toggler-icon::before {
+  transform: rotate(45deg);
+  top: 0;
+}
+
+.navbar-toggler[aria-expanded="true"] .navbar-toggler-icon::after {
+  transform: rotate(-45deg);
+  top: 0;
+}
+
+/* Links del navbar */
 .nav-link {
   color: white !important;
   font-weight: 600;
   font-size: 20px;
+  transition: color 0.3s ease-in-out;
 }
 
+.nav-link:hover {
+  color: #ffcb7d !important;
+}
+
+.nav-link.active {
+  color: #ffcb7d !important;
+  border-bottom: 2px solid #ffcb7d;
+}
+
+/* Botón de inicio de sesión */
 .login-btn {
-  background-color: #008eb6;
+  background: linear-gradient(90deg, #00bcd4, #008eb6);
   color: white;
   padding: 0.5rem 1rem;
   border: none;
-  border-radius: 10px;
-  cursor: pointer;
-}
-.login-btn :hover {
-  background-color: white;
+  border-radius: 20px;
+  transition: all 0.3s ease-in-out;
 }
 
-.login-btn i {
-  margin-right: 10px;
-  font-size: 25px;
+.login-btn:hover {
+  background: white;
+  color: #008eb6;
+  border: 1px solid #008eb6;
 }
 
+/* Estilo responsive */
 @media (max-width: 768px) {
+  .navbar {
+    padding: 10px;
+  }
+
+  .nav-link {
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+
   .login-btn {
-    width: 100%;
-    margin-top: 10px;
+    width: 50px;
+    padding: 0.5rem;
+    border-radius: 50%;
+  }
+
+  .login-btn span {
+    display: none;
   }
 }

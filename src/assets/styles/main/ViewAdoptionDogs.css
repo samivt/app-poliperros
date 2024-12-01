@@ -16,6 +16,22 @@
   font-family: "Nunito", sans-serif;
 }
 
+.view-info h2 {
+  font-size: 2.5rem;
+  color: #f38b32;
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.view-info p {
+  font-size: 1.2rem;
+  color: #555;
+  max-width: 800px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
 /* Estilo de cada tarjeta */
 .view-dog {
   border-radius: 10px;
@@ -25,12 +41,21 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   max-width: 413px;
   margin: 20px auto;
+  background-color: white;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.view-dog:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
 }
 
 /* Nombre del perro */
-#nameDog {
+.view-dog .dog-name {
   color: #008eb6;
   font-size: 36px;
+  font-weight: bold;
+  margin: 10px 0;
 }
 
 /* Imagen del perro */
@@ -39,6 +64,12 @@
   height: 250px;
   border-radius: 50%;
   object-fit: cover;
+  margin-bottom: 10px;
+  transition: transform 0.3s ease;
+}
+
+.view-dog:hover img {
+  transform: scale(1.1);
 }
 
 /* Botón */
@@ -50,6 +81,7 @@
   cursor: pointer;
   font-weight: 600;
   border-radius: 10px;
+  transition: background-color 0.3s ease;
 }
 
 .view-dog button:hover {
@@ -61,7 +93,13 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 50vh; /* Ajusta según el diseño */
+  height: 100vh; /* Ocupa toda la altura de la ventana */
+  width: 100vw; /* Asegura el ancho completo */
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: rgba(255, 255, 255, 0.9);
+  z-index: 9999;
 }
 
 /* Spinner personalizado de patita */
@@ -82,15 +120,19 @@
 
 /* Responsivo */
 @media (max-width: 768px) {
-  .view-info {
-    max-width: 100%;
+  .view-info h2 {
+    font-size: 2rem;
+  }
+
+  .view-info p {
+    font-size: 1rem;
   }
 
   .view-dog {
     max-width: 100%;
   }
 
-  #nameDog {
+  .view-dog .dog-name {
     font-size: 28px;
   }
 

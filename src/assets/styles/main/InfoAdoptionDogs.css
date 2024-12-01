@@ -1,114 +1,114 @@
-/* Contenedor principal */
-.info-dog-section {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px;
+/* Contenedor general de la vista */
+.info-adoption-section {
+  background-color: #f7f9fc;
+  padding: 2rem;
+  font-family: "Nunito", sans-serif;
 }
 
-/* Título */
-.info-dog-section h2 {
-  color: #f38b32;
-  margin-bottom: 20px;
+/* Título principal */
+.info-adoption-title {
   text-align: center;
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #f38b32;
+  margin-bottom: 2rem;
 }
 
-/* Tarjeta */
-.info-dog-card {
+/* Tarjeta de información */
+.info-adoption-card {
   display: flex;
-  flex-direction: row;
+  flex-wrap: wrap;
   align-items: center;
-  background-color: #f9f9f9;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  justify-content: center;
+  background-color: white;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   padding: 20px;
   max-width: 800px;
-  width: 100%;
   margin: 0 auto;
-  gap: 20px;
-  text-align: left;
 }
 
-/* Imagen del perro */
-.info-dog-image {
-  width: 250px;
-  height: 250px;
+.info-adoption-image {
+  max-width: 300px;
+  height: auto;
   border-radius: 10px;
-  object-fit: cover;
+  margin: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Detalles del perro */
-.info-dog-details {
-  font-family: "Nunito", sans-serif;
-  font-size: 16px;
-  color: #333;
-  line-height: 1.6;
-  flex: 1; /* Asegura que los detalles ocupen el espacio disponible */
+.info-adoption-details {
+  flex: 1;
+  padding: 20px;
 }
 
-#name-dog {
-  font-size: 24px;
-  color: #bb7223;
-  margin-bottom: 15px;
+.info-adoption-name {
+  font-size: 2rem;
+  color: #008eb6;
+  margin-bottom: 10px;
+}
+
+.info-adoption-about {
+  font-size: 1.2rem;
+  line-height: 1.5;
+  color: #555;
+  margin: 10px 0;
 }
 
 /* Botones */
-.info-dog-buttons {
-  display: flex;
-  justify-content: space-between; /* Botones en extremos opuestos */
+.info-adoption-buttons {
   margin-top: 20px;
-}
-
-.info-dog-buttons button {
-  padding: 10px 20px;
-  font-size: 16px;
-  font-weight: bold;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
   display: flex;
-  align-items: center;
-  gap: 8px; /* Espaciado entre texto e ícono */
+  gap: 10px;
 }
 
-.btn-adopt {
+.info-adoption-btn-adopt {
   background-color: #f38b32;
   color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
-.btn-adopt:hover {
-  background-color: #e07b25;
+.info-adoption-btn-adopt:hover {
+  background-color: #e59400;
 }
 
-.btn-back {
+.info-adoption-btn-back {
   background-color: #008eb6;
   color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
-.btn-back:hover {
-  background-color: #006e8a;
+.info-adoption-btn-back:hover {
+  background-color: #005f8d;
 }
 
-/* Contenedor del Spinner */
-.loading-container {
+/* Loading Spinner */
+.info-adoption-loading-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 300px; /* Espacio reservado para el spinner */
-  width: 100%; /* Asegura que ocupe todo el ancho disponible */
-  text-align: center;
+  height: 100vh;
+  background-color: #f7f9fc;
 }
 
-/* Spinner de la patita */
-.paw-spinner {
-  font-size: 50px;
+.info-adoption-paw-spinner {
+  font-size: 3rem;
   color: #f38b32;
-  animation: paw-spin 1.5s linear infinite;
+  animation: spin 1s linear infinite;
 }
 
-/* Animación del Spinner */
-@keyframes paw-spin {
+@keyframes spin {
   0% {
     transform: rotate(0deg);
   }
@@ -117,33 +117,10 @@
   }
 }
 
-/* Contenedor mínimo para el spinner o contenido */
-.view-container {
-  min-height: 300px; /* Reserva espacio para el contenido mientras carga */
-}
-
-/* Responsivo */
-@media (max-width: 768px) {
-  .info-dog-card {
-    flex-direction: column;
-    text-align: center;
-  }
-
-  .info-dog-image {
-    width: 200px;
-    height: 200px;
-  }
-
-  #name-dog {
-    font-size: 20px;
-  }
-
-  .info-dog-buttons {
-    flex-direction: column;
-    gap: 10px; /* Espaciado entre botones */
-  }
-
-  .info-dog-buttons button {
-    width: 100%; /* Botones ocupan todo el ancho */
-  }
+/* Mensaje de error */
+.info-adoption-error {
+  text-align: center;
+  font-size: 1.5rem;
+  color: #ff6b6b;
+  margin-top: 20px;
 }

@@ -1,17 +1,37 @@
-.dog-section {
-  padding: 2rem 0;
-  text-align: center; /* Centra el título y el contenido */
+/* Estilo exclusivo para el contenedor de "Conoce a Nuestros Peluditos" */
+.dog-card-container {
+  margin-top: 0px !important;
+  padding: 3rem 0;
+  background-color: rgba(243, 139, 50, 0.2); /* Fondo suave exclusivo */
+  text-align: center;
 }
 
-.dog-section h2 {
+/* Estilo compartido para títulos de secciones */
+.section-title {
   color: #f38b32;
-  font-size: 36px;
-  margin-bottom: 1.5rem;
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  font-family: "Nunito", sans-serif;
+  font-weight: bold;
+  text-transform: uppercase; /* Mayúsculas */
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+}
+
+/* Estilo compartido para descripciones de secciones */
+.section-description {
+  font-size: 1.2rem;
+  color: #555;
+  margin-bottom: 2rem;
   font-family: "Nunito", sans-serif;
 }
 
-.dog-section .row {
-  display: flex;
-  justify-content: center; /* Centra las tarjetas en la fila */
-  gap: 20px; /* Espacio entre las tarjetas */
+/* Ajustes responsivos para título y descripción */
+@media (max-width: 768px) {
+  .section-title {
+    font-size: 2rem;
+  }
+
+  .section-description {
+    font-size: 1rem;
+  }
 }

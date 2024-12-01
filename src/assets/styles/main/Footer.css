@@ -1,74 +1,103 @@
+/* Contenedor principal del footer */
 .footer {
-  background-color: rgba(243, 139, 50, 0.35);
-  color: #008eb6;
+  background-color: #f38b32; /* Color cálido para el fondo */
+  color: white;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px;
   flex-wrap: wrap;
+  justify-content: space-around; /* Distribuye las secciones uniformemente */
+  align-items: center;
+  padding: 20px 10px;
   font-family: "Nunito", sans-serif;
 }
 
+/* Logo del footer */
 .footer-logo {
   flex: 1;
   text-align: center;
 }
+
 .footer-logo img {
   width: auto;
-  height: 80px;
+  height: 100px;
+  border-radius: 10%;
+  transition: transform 0.3s ease; /* Animación al pasar el cursor */
 }
 
+.footer-logo img:hover {
+  transform: scale(1.1); /* Aumenta ligeramente el tamaño */
+}
+
+/* Información de contacto */
 .contact-info {
   flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
   text-align: center;
   margin: 10px;
 }
 
+.contact-info p {
+  margin: 5px 0;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .contact-info i {
-  margin-right: 10px; /* Añade espacio entre el ícono y el texto */
+  margin-right: 10px; /* Espaciado entre ícono y texto */
 }
-.info-i {
-  text-align: left;
-}
+
+/* Redes sociales */
 .social-media {
-  color: #008eb6;
   flex: 1;
   text-align: center;
 }
 
 .social-media a {
-  margin: 0 20px;
+  margin: 0 15px;
+  text-decoration: none; /* Elimina el subrayado */
+  transition: color 0.3s ease, transform 0.3s ease;
 }
 
 .social-media i {
   font-size: 30px;
-  color: #008eb6;
+  color: white;
 }
 
-.social-media a:hover {
-  color: #f38b32;
+.social-media a:hover i {
+  color: #008eb6; /* Cambia el color al pasar el cursor */
+  transform: scale(1.2); /* Aumenta ligeramente el tamaño */
 }
 
+/* Créditos del footer */
+.footer-credits {
+  flex-basis: 100%; /* Ocupa toda la fila */
+  text-align: center;
+  margin-top: 20px;
+  font-size: 0.9rem;
+  color: #f0f0f0;
+  font-weight: 600;
+}
+
+/* Responsividad */
 @media (max-width: 768px) {
   .footer {
     flex-direction: column;
-    align-items: center;
     text-align: center;
   }
 
-  .social-media a {
-    margin: 0 10px;
+  .contact-info p {
+    font-size: 0.9rem; /* Reduce el tamaño del texto */
   }
 
   .footer-logo img {
-    height: 60px;
+    height: 60px; /* Reduce el tamaño del logo */
   }
 
-  .contact-info p {
-    margin: 10px 0;
+  .social-media i {
+    font-size: 25px; /* Íconos más pequeños */
+  }
+
+  .footer-credits {
+    margin-top: 10px;
   }
 }

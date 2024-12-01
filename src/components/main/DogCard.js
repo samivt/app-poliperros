@@ -9,9 +9,7 @@ const DogCard = ({ title, image, link }) => {
       <div className="card-body text-center">
         <h3 className="card-title">{title}</h3>
         <Link to={link}>
-          <button className="btn btn-primary mt-3 dog-card-button">
-            Ver más
-          </button>
+          <button className="btn dog-card-button mt-3">Ver más</button>
         </Link>
       </div>
     </div>

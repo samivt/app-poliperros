@@ -1,0 +1,120 @@
+/* Contenedor de las tarjetas de donación */
+.donation-card {
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  text-align: center;
+  width: 250px; /* Ancho fijo */
+  height: 250px; /* Altura fija */
+  margin: auto;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between; /* Distribuye el contenido uniformemente */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.donation-card:hover {
+  transform: translateY(-5px); /* Efecto ligero de hover */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Título de la tarjeta */
+.donation-card-title {
+  color: #f38b32;
+  font-size: 1.2rem;
+  margin-bottom: 10px; /* Espacio entre el título y el logo */
+  flex-shrink: 0; /* El título no se reduce */
+  text-align: center;
+}
+
+/* Logo o imagen en las tarjetas */
+.donation-card-logo {
+  max-width: 80%; /* Se adapta al 80% del ancho disponible */
+  max-height: 80px; /* Máximo de 80px de alto */
+  object-fit: contain; /* Escala la imagen proporcionalmente */
+  margin-bottom: 10px; /* Espacio adicional debajo del logo */
+  flex-shrink: 0; /* La imagen no se reduce más allá del tamaño mínimo */
+}
+
+/* Contenido descriptivo o enlaces */
+.donation-card-content {
+  font-size: 0.9rem;
+  color: #555;
+  text-align: center;
+  line-height: 1.2;
+  flex-grow: 1; /* El contenido ocupa el espacio disponible */
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Centra verticalmente el contenido */
+  overflow: hidden; /* Evita que el contenido adicional altere el tamaño */
+  text-overflow: ellipsis; /* Texto adicional se trunca */
+}
+
+/* Enlace de PayPal */
+.donation-link {
+  color: #008eb6;
+  font-weight: bold;
+  text-decoration: none;
+  font-size: 1rem; /* Tamaño consistente */
+  margin-top: 5px;
+  transition: color 0.3s ease;
+}
+
+.donation-link:hover {
+  color: #f38b32;
+}
+
+/* Estilo del QR */
+.donation-qr {
+  width: 100%; /* Ocupa todo el ancho disponible */
+  max-width: 150px; /* Máximo tamaño del QR */
+  max-height: 150px; /* Máximo tamaño del QR en altura */
+  object-fit: contain; /* Mantiene la proporción de la imagen */
+  margin-top: 10px;
+  flex-shrink: 0; /* El QR no se reduce más allá del tamaño mínimo */
+  border-radius: 5px;
+}
+
+/* Contenedor general de las tarjetas (fila) */
+.row {
+  display: flex;
+  flex-wrap: wrap; /* Permite que las tarjetas se apilen en filas */
+  justify-content: center; /* Centra las tarjetas */
+  gap: 20px; /* Espacio uniforme entre las tarjetas */
+}
+
+/* Responsividad: Ajustes para pantallas pequeñas */
+@media (max-width: 768px) {
+  .row {
+    flex-direction: column; /* Apila las tarjetas verticalmente */
+    gap: 10px; /* Reduce el espacio entre tarjetas */
+  }
+
+  .donation-card {
+    flex: 1 1 auto; /* Todas las tarjetas tienen el mismo tamaño */
+    width: 100%; /* Ancho relativo en pantallas pequeñas */
+    max-width: 300px; /* Limita el ancho máximo */
+    height: 250px; /* Altura fija */
+  }
+
+  .donation-card-title {
+    font-size: 1rem;
+  }
+
+  .donation-card-logo {
+    max-height: 60px; /* Logo más pequeño en pantallas pequeñas */
+  }
+
+  .donation-card-content {
+    font-size: 0.8rem;
+  }
+
+  .donation-qr {
+    max-width: 120px; /* QR más pequeño en pantallas pequeñas */
+    max-height: 120px;
+  }
+}

@@ -2,7 +2,7 @@
 .header {
   height: 60px;
   width: 100%;
-  background-color: #343a40;
+  background-color: #2465a5;
   color: white;
   display: flex;
   align-items: center;
@@ -64,7 +64,7 @@
   left: 0;
   width: 250px;
   height: calc(100% - 60px); /* Altura completa menos el Header */
-  background-color: #343a40;
+  background-color: #4e759c;
   color: white;
   overflow-y: auto;
   transition: transform 0.3s ease-in-out;

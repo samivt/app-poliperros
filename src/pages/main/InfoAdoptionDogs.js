@@ -5,10 +5,10 @@ import "../../assets/styles/main/InfoAdoptionDogs.css";
 import { useParams, useNavigate } from "react-router-dom";
 
 const InfoAdoptionDogs = () => {
-  const { dog_id } = useParams(); // Obtener el id del perro desde la URL
+  const { dog_id } = useParams();
   const navigate = useNavigate();
   const [dog, setDog] = useState(null);
-  const [isLoading, setIsLoading] = useState(true); // Estado para controlar la carga
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchDogDetails = async () => {
@@ -25,9 +25,9 @@ const InfoAdoptionDogs = () => {
         setDog(data);
       } catch (error) {
         console.error("Error al cargar el perro:", error);
-        setDog(null); // Evita que la página falle si ocurre un error
+        setDog(null);
       } finally {
-        setIsLoading(false); // Desactiva el estado de carga
+        setIsLoading(false);
       }
     };
 
@@ -36,8 +36,8 @@ const InfoAdoptionDogs = () => {
 
   if (isLoading) {
     return (
-      <div className="loading-container">
-        <div className="paw-spinner">
+      <div className="info-adoption-loading-container">
+        <div className="info-adoption-paw-spinner">
           <i className="fas fa-paw"></i>
         </div>
       </div>
@@ -48,7 +48,7 @@ const InfoAdoptionDogs = () => {
     return (
       <div>
         <Navbar />
-        <section className="info-dog-section">
+        <section className="info-adoption-error">
           <p>No se pudo cargar la información del perro.</p>
         </section>
         <Footer />
@@ -64,27 +64,33 @@ const InfoAdoptionDogs = () => {
   return (
     <div>
       <Navbar />
-      <section className="info-dog-section">
-        <h2>Perros en adopción</h2>
-        <div className="info-dog-card">
-          <img src={dog.image} alt={dog.name} className="info-dog-image" />
-          <div className="info-dog-details">
-            <h3 id="name-dog">{dog.name}</h3>
-            <p id="info-dog">{dog.about}</p>
-            <p id="info-dog">
+      <section className="info-adoption-section">
+        <h2 className="info-adoption-title">Perros en Adopción</h2>
+        <div className="info-adoption-card">
+          <img src={dog.image} alt={dog.name} className="info-adoption-image" />
+          <div className="info-adoption-details">
+            <h3 className="info-adoption-name">{dog.name}</h3>
+            <p className="info-adoption-about">{dog.about}</p>
+            <p>
               <strong>Edad:</strong> {dog.age} años
             </p>
-            <p id="info-dog">
+            <p>
               <strong>Vacunado:</strong> {dog.is_vaccinated ? "Sí" : "No"}
             </p>
-            <p id="info-dog">
+            <p>
               <strong>Esterilizado:</strong> {dog.is_sterilized ? "Sí" : "No"}
             </p>
-            <div className="info-dog-buttons">
-              <button onClick={handleAdoptClick} className="btn-adopt">
+            <div className="info-adoption-buttons">
+              <button
+                onClick={handleAdoptClick}
+                className="info-adoption-btn-adopt"
+              >
                 <i className="fas fa-heart"></i> Adoptar
               </button>
-              <button onClick={() => navigate(-1)} className="btn-back">
+              <button
+                onClick={() => navigate(-1)}
+                className="info-adoption-btn-back"
+              >
                 <i className="fas fa-arrow-left"></i> Regresar
               </button>
             </div>

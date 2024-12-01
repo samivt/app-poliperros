@@ -9,7 +9,7 @@ const Header = ({ toggleSidebar, onLogout }) => {
       </button>
 
       {/* Título del Panel */}
-      <h1 className="header-title">Panel de Administración</h1>
+      <h1 className="header-title">Administración PoliPerros</h1>
 
       {/* Botón de Cerrar Sesión */}
       <button className="logout-button" onClick={onLogout}>

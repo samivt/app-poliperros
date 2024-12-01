@@ -1,28 +1,109 @@
-.Container .row {
+/* General */
+.quienes-somos-page {
+  font-family: "Nunito", sans-serif;
+  background-color: #f7f9fc; /* Fondo claro */
+  color: #333; /* Color del texto */
+  margin: 0;
+  padding: 0;
+}
+
+/* Cabecera */
+.qs-header {
+  background-image: url("../../images/slide1.jpg"); /* Imagen de fondo */
+  background-size: cover;
+  background-position: center;
+  height: 300px;
+  position: relative;
+}
+
+.qs-header-overlay {
+  background: rgba(0, 0, 0, 0.5); /* Oscurece la imagen */
+  height: 100%;
   display: flex;
   justify-content: center;
-  gap: 60px;
+  align-items: center;
 }
+
+.qs-title {
+  font-size: 3rem;
+  color: white;
+  font-weight: bold;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8);
+  text-transform: uppercase;
+}
+
+/* Contenido Principal */
+.qs-content {
+  padding: 2rem;
+  margin: auto;
+  max-width: 1200px;
+}
+
+/* Introducción */
+.qs-intro {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.qs-subtitle {
+  font-size: 2rem;
+  color: #f38b32;
+  font-weight: bold;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+
+.qs-description {
+  font-size: 1.2rem;
+  line-height: 1.8;
+  color: #555;
+  margin: 0 auto;
+  max-width: 1000px;
+  text-align: justify;
+}
+
+/* Cultura */
+.qs-culture {
+  text-align: center;
+}
+
+.qs-culture-cards {
+  display: flex;
+  justify-content: center;
+  gap: 50px;
+  flex-wrap: wrap; /* Permite apilar tarjetas en pantallas pequeñas */
+}
+
+.qs-culture-cards .card {
+  border: none;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  max-width: 500px;
+  width: 100%;
+}
+
+.qs-culture-cards .card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsividad */
 @media (max-width: 768px) {
-  .text-info-qs {
+  .qs-title {
+    font-size: 2.5rem;
+  }
+
+  .qs-subtitle {
     font-size: 1.5rem;
   }
 
-  .icon-container i {
-    font-size: 2.5rem;
-  }
-}
-
-@media (max-width: 576px) {
-  .text-info-qs {
-    font-size: 1.25rem;
+  .qs-description {
+    font-size: 1rem;
   }
 
-  .icon-container i {
-    font-size: 2rem;
-  }
-
-  .border-card {
-    margin: 10px auto;
+  .qs-culture-cards {
+    flex-direction: column; /* Apila las tarjetas */
+    gap: 15px;
   }
 }
