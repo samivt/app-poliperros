@@ -1,79 +1,90 @@
 export const rolePermissions = {
   admin: [
     {
+      path: "edit-profile",
+      label: "Editar Perfil",
+      icon: "fas fa-user-edit",
+      category: "personal",
+    },
+    {
+      path: "update-password",
+      label: "Actualizar Contraseña",
+      icon: "fas fa-key",
+      category: "personal",
+    },
+    {
       path: "register-dog",
       label: "Registrar Perro",
       icon: "fas fa-pen-square",
+      category: "dogs",
     },
     {
       path: "static-dogs",
       label: "Perros Permanentes",
       icon: "fas fa-dog",
+      category: "dogs",
     },
     {
       path: "adoption-dogs",
       label: "Perros Temporales",
       icon: "fas fa-paw",
+      category: "dogs",
     },
     {
       path: "adopted-dogs",
-      label: "Perros adoptados",
+      label: "Perros Adoptados",
       icon: "fas fa-hand-holding-heart",
+      category: "dogs",
     },
     {
       path: "form-visit",
       label: "Registrar Visita",
       icon: "fas fa-clipboard-list",
+      category: "visits",
     },
     {
-      path: "general-table",
+      path: "visits-table",
       label: "Historial de Visitas",
       icon: "fas fa-list",
+      category: "visits",
     },
     {
       path: "register-user",
-      label: "Crear usuario",
+      label: "Generar Usuario",
       icon: "fas fa-user-plus",
-    },
-    {
-      path: "update-user",
-      label: "Actualizar usuario",
-      icon: "fas fa-user-plus",
-    },
-    {
-      path: "update-password",
-      label: "Actualizar contraseña",
-      icon: "fas fa-user-plus",
+      category: "users",
     },
   ],
   auxiliar: [
     {
+      path: "edit-profile",
+      label: "Editar Perfil",
+      icon: "fas fa-user-edit",
+      category: "personal",
+    },
+    {
+      path: "update-password",
+      label: "Actualizar Contraseña",
+      icon: "fas fa-key",
+      category: "personal",
+    },
+    {
       path: "adopted-dogs",
-      label: "Perros adoptados",
+      label: "Perros Adoptados",
       icon: "fas fa-paw",
+      category: "dogs",
     },
     {
       path: "form-visit",
       label: "Registrar Visita",
       icon: "fas fa-clipboard-list",
+      category: "visits",
     },
     {
       path: "general-table",
       label: "Historial de Visitas",
       icon: "fas fa-list",
-    },
-    {
-      path: "update-user",
-      label: "Actualizar usuario",
-      icon: "fas fa-user-plus",
-    },
-    {
-      path: "update-password",
-      label: "Actualizar contraseña",
-      icon: "fas fa-user-plus",
+      category: "visits",
     },
   ],
 };
-
-// Si necesitas validar roles en otras partes del código
-export const roles = Object.keys(rolePermissions); // ['admin', 'auxiliar']

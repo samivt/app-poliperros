@@ -1,14 +1,14 @@
 /* Contenedor del formulario */
 .custom-form-container {
-  max-width: 650px; /* Aumenta ligeramente el ancho máximo */
+  max-width: 650px;
   margin: 30px auto;
-  padding: 30px 40px; /* Ajusta el espaciado interno */
-  border-radius: 12px; /* Bordes más suaves */
+  padding: 30px 40px;
+  border-radius: 12px;
   background-color: #ffffff;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Sombra más suave */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Título del formulario */
+/* Título del formulario 
 .form-title {
   color: #f2762e;
   font-size: 1.8rem;
@@ -16,11 +16,11 @@
   text-align: center;
   margin-bottom: 20px;
 }
-
+se comparte del dogs*/
 /* Etiquetas personalizadas */
 .custom-label {
   font-weight: 600;
-  color: #333333; /* Color neutro para contraste */
+  color: #333333;
   font-size: 1rem;
 }
 
@@ -31,20 +31,20 @@
   margin-left: 5px;
 }
 
-/* Botón del formulario */
+/* Botón del formulario 
 .custom-button-container {
   display: flex;
   justify-content: center;
 }
 
 .custom-button {
-  display: flex; /* Permite usar flexbox */
-  align-items: center; /* Alinea verticalmente */
-  justify-content: center; /* Alinea horizontalmente */
+  display: flex; /* Permite usar flexbox 
+  align-items: center; /* Alinea verticalmente 
+  justify-content: center; /* Alinea horizontalmente 
   max-width: 220px;
   margin-top: 20px;
-  background-color: #f2762e !important;
-  border-color: #f2762e !important;
+  background-color: #f38b32 !important;
+  border-color: #f38b32 !important;
   color: #ffffff !important;
   width: 100%;
   padding: 10px 20px;
@@ -57,36 +57,25 @@
 .custom-button:hover {
   background-color: #e59400 !important;
   border-color: #e59400 !important;
-  transform: translateY(-2px); /* Efecto de elevación */
-}
+  transform: translateY(-2px);
+}*/
 
 /* Campos de entrada */
 .custom-form-container input,
-.custom-form-container textarea,
 .custom-form-container select {
   border: 1px solid #cccccc;
   border-radius: 5px;
   padding: 8px 12px;
   font-size: 1rem;
   font-family: "Nunito", sans-serif;
+  margin-bottom: 16px; /* Espaciado entre campos */
 }
 
 .custom-form-container input:focus,
-.custom-form-container textarea:focus,
 .custom-form-container select:focus {
   outline: none;
-  border-color: #f1efec;
+  border-color: #f38b32;
   box-shadow: 0 0 4px rgba(243, 139, 50, 0.5);
-}
-
-/* Imagen de vista previa */
-.custom-form-container img {
-  display: block;
-  margin: 10px auto;
-  max-width: 100%;
-  max-height: 200px;
-  border-radius: 5px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
 /* Validaciones */
@@ -116,9 +105,5 @@
   .custom-button {
     max-width: 100%;
     font-size: 0.9rem;
-  }
-
-  .custom-form-container img {
-    max-height: 150px;
   }
 }

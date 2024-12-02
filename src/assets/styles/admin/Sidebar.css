@@ -1,0 +1,124 @@
+/* Sidebar */
+.sidebar {
+  position: fixed;
+  top: 60px;
+  left: 0;
+  width: 250px;
+  height: calc(100% - 60px);
+  background-color: #023e73; /* Azul consistente */
+  color: white;
+  overflow-y: auto;
+  transition: transform 0.3s ease-in-out;
+  z-index: 1000;
+  transform: translateX(-100%); /* Oculto por defecto */
+}
+
+.sidebar.show {
+  transform: translateX(0); /* Mostrar Sidebar */
+}
+
+.sidebar-close-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  text-align: right;
+  padding: 10px;
+}
+
+.sidebar-close-btn:hover {
+  color: #ffffff;
+}
+
+.sidebar .nav {
+  padding: 0;
+}
+
+/* Categorías del Sidebar */
+.sidebar-category {
+  margin: 0; /* Elimina márgenes innecesarios */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2); /* Separador suave */
+}
+
+.category-title {
+  font-size: 14px;
+  font-weight: bold;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 15px; /* Padding consistente */
+  cursor: pointer;
+  background-color: #023e73;
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
+.category-title:hover {
+  background-color: #637aa6; /* Azul más oscuro en hover */
+  color: #000; /* Amarillo en hover */
+}
+
+.category-icon {
+  margin-right: 10px;
+}
+
+.chevron-icon {
+  font-size: 12px;
+  transition: transform 0.2s ease-in-out;
+}
+
+.category-title:hover .chevron-icon {
+  transform: scale(1.2); /* Aumentar ligeramente el tamaño en hover */
+}
+
+/* Subopciones del Sidebar */
+.sidebar-sublink {
+  font-size: 13px;
+  padding: 8px 35px; /* Sangría para subopciones */
+  color: #ffffff !important;
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Espaciado entre ícono y texto */
+  text-decoration: none;
+  background-color: #023e73; /* Fondo del Sidebar */
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+.sidebar-sublink:active,
+.sidebar-sublink:hover {
+  background-color: #637aa6; /* Azul más oscuro */
+  color: #000 !important; /* Amarillo en hover */
+}
+.sidebar-link:hover,
+.sidebar-link.active {
+  background-color: #0f8fae !important; /* Fondo en hover */
+  color: #a12d2d !important; /* Blanco en hover */
+}
+/* Links principales del Sidebar */
+.sidebar-link {
+  font-size: 16px;
+  padding: 15px;
+  color: #fff !important;
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Espaciado entre ícono y texto */
+  text-decoration: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2); /* Separador suave */
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
+/* Mostrar Sidebar siempre en pantallas grandes */
+@media (min-width: 768px) {
+  .sidebar {
+    transform: translateX(0); /* Siempre visible en pantallas grandes */
+  }
+
+  .sidebar-close-btn {
+    display: none; /* Ocultar botón de cierre */
+  }
+}
+
+/* Transición para expandir/cerrar categorías */
+.sidebar-category.open .chevron-icon {
+  transform: rotate(180deg); /* Chevron hacia arriba */
+}

@@ -1,6 +1,6 @@
 /* Estilo exclusivo para el contenedor de "Conoce a Nuestros Peluditos" */
 .dog-card-container {
-  margin-top: 0px !important;
+  /*margin-top: 0px !important;*/
   padding: 3rem 0;
   background-color: rgba(243, 139, 50, 0.2); /* Fondo suave exclusivo */
   text-align: center;

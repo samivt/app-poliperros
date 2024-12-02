@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { Form, Button } from "react-bootstrap";
-import { useNavigate, useSearchParams } from "react-router-dom";
-import { resetPassword } from "../../services/auth-service";
+import { useNavigate, useSearchParams, Link } from "react-router-dom";
+import { resetPassword } from "../../services/authService";
 import { showSuccessAlert, showErrorAlert } from "../../services/alertService";
+import "../../assets/styles/auth/ResetPassword.css";
 
 const ResetPassword = () => {
   const [searchParams] = useSearchParams();
@@ -12,9 +13,15 @@ const ResetPassword = () => {
     confirm_password: "",
   });
   const [error, setError] = useState("");
-  const [showPassword, setShowPassword] = useState(false); // Para alternar visibilidad de la contraseña
+  const [showPassword, setShowPassword] = useState(false);
 
   const code = searchParams.get("code"); // Obtener el código de la URL
+
+  // Validar que la contraseña cumpla con los requisitos
+  const isValidPassword = (password) =>
+    /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/.test(
+      password
+    );
 
   const handleCancel = () => {
     navigate("/login"); // Redirige al login
@@ -22,39 +29,62 @@ const ResetPassword = () => {
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-    setFormData({ ...formData, [name]: value });
-  };
 
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
+    // Sanitizar entrada
+    setFormData({
+      ...formData,
+      [name]: value.trim().slice(0, 50), // Limitar longitud máxima
+    });
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     setError("");
 
-    // Validar las contraseñas
-    if (!formData.new_password || !formData.confirm_password) {
+    // Validar contraseñas
+    const newPassword = formData.new_password.trim();
+    const confirmPassword = formData.confirm_password.trim();
+
+    if (!newPassword || !confirmPassword) {
       setError("Todos los campos son obligatorios.");
       return;
     }
-    if (formData.new_password !== formData.confirm_password) {
+
+    if (!isValidPassword(newPassword)) {
+      setError(
+        "La nueva contraseña debe tener al menos 8 caracteres, una letra mayúscula, un número y un carácter especial."
+      );
+      return;
+    }
+
+    if (newPassword !== confirmPassword) {
       setError("Las contraseñas no coinciden.");
       return;
     }
 
     try {
       // Llamada al servicio para restablecer la contraseña
-      await resetPassword(code, formData.new_password); // Solo enviamos el `code` y `new_password`
+      await resetPassword(code, newPassword);
       showSuccessAlert("Contraseña restablecida exitosamente.", "¡Éxito!");
       navigate("/login"); // Redirigir al login
     } catch (error) {
       console.error("Error al restablecer la contraseña:", error);
-      showErrorAlert(
-        error.message ||
-          "No se pudo restablecer la contraseña. Inténtalo nuevamente.",
-        "Error"
-      );
+
+      // Procesar errores del backend
+      let errorMessage =
+        "No se pudo restablecer la contraseña. Inténtalo nuevamente.";
+      try {
+        const errorData = JSON.parse(error.message);
+        if (errorData.detail === "Token expirado o invalido") {
+          errorMessage =
+            "El enlace para restablecer la contraseña ha expirado o es inválido. Solicita un nuevo código.";
+        }
+      } catch (parseError) {
+        console.error("No se pudo procesar el error del backend:", parseError);
+      }
+
+      setError(errorMessage); // Mostrar el mensaje específico en la interfaz
+      showErrorAlert(errorMessage, "Error");
     }
   };
 
@@ -69,64 +99,78 @@ const ResetPassword = () => {
           {/* Nueva contraseña */}
           <Form.Group className="mb-3">
             <Form.Label>Nueva Contraseña</Form.Label>
-            <div className="password-input-container">
-              <Form.Control
-                type={showPassword ? "text" : "password"} // Alterna visibilidad
-                name="new_password"
-                value={formData.new_password}
-                onChange={handleInputChange}
-                required
-              />
-              <span
-                className="password-toggle-icon"
-                onClick={togglePasswordVisibility}
-              >
-                {showPassword ? (
-                  <i className="fa-regular fa-eye-slash"></i>
-                ) : (
-                  <i className="fa-regular fa-eye"></i>
-                )}
-              </span>
-            </div>
+            <Form.Control
+              type={showPassword ? "text" : "password"}
+              name="new_password"
+              value={formData.new_password}
+              onChange={handleInputChange}
+              required
+              isInvalid={
+                formData.new_password !== "" &&
+                !isValidPassword(formData.new_password)
+              }
+            />
+            <Form.Control.Feedback type="invalid">
+              La nueva contraseña debe tener al menos 8 caracteres, una letra
+              mayúscula, un número y un carácter especial.
+            </Form.Control.Feedback>
           </Form.Group>
 
           {/* Confirmar contraseña */}
           <Form.Group className="mb-3">
             <Form.Label>Confirmar Contraseña</Form.Label>
-            <div className="password-input-container">
-              <Form.Control
-                type={showPassword ? "text" : "password"} // Alterna visibilidad
-                name="confirm_password"
-                value={formData.confirm_password}
-                onChange={handleInputChange}
-                required
-              />
-              <span
-                className="password-toggle-icon"
-                onClick={togglePasswordVisibility}
-              >
-                {showPassword ? (
-                  <i className="fa-regular fa-eye-slash"></i>
-                ) : (
-                  <i className="fa-regular fa-eye"></i>
-                )}
-              </span>
-            </div>
+            <Form.Control
+              type={showPassword ? "text" : "password"}
+              name="confirm_password"
+              value={formData.confirm_password}
+              onChange={handleInputChange}
+              required
+              isInvalid={
+                formData.confirm_password !== "" &&
+                formData.new_password !== formData.confirm_password
+              }
+            />
+            <Form.Control.Feedback type="invalid">
+              Las contraseñas no coinciden.
+            </Form.Control.Feedback>
+          </Form.Group>
+
+          {/* Mostrar/Ocultar contraseña */}
+          <Form.Group className="mb-3">
+            <Form.Check
+              type="checkbox"
+              label="Mostrar contraseñas"
+              onChange={() => setShowPassword(!showPassword)}
+            />
           </Form.Group>
 
           {/* Mensaje de error */}
-          {error && <p className="text-danger">{error}</p>}
+          {error && <p className="text-danger text-center">{error}</p>}
 
           {/* Botones */}
           <div className="reset-password-buttons">
-            <Button variant="secondary" className="me-2" onClick={handleCancel}>
-              Cancelar
-            </Button>
-            <Button type="submit" variant="primary">
+            <Button
+              type="submit"
+              variant="primary"
+              className="w-100 mb-2 btn-centered"
+            >
               Restablecer Contraseña
+            </Button>
+            <Button
+              variant="secondary"
+              className="w-100"
+              onClick={handleCancel}
+            >
+              Cancelar
             </Button>
           </div>
         </Form>
+        <div className="forgot-reset-link">
+          <p className="mt-3">
+            ¿El enlace ha expirado?{" "}
+            <Link to="/send-code">Solicita un nuevo código aquí</Link>.
+          </p>
+        </div>
       </div>
     </div>
   );

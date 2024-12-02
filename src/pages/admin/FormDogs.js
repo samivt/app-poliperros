@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { Form, Button, Col, Row } from "react-bootstrap";
+import { Form, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import "../../assets/styles/admin/FormDogs.css";
 import { createStaticDog, createAdoptionDog } from "../../services/dogsService";
@@ -151,9 +151,7 @@ const FormDogs = ({ onSave = () => {} }) => {
       <Form onSubmit={handleSubmit}>
         {/* Identificador */}
         <Form.Group className="mb-4">
-          <Form.Label className="custom-label">
-            Identificador: <span className="required">*</span>
-          </Form.Label>
+          <Form.Label className="custom-label">Identificador:</Form.Label>
           <Form.Control
             type="text"
             id="id"
@@ -161,7 +159,6 @@ const FormDogs = ({ onSave = () => {} }) => {
             required
             value={formData.id}
             onChange={handleInputChange}
-            className={formData.id ? "is-valid" : "is-invalid"}
           />
         </Form.Group>
 
@@ -232,14 +229,11 @@ const FormDogs = ({ onSave = () => {} }) => {
 
         {/* Fecha de ingreso */}
         <Form.Group className="mb-4">
-          <Form.Label className="custom-label">
-            Fecha de ingreso: <span className="required">*</span>
-          </Form.Label>
+          <Form.Label className="custom-label">Fecha de ingreso:</Form.Label>
           <Form.Control
             type="date"
             id="entry_date"
             name="entry_date"
-            required
             value={formData.entry_date}
             onChange={handleInputChange}
             className={formData.entry_date ? "is-valid" : "is-invalid"}
@@ -261,9 +255,7 @@ const FormDogs = ({ onSave = () => {} }) => {
 
         {/* Esterilizado */}
         <Form.Group className="mb-4">
-          <Form.Label className="custom-label">
-            ¿Está esterilizado? <span className="required">*</span>
-          </Form.Label>
+          <Form.Label className="custom-label">¿Está esterilizado?</Form.Label>
           <Form.Check
             type="switch"
             id="is_sterilized"
@@ -276,9 +268,7 @@ const FormDogs = ({ onSave = () => {} }) => {
 
         {/* Desparasitado */}
         <Form.Group className="mb-4">
-          <Form.Label className="custom-label">
-            ¿Está desparasitado? <span className="required">*</span>
-          </Form.Label>
+          <Form.Label className="custom-label">¿Está desparasitado?</Form.Label>
           <Form.Check
             type="switch"
             id="is_dewormed"
@@ -326,7 +316,7 @@ const FormDogs = ({ onSave = () => {} }) => {
         {/* Disponible para adopción */}
         <Form.Group className="mb-4">
           <Form.Label className="custom-label">
-            ¿Disponible para adopción? <span className="required">*</span>
+            ¿Disponible para adopción?
           </Form.Label>
           <Form.Check
             type="switch"

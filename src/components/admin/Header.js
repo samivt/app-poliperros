@@ -1,4 +1,5 @@
 import React from "react";
+import "../../assets/styles/admin/Header.css";
 
 const Header = ({ toggleSidebar, onLogout }) => {
   return (

@@ -17,6 +17,9 @@ import AdoptedDogsView from "../../components/admin/AdoptedDogsView";
 import FormAdoption from "./FormAdoption";
 import FormVisits from "./FormVisits";
 import FormRegisterUser from "./FormRegisterUser";
+import EditUser from "./UserProfileUpdate";
+import UpdatePassword from "./UpdatePassword";
+import VisitsTable from "./VisitsTable";
 
 import {
   fetchStaticDogs,
@@ -27,7 +30,7 @@ import {
   adoptDog,
 } from "../../services/dogsService";
 
-import { logout } from "../../services/auth-service";
+import { logout } from "../../services/authService";
 
 import "../../assets/styles/admin/AdminPanel.css";
 
@@ -215,6 +218,9 @@ const AdminPanel = () => {
           <Route path="register-visit" element={<FormVisits />} />
           <Route path="form-visit" element={<FormVisits />} />
           <Route path="register-user" element={<FormRegisterUser />} />
+          <Route path="edit-profile" element={<EditUser />} />
+          <Route path="update-password" element={<UpdatePassword />} />
+          <Route path="visits-table" element={<VisitsTable />} />
 
           <Route path="*" element={<Navigate to="welcome" />} />
         </Routes>

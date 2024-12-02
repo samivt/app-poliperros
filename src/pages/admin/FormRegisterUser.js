@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { Form, Button, Row, Col } from "react-bootstrap";
+import { Form, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { createUser } from "../../services/auth-service";
+import "../../assets/styles/admin/FormRegisterUser.css";
+import { createUser } from "../../services/authService";
 import {
   showSuccessAlert,
   showErrorAlert,
@@ -10,12 +11,14 @@ import {
 
 const FormRegisterUser = () => {
   const [formData, setFormData] = useState({
-    username: "",
     email: "",
-    password: "",
     role: "",
   });
-  const [showPassword, setShowPassword] = useState(false);
+  const [errors, setErrors] = useState({
+    email: false,
+    role: false,
+  });
+
   const navigate = useNavigate();
 
   // Manejo de cambios en los campos del formulario
@@ -24,19 +27,25 @@ const FormRegisterUser = () => {
     setFormData({ ...formData, [name]: value });
   };
 
+  // Validar los campos antes de enviar
+  const validateForm = () => {
+    const newErrors = {
+      email:
+        !formData.email.trim() ||
+        !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email),
+      role: !formData.role,
+    };
+    setErrors(newErrors);
+    return !newErrors.email && !newErrors.role;
+  };
+
   // Manejo del envío del formulario
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    // Validaciones
-    if (
-      !formData.username ||
-      !formData.email ||
-      !formData.password ||
-      !formData.role
-    ) {
+    if (!validateForm()) {
       showErrorAlert(
-        "Todos los campos son obligatorios.",
+        "Por favor, complete los campos requeridos correctamente.",
         "Error en el formulario"
       );
       return;
@@ -52,19 +61,14 @@ const FormRegisterUser = () => {
     try {
       await createUser(formData); // Llamar al servicio para crear el usuario
       showSuccessAlert("Usuario registrado exitosamente.", "¡Éxito!");
-      navigate("/admin/welcome"); // Pendiente
+      navigate("/admin/welcome");
     } catch (error) {
       console.error("Error al registrar el usuario:", error.message);
       showErrorAlert(
         error.message ||
-          "No se pudo registrar el usuario. Inténtalo nuevamente."
+          "No se pudo registrar el usuario. Inténtelo nuevamente."
       );
     }
-  };
-
-  // Alternar visibilidad de la contraseña
-  const handleTogglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
   };
 
   return (
@@ -72,88 +76,54 @@ const FormRegisterUser = () => {
       <h2 className="form-title">Registrar Nuevo Usuario</h2>
 
       <Form onSubmit={handleSubmit}>
-        {/* Nombre de Usuario */}
-        <Form.Group as={Row} className="mb-3">
-          <Form.Label column sm={3} className="custom-label">
-            Nombre de Usuario:
-          </Form.Label>
-          <Col sm={9}>
-            <Form.Control
-              type="text"
-              name="username"
-              value={formData.username}
-              onChange={handleInputChange}
-              required
-            />
-          </Col>
-        </Form.Group>
-
         {/* Correo Electrónico */}
-        <Form.Group as={Row} className="mb-3">
-          <Form.Label column sm={3} className="custom-label">
-            Correo Electrónico:
+        <Form.Group className="mb-4">
+          <Form.Label className="custom-label">
+            Correo Electrónico: <span className="required">*</span>
           </Form.Label>
-          <Col sm={9}>
-            <Form.Control
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleInputChange}
-              required
-            />
-          </Col>
-        </Form.Group>
 
-        {/* Contraseña */}
-        <Form.Group as={Row} className="mb-3">
-          <Form.Label column sm={3} className="custom-label">
-            Contraseña:
-          </Form.Label>
-          <Col sm={9}>
-            <div className="password-input-container">
-              <Form.Control
-                type={showPassword ? "text" : "password"}
-                name="password"
-                value={formData.password}
-                onChange={handleInputChange}
-                required
-              />
-              <span
-                className="password-toggle-icon"
-                onClick={handleTogglePasswordVisibility}
-              >
-                {showPassword ? (
-                  <i className="fa-regular fa-eye-slash"></i>
-                ) : (
-                  <i className="fa-regular fa-eye"></i>
-                )}
-              </span>
+          <Form.Control
+            type="email"
+            name="email"
+            value={formData.email}
+            onChange={handleInputChange}
+            className={errors.email ? "is-valid" : "is-invalid"}
+            required
+          />
+          {errors.email && (
+            <div className="invalid-feedback">
+              Por favor, ingrese un correo válido.
             </div>
-          </Col>
+          )}
         </Form.Group>
 
         {/* Rol */}
-        <Form.Group as={Row} className="mb-3">
-          <Form.Label column sm={3} className="custom-label">
-            Rol:
+        <Form.Group className="mb-4">
+          <Form.Label className="custom-label">
+            Rol: <span className="required">*</span>
           </Form.Label>
-          <Col sm={9}>
-            <Form.Select
-              name="role"
-              value={formData.role}
-              onChange={handleInputChange}
-              required
-            >
-              <option value="">Seleccionar</option>
-              <option value="admin">Administrador</option>
-              <option value="auxiliar">Auxiliar</option>
-            </Form.Select>
-          </Col>
+
+          <Form.Select
+            name="role"
+            value={formData.role}
+            onChange={handleInputChange}
+            className={errors.role ? "is-valid" : "is-invalid"}
+            required
+          >
+            <option value="">Seleccionar</option>
+            <option value="admin">Administrador</option>
+            <option value="auxiliar">Auxiliar</option>
+          </Form.Select>
+          {errors.role && (
+            <div className="invalid-feedback">
+              Por favor, seleccione un rol.
+            </div>
+          )}
         </Form.Group>
 
-        <div className="text-end">
-          <Button type="submit" variant="primary">
-            Registrar Usuario
+        <div className="custom-button-container">
+          <Button type="submit" className="custom-button">
+            Registrar
           </Button>
         </div>
       </Form>

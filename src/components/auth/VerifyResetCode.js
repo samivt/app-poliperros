@@ -1,30 +1,41 @@
 import React, { useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { verifyResetCode } from "../../services/auth-service";
+import { verifyResetCode } from "../../services/authService";
 import { showSuccessAlert, showErrorAlert } from "../../services/alertService";
+import "../../assets/styles/auth/ResetPassword.css";
 
 const VerifyResetCode = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const [code, setCode] = useState(searchParams.get("code") || "");
 
+  // Función para sanitizar el código: solo permite números
+  const sanitizeCode = (input) => input.replace(/[^0-9]/g, "");
+
   const handleCancel = () => {
     navigate("/login"); // Redirige al login
+  };
+
+  const handleChange = (e) => {
+    const sanitizedValue = sanitizeCode(e.target.value);
+    setCode(sanitizedValue);
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    if (!code.trim()) {
+    const sanitizedCode = code.trim();
+
+    if (!sanitizedCode) {
       showErrorAlert("El código es obligatorio.", "Error");
       return;
     }
 
     try {
-      await verifyResetCode(code);
+      await verifyResetCode(sanitizedCode);
       showSuccessAlert("Código verificado correctamente.", "Éxito");
-      navigate(`/reset-password?code=${code}`); // Pasa el código a la siguiente vista
+      navigate(`/reset-password?code=${sanitizedCode}`); // Pasa el código a la siguiente vista
     } catch (error) {
       console.error("Error al verificar el código:", error);
       showErrorAlert(
@@ -47,16 +58,29 @@ const VerifyResetCode = () => {
               type="text"
               placeholder="Código de verificación"
               value={code}
-              onChange={(e) => setCode(e.target.value)}
+              onChange={handleChange}
               required
+              maxLength={6} // Limita la longitud del código a 6 dígitos
+              isInvalid={!/^\d{1,6}$/.test(code) && code !== ""} // Valida que sean solo números en tiempo real
             />
+            <Form.Control.Feedback type="invalid">
+              El código debe ser numérico.
+            </Form.Control.Feedback>
           </Form.Group>
-          <div className="reset-password-buttons">
-            <Button variant="secondary" className="me-2" onClick={handleCancel}>
-              Cancelar
-            </Button>
-            <Button type="submit" variant="primary">
+          <div className="reset-password-buttons ">
+            <Button
+              type="submit"
+              variant="primary"
+              className="w-100 mb-2 btn-centered"
+            >
               Verificar
+            </Button>
+            <Button
+              variant="secondary"
+              className="w-100"
+              onClick={handleCancel}
+            >
+              Cancelar
             </Button>
           </div>
         </Form>

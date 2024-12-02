@@ -1,6 +1,6 @@
 import React from "react";
 import { Navigate, Outlet } from "react-router-dom";
-import { isAuthenticated, getUserRole } from "../../services/auth-service";
+import { isAuthenticated, getUserRole } from "../../services/authService";
 
 const ProtectedRoute = ({ allowedRoles }) => {
   const isAuth = isAuthenticated();

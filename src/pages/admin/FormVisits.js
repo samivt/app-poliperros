@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Form, Button, Row, Col } from "react-bootstrap";
+import { Form, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import "../../assets/styles/admin/FormVisits.css";
 import { fetchAdoptedDogs } from "../../services/dogsService";
 import { createVisit } from "../../services/visitService";
+
 import {
   showSuccessAlert,
   showErrorAlert,
@@ -73,10 +75,6 @@ const FormVisits = ({ onVisitCreated }) => {
       showErrorAlert("Debes cargar una evidencia (imagen).");
       return false;
     }
-    if (!formData.observations.trim()) {
-      showErrorAlert("Las observaciones son obligatorias.");
-      return false;
-    }
     return true;
   };
 
@@ -110,122 +108,102 @@ const FormVisits = ({ onVisitCreated }) => {
 
   return (
     <div className="custom-form-container">
-      <h2 className="form-title">Nueva Visita</h2>
+      <h2 className="form-title">Registrar Nueva Visita</h2>
 
       <Form onSubmit={handleSubmit}>
         {/* Seleccionar perro adoptado */}
-        <Form.Group as={Row} className="mb-3">
-          <Form.Label column sm={3}>
-            Perro Adoptado:
-          </Form.Label>
-          <Col sm={9}>
-            <Form.Select
-              name="adopted_dog_id"
-              value={formData.adopted_dog_id}
-              onChange={handleInputChange}
-              required
-            >
-              <option value="">Seleccionar</option>
-              {adoptedDogs.map((dog) => (
-                <option key={dog.id} value={dog.id}>
-                  {dog.name}
-                </option>
-              ))}
-            </Form.Select>
-          </Col>
+        <Form.Group className="mb-4">
+          <Form.Label className="custom-label">Perro Adoptado:</Form.Label>
+          <Form.Select
+            name="adopted_dog_id"
+            value={formData.adopted_dog_id}
+            onChange={handleInputChange}
+            required
+            className={formData.adopted_dog_id ? "is-valid" : "is-invalid"}
+          >
+            <option value="">Seleccionar</option>
+            {adoptedDogs.map((dog) => (
+              <option key={dog.id} value={dog.id}>
+                {dog.name}
+              </option>
+            ))}
+          </Form.Select>
         </Form.Group>
 
-        {/* Mostrar información del dueño */}
-        {selectedDog && (
-          <>
-            <Form.Group as={Row} className="mb-3">
-              <Form.Label column sm={3} className="custom-label">
-                Dueño:
-              </Form.Label>
-              <Col sm={9}>
-                <Form.Control
-                  type="text"
-                  value={selectedDog.owner.name}
-                  readOnly
-                />
-              </Col>
-            </Form.Group>
+        <Form.Group className="mb-4">
+          <Form.Label className="custom-label">Dueño:</Form.Label>
+          <Form.Control
+            type="text"
+            value={selectedDog ? selectedDog.owner_name : ""}
+            readOnly
+            className="form-control-plaintext"
+          />
+        </Form.Group>
 
-            <Form.Group as={Row} className="mb-3">
-              <Form.Label column sm={3} className="custom-label">
-                Dirección:
-              </Form.Label>
-              <Col sm={9}>
-                <Form.Control
-                  type="text"
-                  value={selectedDog.owner.direction}
-                  readOnly
-                />
-              </Col>
-            </Form.Group>
-          </>
-        )}
+        <Form.Group className="mb-4">
+          <Form.Label className="custom-label">Dirección:</Form.Label>
+          <Form.Control
+            type="text"
+            value={selectedDog ? selectedDog.owner_address : ""}
+            readOnly
+            className="form-control-plaintext"
+          />
+        </Form.Group>
 
         {/* Fecha de la visita */}
-        <Form.Group as={Row} className="mb-3">
-          <Form.Label column sm={3}>
-            Fecha de Visita:
+        <Form.Group className="mb-4">
+          <Form.Label className="custom-label">
+            Fecha de Visita: <span className="required">*</span>
           </Form.Label>
-          <Col sm={9}>
-            <Form.Control
-              type="date"
-              name="visit_date"
-              value={formData.visit_date}
-              onChange={handleInputChange}
-              required
-            />
-          </Col>
+          <Form.Control
+            type="date"
+            name="visit_date"
+            value={formData.visit_date}
+            onChange={handleInputChange}
+            required
+            className={formData.visit_date ? "is-valid" : "is-invalid"}
+          />
         </Form.Group>
 
         {/* Evidencia */}
-        <Form.Group as={Row} className="mb-3">
-          <Form.Label column sm={3}>
-            Evidencia:
+        <Form.Group className="mb-4">
+          <Form.Label className="custom-label">
+            Evidencia: <span className="required">*</span>
           </Form.Label>
-          <Col sm={9}>
-            <Form.Control
-              type="file"
-              name="evidence"
-              accept="image/*"
-              onChange={handleInputChange}
-              required
-            />
-            {imagePreview && (
-              <div className="mt-3">
-                <img
-                  src={imagePreview}
-                  alt="Vista previa"
-                  style={{ maxWidth: "100%", maxHeight: "200px" }}
-                />
-              </div>
-            )}
-          </Col>
+          <Form.Control
+            type="file"
+            name="evidence"
+            accept="image/*"
+            onChange={handleInputChange}
+            required
+            className={formData.evidence ? "is-valid" : "is-invalid"}
+          />
+          {imagePreview && (
+            <div className="mt-3">
+              <img
+                src={imagePreview}
+                alt="Vista previa"
+                style={{ maxWidth: "100%", maxHeight: "200px" }}
+              />
+            </div>
+          )}
         </Form.Group>
 
-        {/* Observaciones */}
-        <Form.Group as={Row} className="mb-3">
-          <Form.Label column sm={3}>
-            Observaciones:
-          </Form.Label>
-          <Col sm={9}>
-            <Form.Control
-              as="textarea"
-              name="observations"
-              value={formData.observations}
-              onChange={handleInputChange}
-              required
-            />
-          </Col>
+        {/* Observaciones (Opcional) */}
+        <Form.Group className="mb-4">
+          <Form.Label className="custom-label">Observaciones:</Form.Label>
+          <Form.Control
+            as="textarea"
+            name="observations"
+            value={formData.observations}
+            onChange={handleInputChange}
+            className={formData.observations.trim() ? "is-valid" : ""}
+          />
         </Form.Group>
 
-        <div className="text-end">
-          <Button type="submit" variant="primary">
-            Registrar Visita
+        <div className="custom-button-container">
+          <Button type="submit" className="custom-button">
+            Registrar
           </Button>
         </div>
       </Form>

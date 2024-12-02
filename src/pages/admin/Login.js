@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import "../../assets/styles/admin/Login.css";
 import { useNavigate } from "react-router-dom";
-import { login } from "../../services/auth-service";
+import { login } from "../../services/authService";
 import { showSuccessAlert, showErrorAlert } from "../../services/alertService";
 
 const Login = () => {
@@ -11,26 +11,38 @@ const Login = () => {
     password: "",
   });
 
-  const [showPassword, setShowPassword] = useState(false); // Estado para alternar la visibilidad de la contraseña
+  const [showPassword, setShowPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
   const handleChange = (event) => {
-    setFormData({
-      ...formData,
-      [event.target.name]: event.target.value,
-    });
+    const { name, value } = event.target;
+
+    if (name === "username") {
+      // Permitir solo letras y números en el campo de usuario
+      const sanitizedValue = value.replace(/[^a-zA-Z0-9]/g, "");
+      setFormData((prev) => ({
+        ...prev,
+        [name]: sanitizedValue,
+      }));
+    } else {
+      setFormData((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+    }
   };
 
   const handleTogglePasswordVisibility = () => {
-    setShowPassword(!showPassword); // Alternar el estado
+    setShowPassword(!showPassword);
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    // Validar que los campos no estén vacíos
     if (!formData.username || !formData.password) {
-      setErrorMessage("Por favor completa todos los campos");
+      setErrorMessage("Por favor completa todos los campos.");
       showErrorAlert(
         "Por favor completa todos los campos.",
         "Campos incompletos"
@@ -39,26 +51,24 @@ const Login = () => {
     }
 
     try {
-      const result = await login(formData.username, formData.password);
+      // Enviar los datos al backend para validar la autenticación
+      const result = await login(formData.username.trim(), formData.password);
       console.log("Inicio de sesión exitoso:", result);
 
       // Guarda el token y redirige
       sessionStorage.setItem("accessToken", result.access_token);
 
-      // Muestra alerta de éxito
       showSuccessAlert("Bienvenido a PoliPerros.", "Inicio de sesión exitoso");
-
       navigate("/admin"); // Redirige al dashboard
     } catch (error) {
-      // Determina el mensaje de error
+      // Manejo genérico del error sin exponer información sensible
       const errorText = error.message.includes("500")
         ? "Error interno del servidor. Inténtalo más tarde."
-        : error.message;
+        : "Credenciales incorrectas. Verifica tu usuario y contraseña.";
 
-      setErrorMessage(errorText); // Mantiene el mensaje de error
+      setErrorMessage(errorText);
       console.error("Error al iniciar sesión:", error.message);
 
-      // Muestra alerta de error
       showErrorAlert(errorText, "Error al iniciar sesión");
     }
   };
@@ -85,6 +95,7 @@ const Login = () => {
                 id="username"
                 name="username"
                 required
+                maxLength={50} // Limitar longitud máxima
                 value={formData.username}
                 onChange={handleChange}
               />
@@ -94,10 +105,11 @@ const Login = () => {
               <Form.Label className="custom-label">Contraseña:</Form.Label>
               <div className="password-input-container">
                 <Form.Control
-                  type={showPassword ? "text" : "password"} // Cambia el tipo de entrada según el estado
+                  type={showPassword ? "text" : "password"}
                   id="password"
                   name="password"
                   required
+                  maxLength={50} // Limitar longitud máxima
                   value={formData.password}
                   onChange={handleChange}
                 />

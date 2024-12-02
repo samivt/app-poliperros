@@ -2,7 +2,7 @@
 .navbar {
   font-family: "Nunito", sans-serif;
   padding: 10px 20px;
-  background-color: rgb(0, 142, 182) !important; /* Fondo personalizado */
+  background-color: rgba(0, 142, 182) !important; /* Fondo personalizado */
   border-bottom: 2px solid #00bcd4;
 }
 
@@ -45,7 +45,7 @@
   content: "";
   width: 30px;
   height: 3px;
-  background-color: white;
+  background-color: rgb(0, 0, 0);
   position: absolute;
   transition: all 0.3s ease;
 }
@@ -74,19 +74,19 @@
 
 /* Links del navbar */
 .nav-link {
-  color: white !important;
+  color: rgb(16, 16, 16) !important;
   font-weight: 600;
   font-size: 20px;
   transition: color 0.3s ease-in-out;
 }
 
 .nav-link:hover {
-  color: #ffcb7d !important;
+  color: rgb(255, 255, 255) !important;
 }
 
 .nav-link.active {
-  color: #ffcb7d !important;
-  border-bottom: 2px solid #ffcb7d;
+  color: rgb(255, 255, 255) !important;
+  border-bottom: 2px solid #ffffff;
 }
 
 /* Botón de inicio de sesión */

@@ -8,15 +8,15 @@
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Sombra más suave */
 }
 
-/* Título del formulario */
+/* Título del formulario 
 .form-title {
-  color: #f2762e;
+  color: #f38b32;
   font-size: 1.8rem;
   font-weight: bold;
   text-align: center;
   margin-bottom: 20px;
 }
-
+se comparte del dogs*/
 /* Etiquetas personalizadas */
 .custom-label {
   font-weight: 600;
@@ -31,20 +31,20 @@
   margin-left: 5px;
 }
 
-/* Botón del formulario */
+/* Botón del formulario 
 .custom-button-container {
   display: flex;
   justify-content: center;
 }
 
 .custom-button {
-  display: flex; /* Permite usar flexbox */
-  align-items: center; /* Alinea verticalmente */
-  justify-content: center; /* Alinea horizontalmente */
+  display: flex; /* Permite usar flexbox 
+  align-items: center; /* Alinea verticalmente 
+  justify-content: center; /* Alinea horizontalmente 
   max-width: 220px;
   margin-top: 20px;
-  background-color: #f2762e !important;
-  border-color: #f2762e !important;
+  background-color: #f38b32 !important;
+  border-color: #f38b32 !important;
   color: #ffffff !important;
   width: 100%;
   padding: 10px 20px;
@@ -57,8 +57,8 @@
 .custom-button:hover {
   background-color: #e59400 !important;
   border-color: #e59400 !important;
-  transform: translateY(-2px); /* Efecto de elevación */
-}
+  transform: translateY(-2px); /* Efecto de elevación 
+}*/
 
 /* Campos de entrada */
 .custom-form-container input,
@@ -75,7 +75,7 @@
 .custom-form-container textarea:focus,
 .custom-form-container select:focus {
   outline: none;
-  border-color: #f1efec;
+  border-color: #f38b32;
   box-shadow: 0 0 4px rgba(243, 139, 50, 0.5);
 }
 

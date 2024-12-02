@@ -67,7 +67,7 @@ export const getUserRole = () => {
   const token = getToken();
   const decoded = decodeToken(token);
   console.log("Token decodificado:", decoded);
-  return decoded?.sub.toLowerCase() || null; // Devuelve el rol o null si no existe
+  return decoded?.role.toLowerCase() || null; // Devuelve el rol o null si no existe
 };
 
 // Verificar si el usuario está autenticado y el token no ha expirado

@@ -1,4 +1,4 @@
-import { getToken } from "./auth-service.js";
+import { getToken } from "./authService.js";
 const API_URL = process.env.REACT_APP_API_URL;
 //Crear visita
 export const createVisit = async (visitData) => {
