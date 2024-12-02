@@ -35,6 +35,16 @@ export const rolePermissions = {
       label: "Crear usuario",
       icon: "fas fa-user-plus",
     },
+    {
+      path: "update-user",
+      label: "Actualizar usuario",
+      icon: "fas fa-user-plus",
+    },
+    {
+      path: "update-password",
+      label: "Actualizar contraseña",
+      icon: "fas fa-user-plus",
+    },
   ],
   auxiliar: [
     {
@@ -51,6 +61,16 @@ export const rolePermissions = {
       path: "general-table",
       label: "Historial de Visitas",
       icon: "fas fa-list",
+    },
+    {
+      path: "update-user",
+      label: "Actualizar usuario",
+      icon: "fas fa-user-plus",
+    },
+    {
+      path: "update-password",
+      label: "Actualizar contraseña",
+      icon: "fas fa-user-plus",
     },
   ],
 };
