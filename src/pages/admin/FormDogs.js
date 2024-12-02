@@ -29,6 +29,15 @@ const FormDogs = ({ onSave = () => {} }) => {
   const fileInputRef = useRef(null);
   const navigate = useNavigate();
 
+  const sanitizeInput = (value, type) => {
+    if (type === "number") return value.replace(/[^0-9]/g, ""); // Solo números
+    if (type === "text") return value.replace(/[^a-zA-Z\s]/g, ""); // Solo letras y espacios
+    if (type === "textarea") {
+      return value.replace(/[^a-zA-Z0-9\s.,áéíóúÁÉÍÓÚñÑ]/g, ""); // Solo texto válido
+    }
+    return value;
+  };
+
   const resetForm = () => {
     setFormData({
       id_chip: "",
@@ -70,7 +79,7 @@ const FormDogs = ({ onSave = () => {} }) => {
         reader.readAsDataURL(file);
       }
     } else {
-      setFormData({ ...formData, [name]: value });
+      setFormData({ ...formData, [name]: value }); // Actualiza directamente el valor del campo
     }
   };
 
@@ -89,10 +98,13 @@ const FormDogs = ({ onSave = () => {} }) => {
     if (!confirmed) return;
 
     try {
+      const sanitizedData = { ...formData };
+      sanitizedData.entry_date = sanitizedData.entry_date || null; // Asegura que el campo sea válido o nulo
+
       if (formData.is_for_adoption) {
-        await createAdoptionDog(formData);
+        await createAdoptionDog(sanitizedData);
       } else {
-        await createStaticDog(formData);
+        await createStaticDog(sanitizedData);
       }
 
       showSuccessAlert(
@@ -108,12 +120,16 @@ const FormDogs = ({ onSave = () => {} }) => {
         formData.is_for_adoption ? "/admin/adoption-dogs" : "/admin/static-dogs"
       );
     } catch (error) {
-      showErrorAlert(error.message || "Error en el registro.");
+      const errorMessage =
+        error.message.includes("detail") && error.message !== "[object Object]"
+          ? JSON.parse(error.message).detail
+          : error.message;
+      showErrorAlert(errorMessage || "Error en el registro.");
     }
   };
 
   const validateFields = () => {
-    const { name, age, gender, entry_date } = formData;
+    const { name, age, gender } = formData;
 
     if (!name.trim()) {
       showErrorAlert("El nombre es obligatorio.", "Campo Obligatorio");
@@ -133,31 +149,23 @@ const FormDogs = ({ onSave = () => {} }) => {
       return false;
     }
 
-    if (!entry_date) {
-      showErrorAlert(
-        "La fecha de ingreso es obligatoria.",
-        "Campo Obligatorio"
-      );
-      return false;
-    }
-
     return true;
   };
 
   return (
     <div className="custom-form-container">
       <h2 className="form-title">Registrar Nuevo Perro</h2>
-
       <Form onSubmit={handleSubmit}>
+        {/* Campos del formulario */}
+
         {/* Identificador */}
         <Form.Group className="mb-4">
           <Form.Label className="custom-label">Identificador:</Form.Label>
           <Form.Control
             type="text"
-            id="id"
-            name="id"
-            required
-            value={formData.id}
+            id="id_chip"
+            name="id_chip"
+            value={formData.id_chip}
             onChange={handleInputChange}
           />
         </Form.Group>
@@ -174,7 +182,6 @@ const FormDogs = ({ onSave = () => {} }) => {
             required
             value={formData.name}
             onChange={handleInputChange}
-            className={formData.name ? "is-valid" : "is-invalid"}
           />
         </Form.Group>
 
@@ -186,7 +193,12 @@ const FormDogs = ({ onSave = () => {} }) => {
             id="about"
             name="about"
             value={formData.about}
-            onChange={handleInputChange}
+            onChange={(e) =>
+              setFormData({
+                ...formData,
+                about: sanitizeInput(e.target.value, "textarea"),
+              })
+            }
           />
         </Form.Group>
 
@@ -201,7 +213,6 @@ const FormDogs = ({ onSave = () => {} }) => {
             required
             value={formData.gender}
             onChange={handleInputChange}
-            className={formData.gender ? "is-valid" : "is-invalid"}
           >
             <option value="">Seleccione...</option>
             <option value="male">Macho</option>
@@ -221,9 +232,6 @@ const FormDogs = ({ onSave = () => {} }) => {
             required
             value={formData.age}
             onChange={handleInputChange}
-            className={
-              formData.age && formData.age > 0 ? "is-valid" : "is-invalid"
-            }
           />
         </Form.Group>
 
@@ -236,7 +244,6 @@ const FormDogs = ({ onSave = () => {} }) => {
             name="entry_date"
             value={formData.entry_date}
             onChange={handleInputChange}
-            className={formData.entry_date ? "is-valid" : "is-invalid"}
           />
         </Form.Group>
 

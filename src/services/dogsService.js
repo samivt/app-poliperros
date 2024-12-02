@@ -1,41 +1,67 @@
 import { getToken } from "./authService.js";
 const API_URL = process.env.REACT_APP_API_URL;
 
-//Servicio para crear perros estaticos
+// Servicio para crear perros estáticos
 export const createStaticDog = async (dogData) => {
   const token = getToken();
 
+  // Garantizar que todos los campos estén presentes
+  const payload = {
+    id_chip: dogData.id_chip || null,
+    name: dogData.name || null,
+    about: dogData.about || null,
+    age: dogData.age || null,
+    is_vaccinated: dogData.is_vaccinated ?? null,
+    image: dogData.image || null,
+    gender: dogData.gender || null,
+    entry_date: dogData.entry_date || null,
+    is_sterilized: dogData.is_sterilized ?? null,
+    is_dewormed: dogData.is_dewormed ?? null,
+    operation: dogData.operation || null,
+  };
+
   try {
+    console.log(
+      "Payload enviado al backend:",
+      JSON.stringify(payload, null, 2)
+    ); // Imprime el payload
+
     const response = await fetch(`${API_URL}/dog/static_dog/create/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify(dogData),
+      body: JSON.stringify(payload),
     });
 
     if (!response.ok) {
       const errorData = await response.json();
-      console.error(
-        `Error del servidor: ${response.status} - ${
-          errorData.detail || "Sin mensaje específico"
-        }`
-      );
+      console.error("Error del backend recibido:", errorData);
 
-      // Si el backend responde con el mensaje de "Ya existe"
-      if (errorData.detail) {
-        throw new Error(errorData.detail); // Mostramos el detalle de la respuesta
+      // Procesar y mostrar errores del campo `detail`
+      if (errorData.detail && Array.isArray(errorData.detail)) {
+        const detailedErrors = errorData.detail.map(
+          (err) =>
+            `Campo: ${err.loc?.join(".") || "desconocido"} - Error: ${err.msg}`
+        );
+        console.error("Errores detallados del backend:", detailedErrors);
+        throw new Error(detailedErrors.join("; "));
       }
 
-      // En caso de error genérico
-      throw new Error(errorData.message || `Error: ${response.statusText}`);
+      // Mensaje genérico en caso de que no haya detalles específicos
+      throw new Error(
+        errorData.detail ||
+          errorData.message ||
+          "Error desconocido del backend."
+      );
     }
 
+    // Devuelve la respuesta del servidor en caso de éxito
     return await response.json();
   } catch (error) {
-    console.error("Error al registrar el perro:", error);
-    throw error;
+    console.error("Error al registrar el perro:", error.message || error);
+    throw error; // Lanza el error para que sea manejado en el frontend
   }
 };
 
@@ -43,37 +69,63 @@ export const createStaticDog = async (dogData) => {
 export const createAdoptionDog = async (dogData) => {
   const token = getToken();
 
+  // Garantizar que todos los campos estén presentes
+  const payload = {
+    id_chip: dogData.id_chip || null,
+    name: dogData.name || null,
+    about: dogData.about || null,
+    age: dogData.age || null,
+    is_vaccinated: dogData.is_vaccinated ?? null,
+    image: dogData.image || null,
+    gender: dogData.gender || null,
+    entry_date: dogData.entry_date || null,
+    is_sterilized: dogData.is_sterilized ?? null,
+    is_dewormed: dogData.is_dewormed ?? null,
+    operation: dogData.operation || null,
+  };
+
   try {
+    console.log(
+      "Payload enviado al backend:",
+      JSON.stringify(payload, null, 2)
+    ); // Imprime el payload
+
     const response = await fetch(`${API_URL}/dog/adoption_dog/create/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify(dogData),
+      body: JSON.stringify(payload),
     });
 
     if (!response.ok) {
       const errorData = await response.json();
-      console.error(
-        `Error del servidor: ${response.status} - ${
-          errorData.detail || "Sin mensaje específico"
-        }`
-      );
+      console.error("Error del backend recibido:", errorData);
 
-      // Si el backend responde con el mensaje de "Ya existe"
-      if (errorData.detail) {
-        throw new Error(errorData.detail); // Mostramos el detalle de la respuesta
+      // Procesar y mostrar errores del campo `detail`
+      if (errorData.detail && Array.isArray(errorData.detail)) {
+        const detailedErrors = errorData.detail.map(
+          (err) =>
+            `Campo: ${err.loc?.join(".") || "desconocido"} - Error: ${err.msg}`
+        );
+        console.error("Errores detallados del backend:", detailedErrors);
+        throw new Error(detailedErrors.join("; "));
       }
 
-      // En caso de error genérico
-      throw new Error(errorData.message || `Error: ${response.statusText}`);
+      // Mensaje genérico en caso de que no haya detalles específicos
+      throw new Error(
+        errorData.detail ||
+          errorData.message ||
+          "Error desconocido del backend."
+      );
     }
 
+    // Devuelve la respuesta del servidor en caso de éxito
     return await response.json();
   } catch (error) {
-    console.error("Error al registrar el perro:", error);
-    throw error;
+    console.error("Error al registrar el perro:", error.message || error);
+    throw error; // Lanza el error para que sea manejado en el frontend
   }
 };
 
