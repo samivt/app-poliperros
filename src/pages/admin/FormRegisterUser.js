@@ -60,10 +60,10 @@ const FormRegisterUser = () => {
 
     try {
       await createUser(formData); // Llamar al servicio para crear el usuario
-      showSuccessAlert("Usuario registrado exitosamente.", "¡Éxito!");
+      showSuccessAlert("Usuario generado exitosamente.", "¡Éxito!");
       navigate("/admin/welcome");
     } catch (error) {
-      console.error("Error al registrar el usuario:", error.message);
+      console.error("Error al generar el usuario:", error.message);
       showErrorAlert(
         error.message ||
           "No se pudo registrar el usuario. Inténtelo nuevamente."
@@ -73,7 +73,7 @@ const FormRegisterUser = () => {
 
   return (
     <div className="custom-form-container">
-      <h2 className="form-title">Registrar Nuevo Usuario</h2>
+      <h2 className="form-title">Generar Nuevo Usuario</h2>
 
       <Form onSubmit={handleSubmit}>
         {/* Correo Electrónico */}
@@ -123,7 +123,7 @@ const FormRegisterUser = () => {
 
         <div className="custom-button-container">
           <Button type="submit" className="custom-button">
-            Registrar
+            Generar usuario
           </Button>
         </div>
       </Form>

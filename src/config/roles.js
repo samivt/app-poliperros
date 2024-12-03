@@ -54,6 +54,18 @@ export const rolePermissions = {
       icon: "fas fa-user-plus",
       category: "users",
     },
+    {
+      path: "create-course",
+      label: "Crear curso",
+      icon: "fas fa-user-plus",
+      category: "courses",
+    },
+    {
+      path: "view-course",
+      label: "Lista de cursos",
+      icon: "fas fa-user-plus",
+      category: "courses",
+    },
   ],
   auxiliar: [
     {

@@ -19,7 +19,7 @@ const ResetPassword = () => {
 
   // Validar que la contraseña cumpla con los requisitos
   const isValidPassword = (password) =>
-    /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/.test(
+    /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*.,+])[A-Za-z\d!@#$%^&*.,+]{8,}$/.test(
       password
     );
 

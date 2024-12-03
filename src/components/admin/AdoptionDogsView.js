@@ -31,14 +31,14 @@ const AdoptionDogsView = ({
           <thead>
             <tr>
               <th style={{ width: "20%" }}>Acciones</th>
-              <th>ID</th>
+
               <th>Nombre</th>
               <th>Edad</th>
               <th>Género</th>
               <th>Vacunado</th>
-
               <th>Esterilizado</th>
               <th>Desparasitado</th>
+              <th>Nº Chip</th>
               <th>Fecha de ingreso</th>
               <th>Operación</th>
             </tr>
@@ -71,14 +71,13 @@ const AdoptionDogsView = ({
                     <i className="fas fa-hand-holding-heart"></i> Adoptar
                   </Button>
                 </td>
-                <td>{dog.id}</td>
                 <td>{dog.name || "Sin nombre"}</td>
                 <td>{dog.age || "Desconocida"}</td>
                 <td>{dog.gender === "male" ? "Macho" : "Hembra"}</td>
                 <td>{dog.is_vaccinated ? "Sí" : "No"}</td>
-
                 <td>{dog.is_sterilized ? "Sí" : "No"}</td>
                 <td>{dog.is_dewormed ? "Sí" : "No"}</td>
+                <td>{dog.id_chip || "No tiene"}</td>
                 <td>
                   {dog.entry_date
                     ? new Date(dog.entry_date).toLocaleDateString()

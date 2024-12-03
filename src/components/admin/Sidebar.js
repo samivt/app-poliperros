@@ -19,6 +19,7 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
     dogs: links.filter((link) => link.category === "dogs"),
     visits: links.filter((link) => link.category === "visits"),
     users: links.filter((link) => link.category === "users"),
+    courses: links.filter((link) => link.category === "courses"), // Nueva categoría
   };
 
   return (
@@ -129,7 +130,7 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
             ))}
         </div>
 
-        {/* Gestión de Usuarios */}
+        {/* Gestión de Usuarios (solo admin) */}
         {userRole === "admin" && (
           <div className="sidebar-category">
             <div
@@ -160,6 +161,36 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
               ))}
           </div>
         )}
+
+        {/* Cursos (nueva categoría) */}
+        <div className="sidebar-category">
+          <div
+            className="category-title"
+            onClick={() => toggleCategory("courses")}
+          >
+            <i className="fas fa-graduation-cap category-icon"></i>
+            Gestión de Cursos
+            <i
+              className={`fas ${
+                expandedCategory === "courses"
+                  ? "fa-chevron-up"
+                  : "fa-chevron-down"
+              } chevron-icon`}
+            ></i>
+          </div>
+          {expandedCategory === "courses" &&
+            categories.courses.map((link) => (
+              <Nav.Link
+                key={link.path}
+                as={Link}
+                to={`/admin/${link.path}`}
+                className="sidebar-sublink"
+                onClick={toggleSidebar}
+              >
+                <i className={`${link.icon} sidebar-icon`}></i> {link.label}
+              </Nav.Link>
+            ))}
+        </div>
       </Nav>
     </div>
   );

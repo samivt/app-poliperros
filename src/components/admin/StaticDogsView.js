@@ -27,14 +27,13 @@ const StaticDogsView = ({ dogs = [], loading, onDelete, onAddNew }) => {
           <thead>
             <tr>
               <th style={{ width: "15%" }}>Acciones</th>
-              <th>ID</th>
               <th>Nombre</th>
               <th>Edad</th>
               <th>Género</th>
               <th>Vacunado</th>
-
               <th>Esterilizado</th>
               <th>Desparasitado</th>
+              <th>Nº Chip</th>
               <th>Fecha de ingreso</th>
               <th>Operación</th>
             </tr>
@@ -59,7 +58,7 @@ const StaticDogsView = ({ dogs = [], loading, onDelete, onAddNew }) => {
                     <i className="fas fa-trash-alt"></i>
                   </Button>
                 </td>
-                <td>{dog.id}</td>
+
                 <td>{dog.name}</td>
                 <td>{dog.age}</td>
                 <td>{dog.gender === "male" ? "Macho" : "Hembra"}</td>
@@ -67,6 +66,7 @@ const StaticDogsView = ({ dogs = [], loading, onDelete, onAddNew }) => {
 
                 <td>{dog.is_sterilized ? "Sí" : "No"}</td>
                 <td>{dog.is_dewormed ? "Sí" : "No"}</td>
+                <td>{dog.id_chip || "No tiene"}</td>
                 <td>
                   {dog.entry_date
                     ? new Date(dog.entry_date).toLocaleDateString()
