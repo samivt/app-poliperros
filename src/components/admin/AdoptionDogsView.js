@@ -1,5 +1,7 @@
 import React from "react";
 import { Button, Table, Spinner } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+
 import "../../assets/styles/admin/DogsView.css";
 
 const AdoptionDogsView = ({
@@ -9,6 +11,8 @@ const AdoptionDogsView = ({
   onAddNew,
   onAdopt,
 }) => {
+  const navigate = useNavigate();
+
   return (
     <div className="container mt-4">
       {/* Encabezado */}
@@ -51,7 +55,9 @@ const AdoptionDogsView = ({
                     variant="warning"
                     size="sm"
                     className="me-2"
-                    onClick={() => console.log("Edit:", dog)}
+                    onClick={() =>
+                      navigate(`/admin/edit-adoption-dog/${dog.id}`)
+                    }
                   >
                     <i className="fas fa-edit"></i>
                   </Button>

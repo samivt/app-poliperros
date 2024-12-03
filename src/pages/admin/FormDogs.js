@@ -158,11 +158,11 @@ const FormDogs = ({ onSave = () => {} }) => {
       <Form onSubmit={handleSubmit}>
         {/* Campos del formulario */}
 
-        {/* Identificador */}
+        {/* Chip */}
         <Form.Group className="mb-4">
-          <Form.Label className="custom-label">Identificador:</Form.Label>
+          <Form.Label className="custom-label">Nº Chip:</Form.Label>
           <Form.Control
-            type="text"
+            type="number"
             id="id_chip"
             name="id_chip"
             value={formData.id_chip}

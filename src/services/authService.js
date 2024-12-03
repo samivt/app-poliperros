@@ -86,29 +86,6 @@ export const logout = () => {
   sessionStorage.removeItem("accessToken");
 };
 
-// Crear un nuevo usuario
-export const createUser = async (userData) => {
-  try {
-    const response = await fetch(`${API_URL}/auth/generate_user`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(userData),
-    });
-
-    if (!response.ok) {
-      const errorData = await response.json();
-      const errorMessage = errorData.detail || "Error al generar el usuario.";
-      throw new Error(errorMessage);
-    }
-
-    return await response.json(); // Devuelve la respuesta en caso de éxito
-  } catch (error) {
-    console.error("Error al generar el usuario:", error.message);
-    throw error;
-  }
-};
 //Enviar correo para recuperar contrasena
 export const sendPasswordResetEmail = async (email) => {
   try {

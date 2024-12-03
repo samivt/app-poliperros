@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import "../../assets/styles/admin/FormRegisterUser.css";
-import { createUser } from "../../services/authService";
+import { createUser } from "../../services/userService";
 import {
   showSuccessAlert,
   showErrorAlert,

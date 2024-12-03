@@ -106,3 +106,35 @@ export const updatePassword = async (actualPassword, newPassword) => {
     throw error;
   }
 };
+
+// Crear un nuevo usuario
+
+export const createUser = async ({ email, role }) => {
+  const token = getToken();
+  try {
+    const response = await fetch(
+      `${API_URL}/auth/generate_user?email=${encodeURIComponent(
+        email
+      )}&role=${encodeURIComponent(role)}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      const errorMessage = errorData.detail || "Error al generar el usuario.";
+      throw new Error(errorMessage);
+    }
+
+    return await response.json(); // Devuelve la respuesta en caso de éxito
+  } catch (error) {
+    console.error("Error al generar el usuario:", error.message);
+    throw error;
+  }
+};

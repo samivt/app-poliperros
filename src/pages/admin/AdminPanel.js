@@ -12,6 +12,8 @@ import Header from "../../components/admin/Header";
 import Welcome from "./Welcome";
 import FormDogs from "./FormDogs";
 import StaticDogsView from "../../components/admin/StaticDogsView";
+import EditDogView from "../../components/admin/EditDogViews";
+
 import AdoptionDogsView from "../../components/admin/AdoptionDogsView";
 import AdoptedDogsView from "../../components/admin/AdoptedDogsView";
 import FormAdoption from "./FormAdoption";
@@ -19,6 +21,8 @@ import FormVisits from "./FormVisits";
 import FormRegisterUser from "./FormRegisterUser";
 import EditUser from "./UserProfileUpdate";
 import UpdatePassword from "./UpdatePassword";
+import VisitsView from "./VisitsView";
+
 import VisitsTable from "./VisitsTable";
 import FormCourse from "./FormCourse";
 
@@ -29,6 +33,7 @@ import {
   deleteAdoptionDog,
   fetchAdoptedDogs,
   adoptDog,
+  updateStaticDog,
 } from "../../services/dogsService";
 
 import { logout } from "../../services/authService";
@@ -142,6 +147,7 @@ const AdminPanel = () => {
               <StaticDogsView
                 dogs={staticDogs}
                 loading={isLoadingStaticDogs}
+                onEdit={updateStaticDog}
                 onDelete={handleDeleteStaticDog}
                 onAddNew={handleAddNewDog}
               />
@@ -191,6 +197,17 @@ const AdminPanel = () => {
               />
             }
           />
+          {/* Editar perro permanente */}
+          <Route
+            path="edit-static-dog/:id"
+            element={<EditDogView type="static" onSave={loadStaticDogs} />}
+          />
+
+          {/* Editar perro en adopción */}
+          <Route
+            path="edit-adoption-dog/:id"
+            element={<EditDogView type="adoption" onSave={loadAdoptionDogs} />}
+          />
 
           {/* Formulario de adopción */}
           <Route
@@ -216,13 +233,13 @@ const AdminPanel = () => {
             }
           />
           {/*Formulario de visitas */}
-          <Route path="register-visit" element={<FormVisits />} />
           <Route path="form-visit" element={<FormVisits />} />
+          <Route path="visits" element={<VisitsView />} />
+          <Route path="visits-table" element={<VisitsTable />} />
 
           <Route path="register-user" element={<FormRegisterUser />} />
           <Route path="edit-profile" element={<EditUser />} />
           <Route path="update-password" element={<UpdatePassword />} />
-          <Route path="visits-table" element={<VisitsTable />} />
 
           <Route path="create-course" element={<FormCourse />} />
 

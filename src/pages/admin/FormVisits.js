@@ -99,7 +99,7 @@ const FormVisits = ({ onVisitCreated }) => {
         onVisitCreated(); // Callback para recargar la tabla de visitas
       }
 
-      navigate("/admin/adopted-dogs"); // Redirigir a la tabla de perros adoptados
+      navigate("/admin/visits"); // Redirigir a la tabla de perros adoptados
     } catch (error) {
       console.error("Error al registrar la visita:", error);
       showErrorAlert("No se pudo registrar la visita. Inténtalo nuevamente.");
@@ -134,7 +134,7 @@ const FormVisits = ({ onVisitCreated }) => {
           <Form.Label className="custom-label">Dueño:</Form.Label>
           <Form.Control
             type="text"
-            value={selectedDog ? selectedDog.owner_name : ""}
+            value={selectedDog?.owner?.name || ""}
             readOnly
             className="form-control-plaintext"
           />
@@ -144,7 +144,7 @@ const FormVisits = ({ onVisitCreated }) => {
           <Form.Label className="custom-label">Dirección:</Form.Label>
           <Form.Control
             type="text"
-            value={selectedDog ? selectedDog.owner_address : ""}
+            value={selectedDog?.owner?.direction || ""}
             readOnly
             className="form-control-plaintext"
           />
@@ -161,7 +161,6 @@ const FormVisits = ({ onVisitCreated }) => {
             value={formData.visit_date}
             onChange={handleInputChange}
             required
-            className={formData.visit_date ? "is-valid" : "is-invalid"}
           />
         </Form.Group>
 
@@ -176,7 +175,6 @@ const FormVisits = ({ onVisitCreated }) => {
             accept="image/*"
             onChange={handleInputChange}
             required
-            className={formData.evidence ? "is-valid" : "is-invalid"}
           />
           {imagePreview && (
             <div className="mt-3">

@@ -39,7 +39,6 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
         >
           <i className="fas fa-home sidebar-icon"></i> Inicio
         </Nav.Link>
-
         {/* Configuración Personal */}
         <div className="sidebar-category">
           <div
@@ -69,7 +68,6 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
               </Nav.Link>
             ))}
         </div>
-
         {/* Gestión de Perros */}
         <div className="sidebar-category">
           <div
@@ -99,7 +97,6 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
               </Nav.Link>
             ))}
         </div>
-
         {/* Visitas y Seguimiento */}
         <div className="sidebar-category">
           <div
@@ -129,7 +126,6 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
               </Nav.Link>
             ))}
         </div>
-
         {/* Gestión de Usuarios (solo admin) */}
         {userRole === "admin" && (
           <div className="sidebar-category">
@@ -161,7 +157,6 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
               ))}
           </div>
         )}
-
         {/* Cursos (nueva categoría) */}
         <div className="sidebar-category">
           <div

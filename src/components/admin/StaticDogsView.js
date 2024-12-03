@@ -1,9 +1,10 @@
 import React from "react";
 import { Button, Table, Spinner } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 import "../../assets/styles/admin/DogsView.css";
 
 const StaticDogsView = ({ dogs = [], loading, onDelete, onAddNew }) => {
-  console.log("Datos recibidos en StaticDogsView:", dogs); // Log detallado
+  const navigate = useNavigate();
 
   return (
     <div className="container mt-4">
@@ -46,7 +47,7 @@ const StaticDogsView = ({ dogs = [], loading, onDelete, onAddNew }) => {
                     variant="warning"
                     size="sm"
                     className="me-2"
-                    onClick={() => console.log("Edit:", dog)}
+                    onClick={() => navigate(`/admin/edit-static-dog/${dog.id}`)}
                   >
                     <i className="fas fa-edit"></i>
                   </Button>
@@ -58,12 +59,10 @@ const StaticDogsView = ({ dogs = [], loading, onDelete, onAddNew }) => {
                     <i className="fas fa-trash-alt"></i>
                   </Button>
                 </td>
-
                 <td>{dog.name}</td>
                 <td>{dog.age}</td>
                 <td>{dog.gender === "male" ? "Macho" : "Hembra"}</td>
                 <td>{dog.is_vaccinated ? "Sí" : "No"}</td>
-
                 <td>{dog.is_sterilized ? "Sí" : "No"}</td>
                 <td>{dog.is_dewormed ? "Sí" : "No"}</td>
                 <td>{dog.id_chip || "No tiene"}</td>

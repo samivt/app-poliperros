@@ -43,8 +43,14 @@ export const rolePermissions = {
       category: "visits",
     },
     {
+      path: "visits",
+      label: "Visitas por perro",
+      icon: "fas fa-list",
+      category: "visits",
+    },
+    {
       path: "visits-table",
-      label: "Historial de Visitas",
+      label: "Historial de visitas",
       icon: "fas fa-list",
       category: "visits",
     },
@@ -93,7 +99,7 @@ export const rolePermissions = {
       category: "visits",
     },
     {
-      path: "general-table",
+      path: "visits",
       label: "Historial de Visitas",
       icon: "fas fa-list",
       category: "visits",

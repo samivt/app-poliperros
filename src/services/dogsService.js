@@ -1,7 +1,7 @@
 import { getToken } from "./authService.js";
 const API_URL = process.env.REACT_APP_API_URL;
 
-// Servicio para crear perros estáticos
+// Crear perros estáticos
 export const createStaticDog = async (dogData) => {
   const token = getToken();
 
@@ -65,6 +65,123 @@ export const createStaticDog = async (dogData) => {
   }
 };
 
+// Servicio para actualizar un perro estático
+
+export const updateStaticDog = async (id, dogData) => {
+  try {
+    const response = await fetch(`${API_URL}/dog/static_dog/update/${id}`, {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${getToken()}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(dogData),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      console.error("Detalle del error del backend:", errorData);
+      throw new Error("Error al actualizar el perro");
+    }
+
+    return await response.json(); // Devuelve la respuesta si es exitosa
+  } catch (error) {
+    console.error("Error actualizando el perro:", error);
+    throw error;
+  }
+};
+
+// Obtener perros permanentes
+export const fetchStaticDogs = async () => {
+  try {
+    console.log("Iniciando fetchStaticDogs..."); // Log inicial
+    const response = await fetch(`${API_URL}/dog/static_dog/`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    console.log("Estado de la respuesta:", response.status); // Verifica el estado HTTP
+
+    if (!response.ok) {
+      const errorMessage = await response.text();
+      console.error("Error al obtener los perros permanentes:", errorMessage);
+      throw new Error("Error al obtener los perros permanentes.");
+    }
+
+    const data = await response.json();
+    console.log("Datos recibidos del backend (fetchStaticDogs):", data); // Log de los datos
+    return data;
+  } catch (error) {
+    console.error("Error en fetchStaticDogs:", error); // Log de errores
+    throw error;
+  }
+};
+//obtener perro por id
+
+export const fetchStaticDogById = async (id) => {
+  try {
+    const response = await fetch(`${API_URL}/dog/static_dog/${id}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${getToken()}`,
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error("Error al obtener los datos del perro.");
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
+// Servicio para obtener la imagen de un perro estático
+export const fetchStaticDogImage = async (dogId) => {
+  try {
+    const response = await fetch(`${API_URL}/dog/static_dog/${dogId}/image`, {
+      method: "GET",
+      headers: {
+        Accept: "*/*",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error("Error al obtener la imagen");
+    }
+
+    const blob = await response.blob(); // Convierte la respuesta a un Blob
+    return URL.createObjectURL(blob); // Devuelve la URL de la imagen para usar en <img>
+  } catch (error) {
+    console.error("Error al obtener la imagen:", error);
+    throw error; // Lanza el error para manejarlo en el componente
+  }
+};
+// Eliminar un perro permanente
+export const deleteStaticDog = async (id) => {
+  const token = getToken();
+  try {
+    const response = await fetch(`${API_URL}/dog/static_dog/delete/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error al eliminar el perro con ID ${id}.`);
+    }
+  } catch (error) {
+    console.error("Error en deleteStaticDog:", error);
+    throw error;
+  }
+};
 //Servicio para crear perros en adopcion
 export const createAdoptionDog = async (dogData) => {
   const token = getToken();
@@ -128,56 +245,33 @@ export const createAdoptionDog = async (dogData) => {
     throw error; // Lanza el error para que sea manejado en el frontend
   }
 };
-
-// Obtener perros permanentes
-export const fetchStaticDogs = async () => {
+// Servicio para actualizar un perro estático
+export const updateAdoptionDog = async (dogId, dogData) => {
   try {
-    console.log("Iniciando fetchStaticDogs..."); // Log inicial
-    const response = await fetch(`${API_URL}/dog/static_dog/`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-
-    console.log("Estado de la respuesta:", response.status); // Verifica el estado HTTP
+    const response = await fetch(
+      `${API_URL}/dog/adoption_dog/update/${dogId}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: `Bearer ${getToken()}`, // Incluye el token si es necesario
+        },
+        body: JSON.stringify(dogData), // Convierte los datos a JSON
+      }
+    );
 
     if (!response.ok) {
-      const errorMessage = await response.text();
-      console.error("Error al obtener los perros permanentes:", errorMessage);
-      throw new Error("Error al obtener los perros permanentes.");
+      const errorData = await response.json();
+      throw new Error(errorData.message || "Error al actualizar el perro");
     }
 
-    const data = await response.json();
-    console.log("Datos recibidos del backend (fetchStaticDogs):", data); // Log de los datos
-    return data;
+    return await response.json(); // Devuelve los datos de la respuesta
   } catch (error) {
-    console.error("Error en fetchStaticDogs:", error); // Log de errores
-    throw error;
+    console.error("Error actualizando el perro:", error);
+    throw error; // Lanza el error para manejarlo en el componente
   }
 };
-
-// Eliminar un perro permanente
-export const deleteStaticDog = async (id) => {
-  const token = getToken();
-  try {
-    const response = await fetch(`${API_URL}/dog/static_dog/delete/${id}`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    if (!response.ok) {
-      throw new Error(`Error al eliminar el perro con ID ${id}.`);
-    }
-  } catch (error) {
-    console.error("Error en deleteStaticDog:", error);
-    throw error;
-  }
-};
-
 // Obtener perros en adopción
 export const fetchAdoptionDogs = async () => {
   try {
@@ -219,6 +313,49 @@ export const deleteAdoptionDog = async (id) => {
     throw error;
   }
 };
+//obtener perro por id
+
+export const fetchAdoptionDogById = async (id) => {
+  try {
+    const response = await fetch(`${API_URL}/dog/adoption_dog/${id}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${getToken()}`,
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error("Error al obtener los datos del perro.");
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+// Servicio para obtener la imagen de un perro estático
+export const fetchAdoptionDogImage = async (dogId) => {
+  try {
+    const response = await fetch(`${API_URL}/dog/adoption_dog/${dogId}/image`, {
+      method: "GET",
+      headers: {
+        Accept: "*/*",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error("Error al obtener la imagen");
+    }
+
+    const blob = await response.blob(); // Convierte la respuesta a un Blob
+    return URL.createObjectURL(blob); // Devuelve la URL de la imagen para usar en <img>
+  } catch (error) {
+    console.error("Error al obtener la imagen:", error);
+    throw error; // Lanza el error para manejarlo en el componente
+  }
+};
 
 //Adoptar perro se crea el dueño
 export const adoptDog = async (dogId, adoptionDate, data) => {
@@ -226,7 +363,7 @@ export const adoptDog = async (dogId, adoptionDate, data) => {
 
   try {
     const response = await fetch(
-      `${process.env.REACT_APP_API_URL}/dog/adoption_dog/adopt/${dogId}/${adoptionDate}`,
+      `${API_URL}/dog/adoption_dog/adopt/${dogId}/${adoptionDate}`,
       {
         method: "POST",
         headers: {
