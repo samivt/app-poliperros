@@ -6,7 +6,7 @@ import { getUserRole } from "../../services/authService";
 import { rolePermissions } from "../../config/roles";
 
 const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
-  const userRole = getUserRole();
+  const userRole = getUserRole(); // Obtiene el rol del usuario
   const links = rolePermissions[userRole] || [];
   const [expandedCategory, setExpandedCategory] = useState(null);
 
@@ -14,12 +14,19 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
     setExpandedCategory(expandedCategory === category ? null : category);
   };
 
+  // Filtra las categorías según los enlaces disponibles para el rol actual
   const categories = {
     personal: links.filter((link) => link.category === "personal"),
     dogs: links.filter((link) => link.category === "dogs"),
     visits: links.filter((link) => link.category === "visits"),
-    users: links.filter((link) => link.category === "users"),
-    courses: links.filter((link) => link.category === "courses"), // Nueva categoría
+    users:
+      userRole === "admin"
+        ? links.filter((link) => link.category === "users")
+        : [],
+    courses:
+      userRole === "admin"
+        ? links.filter((link) => link.category === "courses")
+        : [], // Solo admin puede ver cursos
   };
 
   return (
@@ -39,6 +46,7 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
         >
           <i className="fas fa-home sidebar-icon"></i> Inicio
         </Nav.Link>
+
         {/* Configuración Personal */}
         <div className="sidebar-category">
           <div
@@ -68,6 +76,7 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
               </Nav.Link>
             ))}
         </div>
+
         {/* Gestión de Perros */}
         <div className="sidebar-category">
           <div
@@ -97,6 +106,7 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
               </Nav.Link>
             ))}
         </div>
+
         {/* Visitas y Seguimiento */}
         <div className="sidebar-category">
           <div
@@ -126,8 +136,9 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
               </Nav.Link>
             ))}
         </div>
+
         {/* Gestión de Usuarios (solo admin) */}
-        {userRole === "admin" && (
+        {categories.users.length > 0 && (
           <div className="sidebar-category">
             <div
               className="category-title"
@@ -157,35 +168,38 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
               ))}
           </div>
         )}
-        {/* Cursos (nueva categoría) */}
-        <div className="sidebar-category">
-          <div
-            className="category-title"
-            onClick={() => toggleCategory("courses")}
-          >
-            <i className="fas fa-graduation-cap category-icon"></i>
-            Gestión de Cursos
-            <i
-              className={`fas ${
-                expandedCategory === "courses"
-                  ? "fa-chevron-up"
-                  : "fa-chevron-down"
-              } chevron-icon`}
-            ></i>
+
+        {/* Gestión de Cursos (solo admin) */}
+        {categories.courses.length > 0 && (
+          <div className="sidebar-category">
+            <div
+              className="category-title"
+              onClick={() => toggleCategory("courses")}
+            >
+              <i className="fas fa-graduation-cap category-icon"></i>
+              Gestión de Cursos
+              <i
+                className={`fas ${
+                  expandedCategory === "courses"
+                    ? "fa-chevron-up"
+                    : "fa-chevron-down"
+                } chevron-icon`}
+              ></i>
+            </div>
+            {expandedCategory === "courses" &&
+              categories.courses.map((link) => (
+                <Nav.Link
+                  key={link.path}
+                  as={Link}
+                  to={`/admin/${link.path}`}
+                  className="sidebar-sublink"
+                  onClick={toggleSidebar}
+                >
+                  <i className={`${link.icon} sidebar-icon`}></i> {link.label}
+                </Nav.Link>
+              ))}
           </div>
-          {expandedCategory === "courses" &&
-            categories.courses.map((link) => (
-              <Nav.Link
-                key={link.path}
-                as={Link}
-                to={`/admin/${link.path}`}
-                className="sidebar-sublink"
-                onClick={toggleSidebar}
-              >
-                <i className={`${link.icon} sidebar-icon`}></i> {link.label}
-              </Nav.Link>
-            ))}
-        </div>
+        )}
       </Nav>
     </div>
   );

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Navbar from "../../components/main/Navbar";
 import Footer from "../../components/main/Footer";
 import "../../assets/styles/main/ViewPermanentDogs.css";
+import { fetchStaticDogs } from "../../services/dogsService"; // Importa el servicio
 
 const ViewDogs = ({
   id,
@@ -28,29 +29,20 @@ const ViewDogs = ({
 };
 
 const Dogs = () => {
-  const [dogs, setDogs] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [expandedDogId, setExpandedDogId] = useState(null); // Estado para controlar la tarjeta expandida
+  const [dogs, setDogs] = useState([]); // Lista de perros
+  const [isLoading, setIsLoading] = useState(true); // Estado de carga
+  const [expandedDogId, setExpandedDogId] = useState(null); // ID del perro expandido
 
-  // Cargar datos de los perros desde el backend
   useEffect(() => {
     const fetchDogs = async () => {
       try {
-        const response = await fetch(
-          "https://poliperritosback.agreeableflower-431ed430.westus.azurecontainerapps.io/dog/static_dog/"
-        );
-
-        if (!response.ok) {
-          throw new Error("Error al cargar los datos de los perros");
-        }
-
-        const data = await response.json();
-        setDogs(data); // Guardar los datos en el estado
+        const data = await fetchStaticDogs(); // Llama al servicio
+        setDogs(data); // Guarda los datos en el estado
       } catch (error) {
         console.error("Error al cargar los perros:", error);
-        setDogs([]); // Asegúrate de que la lista quede vacía si falla
+        setDogs([]); // Asegura que la lista quede vacía si falla
       } finally {
-        setIsLoading(false);
+        setIsLoading(false); // Finaliza el estado de carga
       }
     };
 
@@ -78,7 +70,7 @@ const Dogs = () => {
               <ViewDogs
                 key={dog.id}
                 id={dog.id}
-                imageDog={dog.image} // Usar la URL de la imagen proporcionada por el backend
+                imageDog={dog.image} // URL de la imagen desde el backend
                 nameDog={dog.name}
                 description={dog.about}
                 isExpanded={expandedDogId === dog.id} // Verifica si esta tarjeta está expandida

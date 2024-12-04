@@ -3,35 +3,28 @@ import Navbar from "../../components/main/Navbar";
 import Footer from "../../components/main/Footer";
 import "../../assets/styles/main/InfoAdoptionDogs.css";
 import { useParams, useNavigate } from "react-router-dom";
+import { fetchAdoptionDogById } from "../../services/dogsService"; // Importar el servicio
 
 const InfoAdoptionDogs = () => {
-  const { dog_id } = useParams();
-  const navigate = useNavigate();
-  const [dog, setDog] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const { dog_id } = useParams(); // Obtener el ID del perro desde la URL
+  const navigate = useNavigate(); // Hook para navegación
+  const [dog, setDog] = useState(null); // Estado para el perro
+  const [isLoading, setIsLoading] = useState(true); // Estado de carga
 
   useEffect(() => {
     const fetchDogDetails = async () => {
       try {
-        const response = await fetch(
-          `https://poliperritosback.agreeableflower-431ed430.westus.azurecontainerapps.io/dog/adoption_dog/${dog_id}`
-        );
-
-        if (!response.ok) {
-          throw new Error("Error al cargar los datos del perro.");
-        }
-
-        const data = await response.json();
-        setDog(data);
+        const data = await fetchAdoptionDogById(dog_id); // Llama al servicio
+        setDog(data); // Guarda los datos en el estado
       } catch (error) {
         console.error("Error al cargar el perro:", error);
-        setDog(null);
+        setDog(null); // Manejo de error: asegura que el estado quede claro
       } finally {
-        setIsLoading(false);
+        setIsLoading(false); // Finaliza el estado de carga
       }
     };
 
-    fetchDogDetails();
+    fetchDogDetails(); // Llama a la función de carga
   }, [dog_id]);
 
   if (isLoading) {

@@ -99,7 +99,7 @@ const FormVisits = ({ onVisitCreated }) => {
         onVisitCreated(); // Callback para recargar la tabla de visitas
       }
 
-      navigate("/admin/visits"); // Redirigir a la tabla de perros adoptados
+      navigate("/admin/visits-table"); // Redirigir a la tabla de perros adoptados
     } catch (error) {
       console.error("Error al registrar la visita:", error);
       showErrorAlert("No se pudo registrar la visita. Inténtalo nuevamente.");
@@ -166,15 +166,12 @@ const FormVisits = ({ onVisitCreated }) => {
 
         {/* Evidencia */}
         <Form.Group className="mb-4">
-          <Form.Label className="custom-label">
-            Evidencia: <span className="required">*</span>
-          </Form.Label>
+          <Form.Label className="custom-label">Evidencia:</Form.Label>
           <Form.Control
             type="file"
             name="evidence"
             accept="image/*"
             onChange={handleInputChange}
-            required
           />
           {imagePreview && (
             <div className="mt-3">

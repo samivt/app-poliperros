@@ -3,6 +3,7 @@ import Navbar from "../../components/main/Navbar";
 import Footer from "../../components/main/Footer";
 import "../../assets/styles/main/ViewAdoptionDogs.css";
 import { Link } from "react-router-dom";
+import { fetchAdoptionDogs } from "../../services/dogsService"; // Importar el servicio
 
 const ViewDogs = ({ nameDog, imageDog, link }) => {
   return (
@@ -17,29 +18,21 @@ const ViewDogs = ({ nameDog, imageDog, link }) => {
 };
 
 const Dogs = () => {
-  const [dogs, setDogs] = useState([]);
-  const [error, setError] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const [dogs, setDogs] = useState([]); // Lista de perros
+  const [error, setError] = useState(false); // Estado de error
+  const [isLoading, setIsLoading] = useState(true); // Estado de carga
 
   useEffect(() => {
     const fetchDogs = async () => {
       try {
-        const response = await fetch(
-          "https://poliperritosback.agreeableflower-431ed430.westus.azurecontainerapps.io/dog/adoption_dog/"
-        );
-
-        if (!response.ok) {
-          throw new Error("Error al cargar los datos de los perros");
-        }
-
-        const data = await response.json();
+        const data = await fetchAdoptionDogs(); // Llama al servicio
         setDogs(data);
         setError(false); // No hay error si la carga es exitosa
       } catch (error) {
         console.error("Error al cargar los perros:", error);
         setError(true);
       } finally {
-        setIsLoading(false); // Loading finaliza después de la carga
+        setIsLoading(false); // Finaliza el estado de carga
       }
     };
 
@@ -47,7 +40,7 @@ const Dogs = () => {
       fetchDogs();
     }, 1000);
 
-    return () => clearTimeout(delayLoading);
+    return () => clearTimeout(delayLoading); // Limpia el temporizador al desmontar
   }, []);
 
   return (

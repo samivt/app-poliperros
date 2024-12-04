@@ -89,6 +89,10 @@ se comparte del dogs*/
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
+.form-control-plaintext {
+  background-color: #f2efef;
+}
+
 /* Validaciones */
 .is-invalid {
   border: 1px solid #e74c3c !important;

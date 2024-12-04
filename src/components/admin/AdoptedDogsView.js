@@ -22,7 +22,7 @@ const AdoptedDogsView = ({ onEditOwner, onEditDog }) => {
       setDogs(data);
     } catch (error) {
       console.error("Error al cargar los perros adoptados:", error);
-      showErrorAlert("No se pudieron cargar los perros adoptados.");
+      // showErrorAlert("No se pudieron cargar los perros adoptados.");
     } finally {
       setLoading(false);
     }

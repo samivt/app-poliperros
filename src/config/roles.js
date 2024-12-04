@@ -15,13 +15,13 @@ export const rolePermissions = {
     {
       path: "register-dog",
       label: "Registrar Perro",
-      icon: "fas fa-pen-square",
+      icon: "fas fa-dog",
       category: "dogs",
     },
     {
       path: "static-dogs",
       label: "Perros Permanentes",
-      icon: "fas fa-dog",
+      icon: "fas fa-home",
       category: "dogs",
     },
     {
@@ -42,16 +42,11 @@ export const rolePermissions = {
       icon: "fas fa-clipboard-list",
       category: "visits",
     },
-    {
-      path: "visits",
-      label: "Visitas por perro",
-      icon: "fas fa-list",
-      category: "visits",
-    },
+
     {
       path: "visits-table",
       label: "Historial de visitas",
-      icon: "fas fa-list",
+      icon: "fas fa-history",
       category: "visits",
     },
     {
@@ -63,19 +58,19 @@ export const rolePermissions = {
     {
       path: "create-course",
       label: "Crear curso",
-      icon: "fas fa-user-plus",
+      icon: "fas fa-book-open",
       category: "courses",
     },
     {
       path: "list-courses",
       label: "Lista de cursos",
-      icon: "fas fa-user-plus",
+      icon: "fas fa-list",
       category: "courses",
     },
     {
       path: "list-applicants",
       label: "Lista de inscritos",
-      icon: "fas fa-user-plus",
+      icon: "fas fa-users",
       category: "courses",
     },
   ],
@@ -95,7 +90,7 @@ export const rolePermissions = {
     {
       path: "adopted-dogs",
       label: "Perros Adoptados",
-      icon: "fas fa-paw",
+      icon: "fas fa-hand-holding-heart",
       category: "dogs",
     },
     {
@@ -105,9 +100,9 @@ export const rolePermissions = {
       category: "visits",
     },
     {
-      path: "visits",
-      label: "Historial de Visitas",
-      icon: "fas fa-list",
+      path: "visits-table",
+      label: "Historial de visitas",
+      icon: "fas fa-history",
       category: "visits",
     },
   ],

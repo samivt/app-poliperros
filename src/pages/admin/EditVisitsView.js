@@ -70,6 +70,7 @@ const EditVisitsView = ({ onVisitUpdated }) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    // Validación de campos requeridos
     if (!formData.visit_date || !formData.adopted_dog_id || !formData.id) {
       showErrorAlert("Los campos requeridos no pueden estar vacíos.");
       return;
@@ -83,20 +84,23 @@ const EditVisitsView = ({ onVisitUpdated }) => {
     if (!confirmed) return;
 
     try {
-      // Si no se selecciona una nueva imagen, se envía null en evidence
+      // Construir los datos para enviar al backend
       const updatedFormData = {
-        ...formData,
-        evidence: formData.evidence || null,
+        visit_date: formData.visit_date,
+        evidence: formData.evidence || null, // Si no hay evidencia, enviar null
+        observations: formData.observations || null, // Observaciones opcionales
+        adopted_dog_id: formData.adopted_dog_id,
+        id: formData.id,
       };
 
-      await updateVisit(updatedFormData); // Actualiza la visita
+      await updateVisit(updatedFormData); // Llamar al servicio para actualizar
       showSuccessAlert("Visita actualizada exitosamente.", "¡Éxito!");
 
       if (onVisitUpdated) {
         onVisitUpdated();
       }
 
-      navigate("/admin/visits");
+      navigate("/admin/visits-table");
     } catch (error) {
       console.error("Error al actualizar la visita:", error);
       showErrorAlert("No se pudo actualizar la visita. Inténtalo nuevamente.");

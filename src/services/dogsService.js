@@ -357,31 +357,27 @@ export const fetchAdoptionDogImage = async (dogId) => {
 };
 
 //Adoptar perro se crea el dueño
-export const adoptDog = async (dogId, adoptionDate, data) => {
-  const token = sessionStorage.getItem("accessToken");
+export const adoptDog = async (dogId, adoptionDate, ownerData) => {
+  const token = getToken(); // Método para obtener el token
+  const url = `${API_URL}/dog/adoption_dog/adopt/${dogId}/${adoptionDate}`;
 
-  try {
-    const response = await fetch(
-      `${API_URL}/dog/adoption_dog/adopt/${dogId}/${adoptionDate}`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(data),
-      }
-    );
+  const response = await fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(ownerData), // Solo los datos del propietario en el cuerpo
+  });
 
-    if (!response.ok) {
-      throw new Error("Error al registrar la adopción");
-    }
-
-    return await response.json();
-  } catch (error) {
-    throw error;
+  if (!response.ok) {
+    const error = await response.json(); // Intentamos obtener más detalles del error
+    throw new Error(error.message || "Error al registrar la adopción.");
   }
+
+  return await response.json();
 };
+
 // Obtener perros adoptados
 export const fetchAdoptedDogs = async () => {
   try {
@@ -435,6 +431,43 @@ export const unadoptDog = async (dogId) => {
     }
   } catch (error) {
     console.error("Error en unadoptDog:", error);
+    throw error;
+  }
+};
+// Actualiza la información de un dueño.
+export const updateOwner = async (idOwner, ownerData) => {
+  try {
+    const token = getToken(); // Obtener el token desde el almacenamiento local o contexto
+
+    if (!token) {
+      throw new Error("Token de autenticación no disponible.");
+    }
+
+    const response = await fetch(`${API_URL}/owner/update/${idOwner}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+        Accept: "application/json",
+      },
+      body: JSON.stringify(ownerData),
+    });
+
+    if (!response.ok) {
+      const errorDetails = await response.json();
+      console.error(
+        `Error del servidor: ${response.status} - ${
+          errorDetails.detail || "Sin mensaje específico"
+        }`
+      );
+      throw new Error(
+        errorDetails.detail || "Error al actualizar la información del dueño."
+      );
+    }
+
+    return await response.json(); // Devuelve la respuesta en JSON si la solicitud fue exitosa
+  } catch (error) {
+    console.error("Error en updateOwner:", error.message || error);
     throw error;
   }
 };
