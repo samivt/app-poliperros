@@ -7,6 +7,7 @@ import Contact from "./pages/main/Contact.js";
 import InfoAdoptionDogs from "./pages/main/InfoAdoptionDogs.js";
 import ViewAdoptionDogs from "./pages/main/ViewAdoptionDogs.js";
 import ViewPermanentDogs from "./pages/main/ViewPermanentDogs.js";
+import ThankYouPage from "./components/main/ThankYouPage.js";
 
 import Login from "./pages/admin/Login.js";
 import SendCode from "./components/auth/SendCode.js";
@@ -19,6 +20,7 @@ import AdminPanel from "./pages/admin/AdminPanel.js";
 import ProtectedRoute from "./components/admin/ProtectedRoute.js";
 import Unauthorized from "./pages/admin/Unauthorized.js";
 import CoursesPage from "./pages/main/CousesPage.js";
+import ApplicantsByCourse from "./pages/admin/ApplicantsByCourse.js";
 
 const App = () => {
   return (
@@ -37,7 +39,13 @@ const App = () => {
 
         <Route path="/view-permanent-dogs" element={<ViewPermanentDogs />} />
         <Route path="courses-view" element={<CoursesPage />} />
-        <Route path="/form-inscription" element={<FormInscription />} />
+        <Route
+          path="/courses/:courseId/inscription"
+          element={<FormInscription />}
+        />
+        <Route path="/thank-you" element={<ThankYouPage />} />
+
+        <Route path="list-applicants" element={<ApplicantsByCourse />} />
 
         <Route path="/login" element={<Login />} />
 

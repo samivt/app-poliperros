@@ -72,12 +72,14 @@
 .footer-credits {
   flex-basis: 100%; /* Ocupa toda la fila */
   text-align: center;
-  margin-top: 20px;
+  margin-top: 10px;
   font-size: 0.9rem;
   color: #f0f0f0;
   font-weight: 600;
 }
-
+.footer-credits p {
+  margin-bottom: 0px;
+}
 /* Responsividad */
 @media (max-width: 768px) {
   .footer {

@@ -4,10 +4,12 @@ import Navbar from "../../components/main/Navbar";
 import Footer from "../../components/main/Footer";
 import "../../assets/styles/main/CoursesPage.css";
 import { fetchCourses } from "../../services/courseService";
+import { useNavigate } from "react-router-dom";
 
 const CoursesPage = () => {
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   const dayTranslations = {
     monday: "Lunes",
@@ -35,6 +37,7 @@ const CoursesPage = () => {
   }, []);
 
   const handleEnroll = (courseId) => {
+    navigate(`/courses/${courseId}/inscription`);
     console.log(`Inscribirse al curso con ID: ${courseId}`);
   };
 

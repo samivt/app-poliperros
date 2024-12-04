@@ -92,3 +92,31 @@ export const deleteCourse = async (courseId) => {
     throw error;
   }
 };
+/**
+ * Servicio para obtener detalles de un curso por ID.
+ * @param {number} courseId - ID del curso.
+ * @returns {Promise<Object>} - Detalles del curso.
+ */
+export const fetchCourseById = async (courseId) => {
+  const token = getToken();
+
+  try {
+    const response = await fetch(`${API_URL}/course/${courseId}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || "Error al obtener el curso.");
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error en fetchCourseById:", error);
+    throw error;
+  }
+};

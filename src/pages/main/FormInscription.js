@@ -1,103 +1,104 @@
 import React, { useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import Navbar from "../../components/main/Navbar";
 import { Form, Button, Col, Row } from "react-bootstrap";
 import "../../assets/styles/main/FormInscription.css";
+import { createApplicant } from "../../services/applicantService";
+import { showErrorAlert } from "../../services/alertService";
 
 const FormInscription = () => {
+  const { courseId } = useParams(); // Obtiene el ID del curso desde la ruta
+  const navigate = useNavigate(); // Hook para redirigir
   const [formData, setFormData] = useState({
-    name: "",
-    lastname: "",
+    first_name: "",
+    last_name: "",
     email: "",
     cellphone: "",
-    schedule: false,
-    photo: null,
+    course_id: parseInt(courseId, 10) || 0, // Asegura que sea un número entero
+    image: null,
   });
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    const inscriptionData = {
-      ...formData,
-      photo: formData.photo ? formData.photo.name : "",
-    };
-    console.log(inscriptionData);
-    try {
-      const response = await fetch(
-        "http://192.168.100.88:8000/dog/static_dog/create",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(inscriptionData),
-        }
-      );
-      if (response.ok) {
-        const result = await response.json();
-        console.log("Registro exitoso:", result);
-      } else {
-        console.error("Error al inscribirse:", response.status);
+  const handleInputChange = (event) => {
+    const { name, value, type, files } = event.target;
+
+    if (type === "file") {
+      const file = files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = () => {
+          setFormData({ ...formData, image: reader.result.split(",")[1] }); // Convertir imagen a base64
+        };
+        reader.readAsDataURL(file);
       }
-    } catch (error) {
-      console.error("Error de conexión:", error);
+    } else {
+      setFormData({ ...formData, [name]: value });
     }
   };
 
-  const handleInputChange = (event) => {
-    const { name, value, type, checked, files } = event.target;
-    if (type === "select") {
-      setFormData({ ...formData, [name]: checked });
-    } else if (type === "file") {
-      setFormData({ ...formData, [name]: files[0] });
-    } else {
-      setFormData({ ...formData, [name]: value });
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    if (isNaN(formData.course_id) || formData.course_id <= 0) {
+      showErrorAlert("El ID del curso no es válido.");
+      return;
+    }
+
+    try {
+      console.log("Datos enviados al servicio:", formData);
+      await createApplicant(formData); // Llama al servicio
+      navigate("/thank-you"); // Redirige a la página de agradecimiento
+    } catch (error) {
+      console.error("Error al registrar la inscripción:", error);
+      showErrorAlert("Ocurrió un error al intentar registrar la inscripción.");
     }
   };
 
   return (
     <div>
       <Navbar />
-      <div className="custom-form-container form-container mx-auto col-md-6">
-        <h2 className="my-4 text-center form-title">Inscripción</h2>
-        <Form className="custom-form" onSubmit={handleSubmit}>
+      <div className="custom-form-container">
+        <h2 className="form-title">Formulario de inscripción</h2>
+        <Form onSubmit={handleSubmit}>
+          {/* Nombre */}
           <Form.Group as={Row} className="mb-3">
             <Form.Label column sm={3} className="custom-label">
-              Nombre:
+              Nombre: <span className="required">*</span>
             </Form.Label>
             <Col sm={9}>
               <Form.Control
                 type="text"
-                id="name"
-                name="name"
+                name="first_name"
                 required
-                value={formData.name}
+                value={formData.first_name}
                 onChange={handleInputChange}
               />
             </Col>
           </Form.Group>
 
+          {/* Apellido */}
           <Form.Group as={Row} className="mb-3">
             <Form.Label column sm={3} className="custom-label">
-              Apellido:
+              Apellido: <span className="required">*</span>
             </Form.Label>
             <Col sm={9}>
               <Form.Control
                 type="text"
-                id="lastname"
-                name="lastname"
+                name="last_name"
                 required
-                value={formData.lastname}
+                value={formData.last_name}
                 onChange={handleInputChange}
               />
             </Col>
           </Form.Group>
+
+          {/* Email */}
           <Form.Group as={Row} className="mb-3">
             <Form.Label column sm={3} className="custom-label">
-              Email:
+              Email: <span className="required">*</span>
             </Form.Label>
             <Col sm={9}>
               <Form.Control
                 type="email"
-                id="email"
                 name="email"
                 required
                 value={formData.email}
@@ -106,14 +107,14 @@ const FormInscription = () => {
             </Col>
           </Form.Group>
 
+          {/* Teléfono */}
           <Form.Group as={Row} className="mb-3">
             <Form.Label column sm={3} className="custom-label">
-              Teléfono:
+              Teléfono: <span className="required">*</span>
             </Form.Label>
             <Col sm={9}>
               <Form.Control
-                type="number"
-                id="cellphone"
+                type="text"
                 name="cellphone"
                 required
                 value={formData.cellphone}
@@ -122,21 +123,7 @@ const FormInscription = () => {
             </Col>
           </Form.Group>
 
-          <Form.Group as={Row} className="mb-3">
-            <Form.Label column sm={3} className="custom-label">
-              Horario:
-            </Form.Label>
-            <Col sm={9}>
-              <Form.Select aria-label="Default select example">
-                <option>Seleccionar una opción</option>
-                <option value="1">Sábado (8:30 - 10:30)</option>
-                <option value="2">Domingo (11:00 - 13:00)</option>
-                <option value="3">Sábado (8:30 - 10:30)</option>
-                <option value="3">Domingo (11:00 - 13:00)</option>
-              </Form.Select>
-            </Col>
-          </Form.Group>
-
+          {/* Foto */}
           <Form.Group as={Row} className="mb-3">
             <Form.Label column sm={3} className="custom-label">
               Foto:
@@ -144,15 +131,14 @@ const FormInscription = () => {
             <Col sm={9}>
               <Form.Control
                 type="file"
-                id="photo"
-                name="photo"
+                name="image"
                 accept="image/*"
                 onChange={handleInputChange}
               />
             </Col>
           </Form.Group>
 
-          <div className="text-center">
+          <div className="custom-button-container">
             <Button variant="primary" type="submit" className="custom-button">
               Registrar
             </Button>
