@@ -1,24 +1,66 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Table, Spinner } from "react-bootstrap";
 import "../../assets/styles/admin/DogsView.css";
 import { useNavigate } from "react-router-dom";
+import { fetchAdoptedDogs, unadoptDog } from "../../services/dogsService";
+import {
+  showConfirmationAlert,
+  showSuccessAlert,
+  showErrorAlert,
+} from "../../services/alertService";
 
-const AdoptedDogsView = ({
-  dogs = [],
-  loading,
-  onEdit,
-  onUnadopt,
-  onViewVisits,
-}) => {
-  const navigate = useNavigate(); // Instancia del hook para navegar
+const AdoptedDogsView = ({ onEditOwner, onEditDog }) => {
+  const [dogs, setDogs] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const navigate = useNavigate();
+
+  const loadAdoptedDogs = async () => {
+    setLoading(true);
+    try {
+      const data = await fetchAdoptedDogs();
+      setDogs(data);
+    } catch (error) {
+      console.error("Error al cargar los perros adoptados:", error);
+      showErrorAlert("No se pudieron cargar los perros adoptados.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    loadAdoptedDogs();
+  }, []);
 
   const handleAddVisit = () => {
-    navigate("/admin/form-visit"); // Redirige a la ruta deseada
+    navigate("/admin/form-visit");
+  };
+
+  const handleUnadopt = async (dogId) => {
+    const confirmed = await showConfirmationAlert(
+      "¿Estás seguro de quitar la adopción?",
+      "Esta acción no se puede deshacer."
+    );
+
+    if (!confirmed) return;
+
+    setLoading(true);
+    try {
+      await unadoptDog(dogId);
+      showSuccessAlert("Adopción eliminada exitosamente.");
+      await loadAdoptedDogs(); // Recargar los datos después de la acción
+    } catch (error) {
+      console.error("Error al quitar la adopción:", error);
+      showErrorAlert(
+        error.message || "No se pudo quitar la adopción. Inténtalo nuevamente."
+      );
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div className="container mt-4">
-      {/* Encabezado */}
       <div className="d-flex justify-content-between align-items-center mb-3">
         <h1 className="h4">Perros Adoptados</h1>
         <Button variant="primary" className="ms-auto" onClick={handleAddVisit}>
@@ -26,7 +68,6 @@ const AdoptedDogsView = ({
         </Button>
       </div>
 
-      {/* Mostrar Spinner mientras los datos se cargan */}
       {loading ? (
         <div className="text-center">
           <Spinner animation="border" role="status" variant="primary">
@@ -47,30 +88,33 @@ const AdoptedDogsView = ({
           <tbody>
             {dogs.map((dog) => (
               <tr key={dog.id}>
-                <td>
+                <td className="actions-cell">
                   <Button
                     variant="info"
                     size="sm"
-                    className="me-2 d-flex align-items-center justify-content-center"
-                    onClick={() => onViewVisits(dog.id)}
+                    className="action-button"
+                    title="Editar Dueño"
+                    onClick={() => onEditOwner(dog.owner)}
                   >
-                    <i class="fa-solid fa-pen"></i>
+                    <i className="fas fa-user-edit"></i>
                   </Button>
                   <Button
                     variant="warning"
                     size="sm"
-                    className="me-2"
-                    onClick={() => onEdit(dog)}
+                    className="action-button"
+                    title="Editar Perro"
+                    onClick={() => onEditDog(dog)}
                   >
-                    <i className="fas fa-edit"></i>
+                    <i className="fas fa-dog"></i>
                   </Button>
                   <Button
                     variant="danger"
                     size="sm"
-                    className="me-2 d-flex align-items-center justify-content-center"
-                    onClick={() => onUnadopt(dog.id)}
+                    className="action-button"
+                    title="Quitar Adopción"
+                    onClick={() => handleUnadopt(dog.id)}
                   >
-                    <i className="fas fa-heart-crack me-1"></i> Desadoptar
+                    <i className="fas fa-heart-crack"></i>
                   </Button>
                 </td>
                 <td>{dog.name || "Sin nombre"}</td>

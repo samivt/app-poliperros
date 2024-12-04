@@ -66,7 +66,6 @@ export const createStaticDog = async (dogData) => {
 };
 
 // Servicio para actualizar un perro estático
-
 export const updateStaticDog = async (id, dogData) => {
   try {
     const response = await fetch(`${API_URL}/dog/static_dog/update/${id}`, {
@@ -410,6 +409,32 @@ export const fetchAdoptedDogs = async () => {
     return data;
   } catch (error) {
     console.error("Error en fetchAdoptedDogs:", error); // Log de errores
+    throw error;
+  }
+};
+//Quitar adopcion perro
+export const unadoptDog = async (dogId) => {
+  const token = getToken(); // Obtén el token de autenticación
+
+  try {
+    const response = await fetch(
+      `${API_URL}/dog/adopted_dog/unadopt/${dogId}/`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: "application/json",
+        },
+        body: "", // El cuerpo está vacío según el curl proporcionado
+      }
+    );
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || "Error al quitar la adopción.");
+    }
+  } catch (error) {
+    console.error("Error en unadoptDog:", error);
     throw error;
   }
 };

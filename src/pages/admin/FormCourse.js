@@ -7,6 +7,7 @@ import {
   showErrorAlert,
   showConfirmationAlert,
 } from "../../services/alertService";
+import { createCourse } from "../../services/courseService";
 import { FaMinus } from "react-icons/fa"; // Importa los íconos
 
 const FormCourse = () => {
@@ -16,16 +17,16 @@ const FormCourse = () => {
     start_date: "",
     end_date: "",
     price: "",
-    spots: "", // Agregar el campo de cupos
+    capacity: "", // Agregar el campo de cupos
     schedule: [{ day: "", start_hour: "", end_hour: "" }],
   });
-  const [setErrors] = useState({
+  const [errors, setErrors] = useState({
     name: false,
     description: false,
     start_date: false,
     end_date: false,
     price: false,
-    spots: false, // Validación para cupos
+    capacity: false, // Validación para cupos
     schedule: false,
   });
 
@@ -68,7 +69,8 @@ const FormCourse = () => {
       description: !formData.description.trim(),
       start_date: !formData.start_date.trim(),
       end_date: !formData.end_date.trim(),
-      price: !formData.price || formData.price <= 0, // Asegúrate de que no sea 0 o negativo
+      price: !formData.price || formData.price <= 0,
+      capacity: !formData.capacity || formData.capacity <= 0, // Validar que capacidad sea mayor a 0
       schedule: formData.schedule.some(
         (schedule) =>
           !schedule.day || !schedule.start_hour || !schedule.end_hour
@@ -95,8 +97,8 @@ const FormCourse = () => {
     if (!confirmed) return;
 
     try {
-      // Aquí deberías agregar la lógica para crear el curso, llamando a un servicio
-      // await createCourse(formData); // Llamar al servicio para registrar el curso
+      // Llama al servicio para registrar el curso
+      await createCourse(formData);
 
       showSuccessAlert("Curso registrado exitosamente.", "¡Éxito!");
       navigate("/admin/courses"); // Redirigir a la página de cursos
@@ -182,16 +184,16 @@ const FormCourse = () => {
           />
         </Form.Group>
 
-        {/* Cupos */}
+        {/* Capacidad */}
         <Form.Group className="mb-4">
           <Form.Label className="custom-label">
-            Cupos: <span className="required">*</span>
+            Capacidad: <span className="required">*</span>
           </Form.Label>
           <Form.Control
             type="number"
-            name="spots"
+            name="capacity"
             required
-            value={formData.spots}
+            value={formData.capacity}
             onChange={handleFieldChange}
             step="1" // Permite solo enteros
           />
@@ -236,7 +238,6 @@ const FormCourse = () => {
                 <Form.Control
                   type="time"
                   name="end_hour"
-                  required
                   value={item.end_hour}
                   onChange={(e) => handleInputChange(e, index)}
                   className="schedule-time"

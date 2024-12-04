@@ -27,7 +27,7 @@ button.btn-primary {
 }
 
 .table th {
-  background-color: #008eb6; /* Bootstrap primary color */
+  background-color: #637aa6; /* Bootstrap primary color */
   color: white;
   text-align: center;
   vertical-align: middle;
@@ -43,7 +43,7 @@ button.btn-primary {
 }
 
 .table td:first-child {
-  display: flex;
+  /*display: flex;*/
   justify-content: center;
   align-items: center;
   gap: 8px;
@@ -109,4 +109,30 @@ button {
     text-transform: uppercase;
     margin-right: 8px;
   }
+}
+/* Acciones alineadas y consistentes */
+.actions-cell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px; /* Espaciado entre botones */
+}
+
+.action-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  font-size: 1rem;
+}
+
+.action-button i {
+  margin: 0;
+}
+
+.action-button:hover {
+  transform: scale(1.1);
+  transition: transform 0.2s ease-in-out;
 }

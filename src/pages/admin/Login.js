@@ -12,7 +12,9 @@ const Login = () => {
   });
 
   const [showPassword, setShowPassword] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
+  //const [errorMessage, setErrorMessage] = useState("");
+  const [setErrorMessage] = useState("");
+
   const navigate = useNavigate();
 
   const handleChange = (event) => {
@@ -129,7 +131,6 @@ const Login = () => {
             <div className="forgot-password">
               <a href="/send-code">¿Olvidaste tu contraseña?</a>
             </div>
-            {errorMessage && <p className="error">{errorMessage}</p>}
 
             <Button variant="secondary" type="submit" className="login-button">
               Ingresar

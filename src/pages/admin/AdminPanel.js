@@ -39,6 +39,8 @@ import {
 import { logout } from "../../services/authService";
 
 import "../../assets/styles/admin/AdminPanel.css";
+import EditVisitsView from "./EditVisitsView";
+import CoursesList from "./CoursesList";
 
 const AdminPanel = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -234,6 +236,8 @@ const AdminPanel = () => {
           />
           {/*Formulario de visitas */}
           <Route path="form-visit" element={<FormVisits />} />
+          <Route path="edit-visit/:visitId" element={<EditVisitsView />} />
+
           <Route path="visits" element={<VisitsView />} />
           <Route path="visits-table" element={<VisitsTable />} />
 
@@ -242,6 +246,7 @@ const AdminPanel = () => {
           <Route path="update-password" element={<UpdatePassword />} />
 
           <Route path="create-course" element={<FormCourse />} />
+          <Route path="courses" element={<CoursesList />} />
 
           <Route path="*" element={<Navigate to="welcome" />} />
         </Routes>

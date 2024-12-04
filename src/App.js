@@ -18,6 +18,7 @@ import FormInscription from "./pages/main/FormInscription.js";
 import AdminPanel from "./pages/admin/AdminPanel.js";
 import ProtectedRoute from "./components/admin/ProtectedRoute.js";
 import Unauthorized from "./pages/admin/Unauthorized.js";
+import CoursesPage from "./pages/main/CousesPage.js";
 
 const App = () => {
   return (
@@ -35,7 +36,7 @@ const App = () => {
         />
 
         <Route path="/view-permanent-dogs" element={<ViewPermanentDogs />} />
-
+        <Route path="courses-view" element={<CoursesPage />} />
         <Route path="/form-inscription" element={<FormInscription />} />
 
         <Route path="/login" element={<Login />} />
