@@ -9,7 +9,7 @@ import {
   showErrorAlert,
 } from "../../services/alertService";
 
-const AdoptedDogsView = ({ onEditOwner, onEditDog }) => {
+const AdoptedDogsView = ({ onEditDog }) => {
   const [dogs, setDogs] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -22,7 +22,6 @@ const AdoptedDogsView = ({ onEditOwner, onEditDog }) => {
       setDogs(data);
     } catch (error) {
       console.error("Error al cargar los perros adoptados:", error);
-      // showErrorAlert("No se pudieron cargar los perros adoptados.");
     } finally {
       setLoading(false);
     }
@@ -34,6 +33,19 @@ const AdoptedDogsView = ({ onEditOwner, onEditDog }) => {
 
   const handleAddVisit = () => {
     navigate("/admin/form-visit");
+  };
+
+  const handleEditOwner = (owner) => {
+    navigate("/admin/edit-owner", {
+      state: {
+        owner: {
+          id: owner.id, // Asegúrate de incluir el ID
+          name: owner.name,
+          direction: owner.direction,
+          cellphone: owner.cellphone,
+        },
+      },
+    });
   };
 
   const handleUnadopt = async (dogId) => {
@@ -63,7 +75,7 @@ const AdoptedDogsView = ({ onEditOwner, onEditDog }) => {
     <div className="container mt-4">
       <div className="d-flex justify-content-between align-items-center mb-3">
         <h1 className="h4">Perros Adoptados</h1>
-        <Button variant="primary" className="ms-auto" onClick={handleAddVisit}>
+        <Button className="agregar-btn ms-auto" onClick={handleAddVisit}>
           <i className="fas fa-plus me-2"></i> Agregar Visita
         </Button>
       </div>
@@ -94,7 +106,7 @@ const AdoptedDogsView = ({ onEditOwner, onEditDog }) => {
                     size="sm"
                     className="action-button"
                     title="Editar Dueño"
-                    onClick={() => onEditOwner(dog.owner)}
+                    onClick={() => handleEditOwner(dog.owner)} // Redirigir al formulario con el ID del dueño
                   >
                     <i className="fas fa-user-edit"></i>
                   </Button>
@@ -103,7 +115,9 @@ const AdoptedDogsView = ({ onEditOwner, onEditDog }) => {
                     size="sm"
                     className="action-button"
                     title="Editar Perro"
-                    onClick={() => onEditDog(dog)}
+                    onClick={() =>
+                      navigate(`/admin/edit-adopted-dog/${dog.id}`)
+                    }
                   >
                     <i className="fas fa-dog"></i>
                   </Button>

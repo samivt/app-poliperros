@@ -11,7 +11,7 @@ const StaticDogsView = ({ dogs = [], loading, onDelete, onAddNew }) => {
       {/* Encabezado */}
       <div className="d-flex justify-content-between align-items-center mb-3">
         <h1 className="h4">Perros Permanentes</h1>
-        <Button variant="primary" onClick={onAddNew}>
+        <Button className="agregar-btn" onClick={onAddNew}>
           <i className="fas fa-plus me-2"></i> Nuevo
         </Button>
       </div>

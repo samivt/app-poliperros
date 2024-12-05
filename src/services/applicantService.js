@@ -1,4 +1,4 @@
-import { getToken } from "./authService";
+import { getToken, fetchWithAuth } from "./authService";
 
 const API_URL = process.env.REACT_APP_API_URL;
 
@@ -18,8 +18,8 @@ export const createApplicant = async (applicantData) => {
       body: JSON.stringify(applicantData),
     });
     if (!response.ok) {
-      const errorData = await response.text(); // Lee el texto del error
-      console.error("Error del servidor:", errorData);
+      // const errorData = await response.text(); // Lee el texto del error
+      //console.error("Error del servidor:", errorData);
       throw new Error(
         "Error al registrar la inscripción. Revisa los datos enviados."
       );
@@ -27,7 +27,7 @@ export const createApplicant = async (applicantData) => {
 
     return await response.json(); // Si es exitoso, parsea el JSON
   } catch (error) {
-    console.error("Error en createApplicant:", error);
+    //console.error("Error en createApplicant:", error);
     throw error;
   }
 };
@@ -41,7 +41,7 @@ export const fetchApplicantsByCourse = async (courseId) => {
   const token = getToken();
 
   try {
-    const response = await fetch(
+    const response = await fetchWithAuth(
       `${API_URL}/applicant/course/${courseId}/all/`,
       {
         method: "GET",
@@ -61,7 +61,7 @@ export const fetchApplicantsByCourse = async (courseId) => {
 
     return await response.json();
   } catch (error) {
-    console.error("Error en fetchApplicantsByCourse:", error);
+    //console.error("Error en fetchApplicantsByCourse:", error);
     throw error;
   }
 };
@@ -75,13 +75,16 @@ export const fetchApplicantById = async (applicantId) => {
   const token = getToken();
 
   try {
-    const response = await fetch(`${API_URL}/applicant/${applicantId}`, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        Accept: "application/json",
-      },
-    });
+    const response = await fetchWithAuth(
+      `${API_URL}/applicant/${applicantId}`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: "application/json",
+        },
+      }
+    );
 
     if (!response.ok) {
       const errorData = await response.json();
@@ -92,7 +95,7 @@ export const fetchApplicantById = async (applicantId) => {
 
     return await response.json();
   } catch (error) {
-    console.error("Error en fetchApplicantById:", error);
+    // console.error("Error en fetchApplicantById:", error);
     throw error;
   }
 };
@@ -106,13 +109,16 @@ export const fetchApplicantImage = async (applicantId) => {
   const token = getToken();
 
   try {
-    const response = await fetch(`${API_URL}/applicant/${applicantId}/image`, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        Accept: "*/*", // Para imágenes
-      },
-    });
+    const response = await fetchWithAuth(
+      `${API_URL}/applicant/${applicantId}/image`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: "*/*", // Para imágenes
+        },
+      }
+    );
 
     if (!response.ok) {
       throw new Error("Error al obtener la imagen del solicitante.");
@@ -121,7 +127,7 @@ export const fetchApplicantImage = async (applicantId) => {
     const blob = await response.blob();
     return URL.createObjectURL(blob); // Convierte el blob en una URL de objeto
   } catch (error) {
-    console.error("Error en fetchApplicantImage:", error);
+    // console.error("Error en fetchApplicantImage:", error);
     throw error;
   }
 };

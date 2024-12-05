@@ -94,7 +94,7 @@ const ApplicantsByCourse = () => {
 
       {/* Lista de Solicitantes */}
       <div className="applicants-table flex-grow-1">
-        <h4>Solicitantes</h4>
+        <h4>Inscritos</h4>
         {loadingApplicants ? (
           <div className="text-center">
             <Spinner animation="border" role="status" variant="primary">
@@ -105,31 +105,35 @@ const ApplicantsByCourse = () => {
           <Table striped bordered hover responsive>
             <thead>
               <tr>
-                <th>Foto</th>
                 <th>Nombre</th>
                 <th>Apellido</th>
                 <th>Email</th>
                 <th>Teléfono</th>
+                <th>Comprobante de pago</th>
               </tr>
             </thead>
             <tbody>
               {applicants.map((applicant) => (
                 <tr key={applicant.id}>
+                  <td>{applicant.first_name}</td>
+                  <td>{applicant.last_name}</td>
+                  <td>{applicant.email}</td>
+                  <td>{applicant.cellphone}</td>
                   <td>
                     {applicant.imageUrl ? (
                       <img
                         src={applicant.imageUrl}
-                        alt="Solicitante"
+                        alt="Comprobante de pago"
                         className="applicant-img"
+                        onClick={() =>
+                          window.open(applicant.imageUrl, "_blank")
+                        }
+                        style={{ cursor: "pointer" }} // Indica que es clickeable
                       />
                     ) : (
                       "Sin imagen"
                     )}
                   </td>
-                  <td>{applicant.first_name}</td>
-                  <td>{applicant.last_name}</td>
-                  <td>{applicant.email}</td>
-                  <td>{applicant.cellphone}</td>
                 </tr>
               ))}
             </tbody>
@@ -138,7 +142,7 @@ const ApplicantsByCourse = () => {
           <p className="text-muted">
             {selectedCourseId
               ? "No hay solicitantes para este curso."
-              : "Selecciona un curso para ver los solicitantes."}
+              : "Selecciona un curso para ver los inscritos."}
           </p>
         )}
       </div>

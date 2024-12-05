@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import userService from "../../services/userService";
-import { logout } from "../../services/authService"; // Importación nombrada
+import { logout } from "../../services/authService";
 import "../../assets/styles/admin/UserProfileUpdate.css";
 import {
   showSuccessAlert,
   showErrorAlert,
   showWarningAlert,
 } from "../../services/alertService";
+import DOMPurify from "dompurify"; // Para sanitización
 
 const UserProfileUpdate = ({ user, token }) => {
   const [formData, setFormData] = useState({
@@ -18,24 +19,30 @@ const UserProfileUpdate = ({ user, token }) => {
 
   const validateFields = () => {
     const newErrors = {};
-    // Validar formato del correo solo si se ingresó un valor
+
+    // Validar solo si el campo está lleno
     if (
       formData.email.trim() &&
-      !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)
+      !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(DOMPurify.sanitize(formData.email))
     ) {
       newErrors.email = "El formato del correo electrónico no es válido.";
     }
+
     return newErrors;
   };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+
+    // Sanitización al momento de escribir
+    setFormData({
+      ...formData,
+      [name]: DOMPurify.sanitize(value.trim()),
+    });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("handleSubmit ejecutado");
 
     const validationErrors = validateFields();
     if (Object.keys(validationErrors).length > 0) {
@@ -50,19 +57,16 @@ const UserProfileUpdate = ({ user, token }) => {
     try {
       // Preparar datos para enviar
       const dataToSend = {
-        username: formData.username.trim() || null,
-        email: formData.email.trim() || null,
+        username: formData.username || null,
+        email: formData.email || null,
       };
-      console.log("Llamando a updateUser con datos:", dataToSend);
 
       const response = await userService.updateUser(dataToSend, token);
 
-      // Manejar éxito de la actualización
       if (response?.detail === "Información Actualizada") {
         showSuccessAlert("Usuario actualizado correctamente.");
-        console.log("Cerrando sesión...");
-        logout(); // Llamar directamente a logout
-        window.location.href = "/login"; // Redirigir al login
+        logout();
+        window.location.href = "/login";
       } else {
         console.warn("Respuesta inesperada del backend:", response);
       }
@@ -79,9 +83,10 @@ const UserProfileUpdate = ({ user, token }) => {
     <div className="custom-form-container">
       <h2 className="form-title">Actualizar Perfil</h2>
       <form onSubmit={handleSubmit}>
+        {/* Nombre de usuario */}
         <div className="mb-3">
           <label htmlFor="username" className="custom-label">
-            Nombre de Usuario
+            Nombre de usuario
           </label>
           <input
             type="text"
@@ -92,6 +97,8 @@ const UserProfileUpdate = ({ user, token }) => {
             onChange={handleInputChange}
           />
         </div>
+
+        {/* Correo electrónico */}
         <div className="mb-3">
           <label htmlFor="email" className="custom-label">
             Correo Electrónico
@@ -106,6 +113,8 @@ const UserProfileUpdate = ({ user, token }) => {
           />
           {errors.email && <div className="text-danger">{errors.email}</div>}
         </div>
+
+        {/* Botón para enviar */}
         <div className="custom-button-container">
           <button type="submit" className="btn custom-button">
             Actualizar Perfil

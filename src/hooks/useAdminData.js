@@ -36,7 +36,7 @@ const useAdminData = () => {
       setStaticDogs(data);
       //showSuccessAlert("Perros permanentes cargados correctamente.");
     } catch (error) {
-      console.error("Error al cargar los perros permanentes:", error);
+      //console.error("Error al cargar los perros permanentes:", error);
       //showErrorAlert("No se pudieron cargar los perros permanentes.");
     } finally {
       setIsLoading((prev) => ({ ...prev, staticDogs: false }));

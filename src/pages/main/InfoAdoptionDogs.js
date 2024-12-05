@@ -50,7 +50,10 @@ const InfoAdoptionDogs = () => {
   }
 
   const handleAdoptClick = () => {
-    const whatsappUrl = `https://wa.me/?text=Hola,%20estoy%20interesado%20en%20adoptar%20a%20${dog.name}.`;
+    const phoneNumber = "0991938285"; // Reemplaza con el número de teléfono
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=Hola,%20estoy%20interesado%20en%20adoptar%20a%20${dog.name}.`;
+
+    // Ejemplo: abrir el enlace
     window.open(whatsappUrl, "_blank");
   };
 

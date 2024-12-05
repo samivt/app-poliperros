@@ -1,103 +1,109 @@
 /* FormCourse.css */
 .schedule-entry {
-    border: 1px solid #ddd;
-    padding: 10px;
-    border-radius: 5px;
-    margin-bottom: 10px;
-  }
-  
-  .add-schedule-btn {
-    color: #007bff;
-    text-decoration: underline;
-    margin-top: 10px;
-  }
-  
-  .add-schedule-btn:hover {
-    cursor: pointer;
-  }
-  
-  .custom-button-container {
-    display: flex;
-    justify-content: center;
-  }
-  
-  .custom-button {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    font-size: 16px;
-  }
-  
-  .custom-button:hover {
-    background-color: #0056b3;
-  }
+  border: 1px solid #ddd;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
 
-  .custom-label {
-    font-weight: bold;
-    font-size: 1rem;
-    color: #333;
-  }
-  
-  .required {
-    color: red;
-    margin-left: 0.2rem;
-  }
-  
-  .schedule-select,
-  .schedule-time {
-    border-radius: 4px;
-    padding: 0.4rem;
-    font-size: 0.9rem;
-  }
-  
+.add-schedule-btn {
+  color: #007bff;
+  text-decoration: underline;
+  margin-top: 10px;
+}
+
+.add-schedule-btn:hover {
+  cursor: pointer;
+}
+
+.custom-button-container {
+  display: flex; /* Hace el contenedor flexible */
+  justify-content: center; /* Centra horizontalmente */
+  align-items: center; /* Centra verticalmente */
+  gap: 30px; /* Espaciado entre botones */
+  margin: 20px auto; /* Centrado horizontal con margen superior/inferior */
+}
+
+.custom-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.custom-button:hover {
+  background-color: #0056b3;
+}
+
+.custom-label {
+  font-weight: bold;
+  font-size: 1rem;
+  color: #333;
+}
+
+.required {
+  color: red;
+  margin-left: 0.2rem;
+}
+
+.schedule-select,
+.schedule-time {
+  border-radius: 4px;
+  padding: 0.4rem;
+  font-size: 0.9rem;
+}
+
+.delete-btn {
+  background-color: white;
+  border: 2px solid #007bff;
+  color: #007bff;
+  padding: 0.2rem 0.4rem; /* Reducido para hacerlo más pequeño */
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  font-size: 1rem; /* Reducido el tamaño del ícono */
+  min-width: 30px;
+  min-height: 30px;
+}
+
+.delete-btn:hover {
+  background-color: #f0f0f0;
+  border-color: #0056b3;
+}
+
+.delete-btn svg {
+  color: #007bff;
+  width: 0.8rem; /* Ajuste el tamaño del ícono */
+  height: 0.8rem;
+}
+
+.row {
+  align-items: center; /* Alinea verticalmente los elementos dentro de la fila */
+}
+
+.col-auto {
+  display: flex;
+  justify-content: center; /* Centra el botón dentro de su columna */
+}
+.form-error {
+  color: rgba(255, 0, 0, 0.593);
+  font-weight: 100;
+}
+
+/* Media query para pantallas pequeñas */
+@media (max-width: 576px) {
   .delete-btn {
-    background-color: white;
-    border: 2px solid #007bff;
-    color: #007bff;
-    padding: 0.2rem 0.4rem; /* Reducido para hacerlo más pequeño */
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    font-size: 1rem; /* Reducido el tamaño del ícono */
-    min-width: 30px;
-    min-height: 30px;
-  }
-  
-  .delete-btn:hover {
-    background-color: #f0f0f0;
-    border-color: #0056b3;
-  }
-  
-  .delete-btn svg {
-    color: #007bff;
-    width: 0.8rem; /* Ajuste el tamaño del ícono */
-    height: 0.8rem;
+    font-size: 0.8rem; /* Reduce el tamaño del ícono */
+    min-width: 28px; /* Ajusta el tamaño del botón */
+    min-height: 28px;
   }
 
-  .row {
-    align-items: center; /* Alinea verticalmente los elementos dentro de la fila */
+  .delete-btn svg {
+    width: 0.7rem; /* Ajusta el tamaño del ícono */
+    height: 0.7rem;
   }
-  
-  .col-auto {
-    display: flex;
-    justify-content: center; /* Centra el botón dentro de su columna */
-  }
-  
-  /* Media query para pantallas pequeñas */
-  @media (max-width: 576px) {
-    .delete-btn {
-      font-size: 0.8rem; /* Reduce el tamaño del ícono */
-      min-width: 28px; /* Ajusta el tamaño del botón */
-      min-height: 28px;
-    }
-  
-    .delete-btn svg {
-      width: 0.7rem; /* Ajusta el tamaño del ícono */
-      height: 0.7rem;
-    }
-  }
-  
+}

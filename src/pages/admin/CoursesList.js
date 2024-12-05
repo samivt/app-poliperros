@@ -118,20 +118,20 @@ const CoursesList = () => {
             <tr key={course.id}>
               <td>
                 <Button
-                  variant="link"
+                  variant="warning"
                   size="sm"
-                  className="me-2 text-warning"
                   onClick={() => handleEdit(course.id)}
+                  className="me-2"
                 >
-                  <i class="fa-solid fa-pen-to-square"></i>
+                  <i className="fas fa-edit"></i>
                 </Button>
                 <Button
-                  variant="link"
+                  variant="danger"
                   size="sm"
-                  className="text-danger"
                   onClick={() => handleDelete(course.id)}
+                  className="me-2"
                 >
-                  <i class="fa-solid fa-trash-can"></i>
+                  <i className="fas fa-trash"></i>
                 </Button>
               </td>
               <td>{course.name}</td>

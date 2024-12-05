@@ -1,36 +1,60 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import DOMPurify from "dompurify";
 import {
   fetchStaticDogById,
   fetchAdoptionDogById,
+  fetchAdoptedDogById,
   updateStaticDog,
   updateAdoptionDog,
+  updateAdoptedDog,
 } from "../../services/dogsService";
 import { showSuccessAlert, showErrorAlert } from "../../services/alertService";
 import { Form, Button, Row, Col } from "react-bootstrap";
 
 const EditDogView = ({ type, onSave }) => {
-  const { id } = useParams(); // Obtiene el ID del perro desde la URL
+  const { id } = useParams();
   const navigate = useNavigate();
   const [formData, setFormData] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [nameError, setNameError] = useState(false); // Para manejar errores de validación del nombre
 
-  // Carga los datos del perro al montar el componente
+  // Función para sanitizar entradas
+  const sanitizeInput = (value) => DOMPurify.sanitize(value);
+
+  // Validar que el nombre solo contenga letras y espacios
+  const validateName = (name) => /^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ\s]+$/.test(name);
+
   useEffect(() => {
     const loadDog = async () => {
       try {
         const fetchMethod =
-          type === "static" ? fetchStaticDogById : fetchAdoptionDogById;
-        const dogData = await fetchMethod(id); // Llama al servicio correspondiente
-        setFormData(dogData);
-        setImagePreview(dogData.image); // Configura la vista previa de la imagen si existe
+          type === "static"
+            ? fetchStaticDogById
+            : type === "adoption"
+            ? fetchAdoptionDogById
+            : fetchAdoptedDogById;
+
+        const dogData = await fetchMethod(id);
+        setFormData({
+          ...dogData,
+          name: sanitizeInput(dogData.name),
+          about: sanitizeInput(dogData.about),
+        });
+        setImagePreview(dogData.image);
       } catch (error) {
         console.error("Error al cargar el perro:", error);
         showErrorAlert("No se pudo cargar la información del perro.");
         navigate(
-          `/admin/${type === "static" ? "static-dogs" : "adoption-dogs"}`
-        ); // Redirige según el tipo
+          `/admin/${
+            type === "static"
+              ? "static-dogs"
+              : type === "adoption"
+              ? "adoption-dogs"
+              : "adopted-dogs"
+          }`
+        );
       } finally {
         setIsLoading(false);
       }
@@ -39,7 +63,6 @@ const EditDogView = ({ type, onSave }) => {
     loadDog();
   }, [id, type, navigate]);
 
-  // Manejo de cambios en el formulario
   const handleInputChange = (event) => {
     const { name, value, type: inputType, checked, files } = event.target;
 
@@ -53,27 +76,39 @@ const EditDogView = ({ type, onSave }) => {
       if (file) {
         const reader = new FileReader();
         reader.onload = () => {
-          setImagePreview(reader.result); // Configura la vista previa
-          setFormData({ ...formData, image: reader.result.split(",")[1] }); // Guarda la imagen en Base64
+          setImagePreview(reader.result);
+          setFormData({ ...formData, image: reader.result.split(",")[1] });
         };
         reader.readAsDataURL(file);
       }
     } else {
+      // Validar y sanitizar entrada
+      const sanitizedValue = sanitizeInput(value);
+
+      // Validar nombre solo con letras
+      if (name === "name") {
+        if (!validateName(sanitizedValue)) {
+          setNameError(true);
+          return; // No actualiza el estado si hay error
+        } else {
+          setNameError(false);
+        }
+      }
+
       setFormData({
         ...formData,
         [name]:
           name === "age" || name === "id_chip"
-            ? parseInt(value, 10) || null
-            : value, // Asegura que `age` e `id_chip` sean numéricos o null
+            ? parseInt(sanitizedValue, 10) || null
+            : sanitizedValue,
       });
     }
   };
 
-  // Manejo del envío del formulario
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    // Valida los campos requeridos
+    // Validación básica de campos requeridos
     if (!formData.name || !formData.age || !formData.gender) {
       showErrorAlert("Por favor, completa todos los campos requeridos.");
       return;
@@ -81,29 +116,42 @@ const EditDogView = ({ type, onSave }) => {
 
     try {
       const payload = {
-        ...formData,
-        id_chip: formData.id_chip || null, // Asegura que id_chip sea null si no se especifica
-        operation: formData.operation || null,
+        id_chip: formData.id_chip || 0,
+        name: sanitizeInput(formData.name),
+        about: sanitizeInput(formData.about || ""),
+        age: formData.age || 0,
+        is_vaccinated: formData.is_vaccinated || false,
         image:
           formData.image && !imagePreview.startsWith("http")
             ? formData.image
-            : null, // Si la imagen no ha sido modificada, no se envía
+            : null,
+        gender: sanitizeInput(formData.gender),
+        entry_date: sanitizeInput(formData.entry_date || ""),
+        is_sterilized: formData.is_sterilized || false,
+        is_dewormed: formData.is_dewormed || false,
+        operation: sanitizeInput(formData.operation || ""),
       };
 
-      console.log("Payload enviado al backend:", payload);
-
-      // Llamada al servicio para actualizar según el tipo
       const updateMethod =
-        type === "static" ? updateStaticDog : updateAdoptionDog;
+        type === "static"
+          ? updateStaticDog
+          : type === "adoption"
+          ? updateAdoptionDog
+          : updateAdoptedDog;
+
       const response = await updateMethod(id, payload);
 
-      console.log("Respuesta del backend:", response);
-
-      if (response.detail.includes("Actualizado")) {
+      if (response.detail?.includes("Actualizado")) {
         showSuccessAlert("Perro actualizado correctamente.");
-        await onSave(); // Refresca los datos en la tabla
+        await onSave();
         navigate(
-          `/admin/${type === "static" ? "static-dogs" : "adoption-dogs"}`
+          `/admin/${
+            type === "static"
+              ? "static-dogs"
+              : type === "adoption"
+              ? "adoption-dogs"
+              : "adopted-dogs"
+          }`
         );
       } else {
         showErrorAlert("El perro no se pudo actualizar. Verifica los datos.");
@@ -115,7 +163,15 @@ const EditDogView = ({ type, onSave }) => {
   };
 
   const handleCancel = () => {
-    navigate(`/admin/${type === "static" ? "static-dogs" : "adoption-dogs"}`);
+    navigate(
+      `/admin/${
+        type === "static"
+          ? "static-dogs"
+          : type === "adoption"
+          ? "adoption-dogs"
+          : "adopted-dogs"
+      }`
+    );
   };
 
   if (isLoading) {
@@ -126,25 +182,34 @@ const EditDogView = ({ type, onSave }) => {
     <div className="container mt-4">
       <h2 className="mb-4">
         Editar Información del Perro{" "}
-        {type === "static" ? "Permanente" : "En Adopción"}
+        {type === "static"
+          ? "Permanente"
+          : type === "adoption"
+          ? "En Adopción"
+          : "Adoptado"}
       </h2>
       <Form onSubmit={handleSubmit}>
         <Row>
           <Col md={6}>
-            {/* Nombre */}
             <Form.Group className="mb-3">
               <Form.Label>Nombre</Form.Label>
               <Form.Control
                 type="text"
                 name="name"
-                value={formData.name}
+                value={sanitizeInput(formData.name)}
                 onChange={handleInputChange}
                 required
+                maxLength={100}
+                isInvalid={nameError} // Marca el campo como inválido si hay error
               />
+              {nameError && (
+                <Form.Text className="text-danger">
+                  El nombre solo puede contener letras y espacios.
+                </Form.Text>
+              )}
             </Form.Group>
           </Col>
           <Col md={6}>
-            {/* Edad */}
             <Form.Group className="mb-3">
               <Form.Label>Edad (en años)</Form.Label>
               <Form.Control
@@ -153,19 +218,19 @@ const EditDogView = ({ type, onSave }) => {
                 value={formData.age || ""}
                 onChange={handleInputChange}
                 required
+                min={0}
+                max={30}
               />
             </Form.Group>
           </Col>
         </Row>
-
         <Row>
           <Col md={6}>
-            {/* Género */}
             <Form.Group className="mb-3">
               <Form.Label>Género</Form.Label>
               <Form.Select
                 name="gender"
-                value={formData.gender}
+                value={sanitizeInput(formData.gender)}
                 onChange={handleInputChange}
                 required
               >
@@ -175,47 +240,30 @@ const EditDogView = ({ type, onSave }) => {
               </Form.Select>
             </Form.Group>
           </Col>
-
           <Col md={6}>
-            {/* Fecha de Ingreso */}
             <Form.Group className="mb-3">
               <Form.Label>Fecha de Ingreso</Form.Label>
               <Form.Control
                 type="date"
                 name="entry_date"
-                value={formData.entry_date || ""}
-                onChange={handleInputChange}
-              />
-            </Form.Group>
-          </Col>
-          <Col md={6}>
-            {/* Chip */}
-            <Form.Group className="mb-3">
-              <Form.Label>Nº Chip</Form.Label>
-              <Form.Control
-                type="number"
-                name="id_chip"
-                value={formData.id_chip}
+                value={sanitizeInput(formData.entry_date || "")}
                 onChange={handleInputChange}
               />
             </Form.Group>
           </Col>
         </Row>
-
         <Form.Group className="mb-3">
-          {/* Descripción */}
           <Form.Label>Descripción</Form.Label>
           <Form.Control
             as="textarea"
             name="about"
-            value={formData.about}
+            value={sanitizeInput(formData.about)}
             onChange={handleInputChange}
+            maxLength={500}
           />
         </Form.Group>
-
         <Row>
           <Col md={4}>
-            {/* Vacunado */}
             <Form.Group className="mb-3">
               <Form.Check
                 type="switch"
@@ -227,7 +275,6 @@ const EditDogView = ({ type, onSave }) => {
             </Form.Group>
           </Col>
           <Col md={4}>
-            {/* Esterilizado */}
             <Form.Group className="mb-3">
               <Form.Check
                 type="switch"
@@ -239,7 +286,6 @@ const EditDogView = ({ type, onSave }) => {
             </Form.Group>
           </Col>
           <Col md={4}>
-            {/* Desparasitado */}
             <Form.Group className="mb-3">
               <Form.Check
                 type="switch"
@@ -251,8 +297,6 @@ const EditDogView = ({ type, onSave }) => {
             </Form.Group>
           </Col>
         </Row>
-
-        {/* Imagen */}
         <Form.Group className="mb-3">
           <Form.Label>Imagen</Form.Label>
           <Form.Control type="file" onChange={handleInputChange} />
@@ -265,7 +309,6 @@ const EditDogView = ({ type, onSave }) => {
             />
           )}
         </Form.Group>
-
         <div className="d-flex justify-content-between">
           <Button type="submit" variant="primary">
             Guardar Cambios

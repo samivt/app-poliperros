@@ -26,6 +26,7 @@ import FormCourse from "./FormCourse";
 import CoursesList from "./CoursesList";
 import ApplicantsByCourse from "./ApplicantsByCourse";
 import EditVisitsView from "./EditVisitsView";
+import EditOwnerForm from "./EditOwnerForm";
 
 import useAdminData from "../../hooks/useAdminData";
 import { logout } from "../../services/authService";
@@ -145,6 +146,16 @@ const AdminPanel = () => {
             path="edit-adoption-dog/:id"
             element={<EditDogView type="adoption" onSave={loadAdoptionDogs} />}
           />
+          {/* Editar perro adoptado */}
+          <Route
+            path="edit-adopted-dog/:id"
+            element={<EditDogView type="adopted" onSave={loadAdoptedDogs} />}
+          />
+          {/* Editar dueño de perro */}
+          <Route
+            path="edit-owner"
+            element={<EditOwnerForm onSave={loadAdoptedDogs} />}
+          />
           {/* Formulario de adopción */}
           <Route
             path="adopt-dog/:id"
@@ -181,7 +192,8 @@ const AdminPanel = () => {
           <Route path="create-course" element={<FormCourse />} />
           <Route path="list-courses" element={<CoursesList />} />
           <Route path="list-applicants" element={<ApplicantsByCourse />} />
-
+          {/* Ruta para editar curso */}
+          <Route path="edit-course/:courseId" element={<FormCourse />} />
           <Route path="*" element={<Navigate to="welcome" />} />
         </Routes>
       </div>

@@ -1,4 +1,4 @@
-import { getToken } from "./authService.js";
+import { getToken, fetchWithAuth } from "./authService.js";
 const API_URL = process.env.REACT_APP_API_URL;
 
 // Crear perros estáticos
@@ -21,12 +21,9 @@ export const createStaticDog = async (dogData) => {
   };
 
   try {
-    console.log(
-      "Payload enviado al backend:",
-      JSON.stringify(payload, null, 2)
-    ); // Imprime el payload
+    //console.log( "Payload enviado al backend:", JSON.stringify(payload, null, 2)); // Imprime el payload
 
-    const response = await fetch(`${API_URL}/dog/static_dog/create/`, {
+    const response = await fetchWithAuth(`${API_URL}/dog/static_dog/create/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -37,7 +34,7 @@ export const createStaticDog = async (dogData) => {
 
     if (!response.ok) {
       const errorData = await response.json();
-      console.error("Error del backend recibido:", errorData);
+      //console.error("Error del backend recibido:", errorData);
 
       // Procesar y mostrar errores del campo `detail`
       if (errorData.detail && Array.isArray(errorData.detail)) {
@@ -45,7 +42,7 @@ export const createStaticDog = async (dogData) => {
           (err) =>
             `Campo: ${err.loc?.join(".") || "desconocido"} - Error: ${err.msg}`
         );
-        console.error("Errores detallados del backend:", detailedErrors);
+        //console.error("Errores detallados del backend:", detailedErrors);
         throw new Error(detailedErrors.join("; "));
       }
 
@@ -68,24 +65,27 @@ export const createStaticDog = async (dogData) => {
 // Servicio para actualizar un perro estático
 export const updateStaticDog = async (id, dogData) => {
   try {
-    const response = await fetch(`${API_URL}/dog/static_dog/update/${id}`, {
-      method: "PUT",
-      headers: {
-        Authorization: `Bearer ${getToken()}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(dogData),
-    });
+    const response = await fetchWithAuth(
+      `${API_URL}/dog/static_dog/update/${id}`,
+      {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${getToken()}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(dogData),
+      }
+    );
 
     if (!response.ok) {
-      const errorData = await response.json();
-      console.error("Detalle del error del backend:", errorData);
+      //const errorData = await response.json();
+      //console.error("Detalle del error del backend:", errorData);
       throw new Error("Error al actualizar el perro");
     }
 
     return await response.json(); // Devuelve la respuesta si es exitosa
   } catch (error) {
-    console.error("Error actualizando el perro:", error);
+    // console.error("Error actualizando el perro:", error);
     throw error;
   }
 };
@@ -93,7 +93,7 @@ export const updateStaticDog = async (id, dogData) => {
 // Obtener perros permanentes
 export const fetchStaticDogs = async () => {
   try {
-    console.log("Iniciando fetchStaticDogs..."); // Log inicial
+    //console.log("Iniciando fetchStaticDogs..."); // Log inicial
     const response = await fetch(`${API_URL}/dog/static_dog/`, {
       method: "GET",
       headers: {
@@ -101,19 +101,19 @@ export const fetchStaticDogs = async () => {
       },
     });
 
-    console.log("Estado de la respuesta:", response.status); // Verifica el estado HTTP
+    // console.log("Estado de la respuesta:", response.status); // Verifica el estado HTTP
 
     if (!response.ok) {
-      const errorMessage = await response.text();
-      console.error("Error al obtener los perros permanentes:", errorMessage);
-      throw new Error("Error al obtener los perros permanentes.");
+      //const errorMessage = await response.text();
+      // console.error("Error al obtener los perros permanentes:", errorMessage);
+      //throw new Error("Error al obtener los perros permanentes.");
     }
 
     const data = await response.json();
-    console.log("Datos recibidos del backend (fetchStaticDogs):", data); // Log de los datos
+    // console.log("Datos recibidos del backend (fetchStaticDogs):", data); // Log de los datos
     return data;
   } catch (error) {
-    console.error("Error en fetchStaticDogs:", error); // Log de errores
+    // console.error("Error en fetchStaticDogs:", error); // Log de errores
     throw error;
   }
 };
@@ -121,7 +121,7 @@ export const fetchStaticDogs = async () => {
 
 export const fetchStaticDogById = async (id) => {
   try {
-    const response = await fetch(`${API_URL}/dog/static_dog/${id}`, {
+    const response = await fetchWithAuth(`${API_URL}/dog/static_dog/${id}`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${getToken()}`,
@@ -157,7 +157,7 @@ export const fetchStaticDogImage = async (dogId) => {
     const blob = await response.blob(); // Convierte la respuesta a un Blob
     return URL.createObjectURL(blob); // Devuelve la URL de la imagen para usar en <img>
   } catch (error) {
-    console.error("Error al obtener la imagen:", error);
+    //console.error("Error al obtener la imagen:", error);
     throw error; // Lanza el error para manejarlo en el componente
   }
 };
@@ -165,19 +165,22 @@ export const fetchStaticDogImage = async (dogId) => {
 export const deleteStaticDog = async (id) => {
   const token = getToken();
   try {
-    const response = await fetch(`${API_URL}/dog/static_dog/delete/${id}`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await fetchWithAuth(
+      `${API_URL}/dog/static_dog/delete/${id}`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
 
     if (!response.ok) {
       throw new Error(`Error al eliminar el perro con ID ${id}.`);
     }
   } catch (error) {
-    console.error("Error en deleteStaticDog:", error);
+    //console.error("Error en deleteStaticDog:", error);
     throw error;
   }
 };
@@ -316,7 +319,7 @@ export const deleteAdoptionDog = async (id) => {
 
 export const fetchAdoptionDogById = async (id) => {
   try {
-    const response = await fetch(`${API_URL}/dog/adoption_dog/${id}`, {
+    const response = await fetchWithAuth(`${API_URL}/dog/adoption_dog/${id}`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${getToken()}`,
@@ -330,7 +333,7 @@ export const fetchAdoptionDogById = async (id) => {
 
     return await response.json();
   } catch (error) {
-    console.error(error);
+    //console.error(error);
     throw error;
   }
 };
@@ -351,7 +354,7 @@ export const fetchAdoptionDogImage = async (dogId) => {
     const blob = await response.blob(); // Convierte la respuesta a un Blob
     return URL.createObjectURL(blob); // Devuelve la URL de la imagen para usar en <img>
   } catch (error) {
-    console.error("Error al obtener la imagen:", error);
+    //console.error("Error al obtener la imagen:", error);
     throw error; // Lanza el error para manejarlo en el componente
   }
 };
@@ -361,7 +364,7 @@ export const adoptDog = async (dogId, adoptionDate, ownerData) => {
   const token = getToken(); // Método para obtener el token
   const url = `${API_URL}/dog/adoption_dog/adopt/${dogId}/${adoptionDate}`;
 
-  const response = await fetch(url, {
+  const response = await fetchWithAuth(url, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -381,7 +384,7 @@ export const adoptDog = async (dogId, adoptionDate, ownerData) => {
 // Obtener perros adoptados
 export const fetchAdoptedDogs = async () => {
   try {
-    console.log("Iniciando fetchAdoptedDogs..."); // Log inicial
+    //console.log("Iniciando fetchAdoptedDogs..."); // Log inicial
     const response = await fetch(
       `${API_URL}/dog/adopted_dog/`, // Endpoint para obtener perros adoptados
       {
@@ -392,19 +395,42 @@ export const fetchAdoptedDogs = async () => {
       }
     );
 
-    console.log("Estado de la respuesta:", response.status); // Verifica el estado HTTP
+    // console.log("Estado de la respuesta:", response.status); // Verifica el estado HTTP
 
     if (!response.ok) {
-      const errorMessage = await response.text();
-      console.error("Error al obtener los perros adoptados:", errorMessage);
+      // const errorMessage = await response.text();
+      // console.error("Error al obtener los perros adoptados:", errorMessage);
       throw new Error("Error al obtener los perros adoptados.");
     }
 
-    const data = await response.json();
-    console.log("Datos recibidos del backend (fetchAdoptedDogs):", data); // Log de los datos
-    return data;
+    //const data = await response.json();
+    //console.log("Datos recibidos del backend (fetchAdoptedDogs):", data); // Log de los datos
+    //return data;
   } catch (error) {
-    console.error("Error en fetchAdoptedDogs:", error); // Log de errores
+    //console.error("Error en fetchAdoptedDogs:", error); // Log de errores
+    throw error;
+  }
+};
+//Obtener perror por id
+export const fetchAdoptedDogById = async (id) => {
+  try {
+    const response = await fetch(`${API_URL}/dog/adopted_dog/${id}`, {
+      method: "GET",
+      headers: {
+        Accept: "application/json", // Acepta JSON
+      },
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(
+        errorData.message || "No se pudo obtener la información del perro."
+      );
+    }
+
+    return await response.json(); // Retorna la respuesta en JSON si es exitosa
+  } catch (error) {
+    console.error("Error al obtener la información del perro adoptado:", error);
     throw error;
   }
 };
@@ -413,7 +439,7 @@ export const unadoptDog = async (dogId) => {
   const token = getToken(); // Obtén el token de autenticación
 
   try {
-    const response = await fetch(
+    const response = await fetchWithAuth(
       `${API_URL}/dog/adopted_dog/unadopt/${dogId}/`,
       {
         method: "POST",
@@ -430,7 +456,7 @@ export const unadoptDog = async (dogId) => {
       throw new Error(errorData.message || "Error al quitar la adopción.");
     }
   } catch (error) {
-    console.error("Error en unadoptDog:", error);
+    //console.error("Error en unadoptDog:", error);
     throw error;
   }
 };
@@ -443,7 +469,7 @@ export const updateOwner = async (idOwner, ownerData) => {
       throw new Error("Token de autenticación no disponible.");
     }
 
-    const response = await fetch(`${API_URL}/owner/update/${idOwner}`, {
+    const response = await fetchWithAuth(`${API_URL}/owner/update/${idOwner}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -455,11 +481,11 @@ export const updateOwner = async (idOwner, ownerData) => {
 
     if (!response.ok) {
       const errorDetails = await response.json();
-      console.error(
-        `Error del servidor: ${response.status} - ${
-          errorDetails.detail || "Sin mensaje específico"
-        }`
-      );
+      //console.error(
+      // `Error del servidor: ${response.status} - ${
+      //   errorDetails.detail || "Sin mensaje específico"
+      // }`
+      // );
       throw new Error(
         errorDetails.detail || "Error al actualizar la información del dueño."
       );
@@ -467,7 +493,41 @@ export const updateOwner = async (idOwner, ownerData) => {
 
     return await response.json(); // Devuelve la respuesta en JSON si la solicitud fue exitosa
   } catch (error) {
-    console.error("Error en updateOwner:", error.message || error);
+    // console.error("Error en updateOwner:", error.message || error);
+    throw error;
+  }
+};
+//Actualizar perro adoptado
+export const updateAdoptedDog = async (idDog, dogData) => {
+  try {
+    const token = getToken(); // Obtener el token de autorización
+    if (!token) {
+      throw new Error("Token no encontrado. Por favor, inicie sesión.");
+    }
+
+    const response = await fetchWithAuth(
+      `${API_URL}/dog/adopted_dog/update/${idDog}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`, // Token JWT
+          Accept: "application/json",
+        },
+        body: JSON.stringify(dogData), // Datos del perro a actualizar
+      }
+    );
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(
+        errorData.message || "No se pudo actualizar la información del perro."
+      );
+    }
+
+    return await response.json(); // Retorna la respuesta en JSON si la solicitud es exitosa
+  } catch (error) {
+    //console.error("Error al actualizar el perro adoptado:", error);
     throw error;
   }
 };

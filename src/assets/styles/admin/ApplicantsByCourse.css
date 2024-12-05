@@ -8,11 +8,6 @@
   border-right: 1px solid #ccc;
 }
 
-.applicants-table {
-  width: 70%;
-  padding-left: 20px;
-}
-
 .clickable-row {
   cursor: pointer;
   transition: background-color 0.2s ease;
@@ -25,6 +20,13 @@
 .applicant-img {
   width: 50px;
   height: 50px;
-  border-radius: 50%;
   object-fit: cover;
+  transition: transform 0.3s cubic-bezier(0.25, 0.1, 0.25, 1),
+    box-shadow 0.3s ease-in-out;
+}
+
+.applicant-img:hover {
+  transform: scale(1.2); /* Aumenta ligeramente el tamaño */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Añade una sombra */
+  cursor: pointer; /* Cambia el cursor al pasar el mouse */
 }

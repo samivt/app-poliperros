@@ -54,7 +54,7 @@ export const getToken = () => sessionStorage.getItem("accessToken");
 export const decodeToken = (token) => {
   try {
     let decode = jwtDecode(token);
-    console.log(decode);
+    //console.log(decode);
     return decode;
   } catch (error) {
     console.error("Error al decodificar el token:", error);
@@ -66,7 +66,7 @@ export const decodeToken = (token) => {
 export const getUserRole = () => {
   const token = getToken();
   const decoded = decodeToken(token);
-  console.log("Token decodificado:", decoded);
+  //console.log("Token decodificado:", decoded);
   return decoded?.role.toLowerCase() || null; // Devuelve el rol o null si no existe
 };
 
@@ -162,6 +162,29 @@ export const resetPassword = async (code, newPassword) => {
     return await response.json();
   } catch (error) {
     console.error("Error en resetPassword:", error);
+    throw error;
+  }
+};
+export const fetchWithAuth = async (url, options = {}) => {
+  const token = getToken(); // Obtén el token almacenado
+  const headers = {
+    ...options.headers,
+    Authorization: token ? `Bearer ${token}` : undefined,
+  };
+
+  try {
+    const response = await fetch(url, { ...options, headers });
+
+    if (response.status === 401) {
+      // Si el token es inválido o expirado, cierra sesión y redirige al login
+      logout(); // Elimina el token de sessionStorage
+      window.location.href = "/login"; // Redirige al login
+      throw new Error("Sesión expirada. Por favor, inicia sesión nuevamente.");
+    }
+
+    return response; // Devuelve la respuesta si no es 401
+  } catch (error) {
+    console.error("Error en fetchWithAuth:", error);
     throw error;
   }
 };

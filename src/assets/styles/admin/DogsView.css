@@ -75,6 +75,10 @@ button.btn-danger {
 button {
   border-radius: 4px;
 }
+.agregar-btn {
+  background-color: #023e73;
+  border-color: #023e73;
+}
 
 /* Responsive adjustments */
 @media (max-width: 768px) {

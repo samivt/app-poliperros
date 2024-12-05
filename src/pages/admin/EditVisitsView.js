@@ -43,7 +43,7 @@ const EditVisitsView = ({ onVisitUpdated }) => {
         setImagePreview(evidenceUrl);
       } catch (error) {
         console.error("Error al cargar los datos de la visita:", error);
-        showErrorAlert("No se pudieron cargar los datos de la visita.");
+        // showErrorAlert("No se pudieron cargar los datos de la visita.");
       }
     };
 
@@ -57,8 +57,8 @@ const EditVisitsView = ({ onVisitUpdated }) => {
       const file = files[0];
       const reader = new FileReader();
       reader.onload = () => {
-        const base64String = reader.result.split(",")[1]; // Eliminar el prefijo
-        setImagePreview(reader.result); // Mostrar la nueva imagen seleccionada
+        const base64String = reader.result.split(",")[1];
+        setImagePreview(reader.result);
         setFormData({ ...formData, evidence: base64String });
       };
       reader.readAsDataURL(file);

@@ -131,18 +131,23 @@ const Login = () => {
             <div className="forgot-password">
               <a href="/send-code">¿Olvidaste tu contraseña?</a>
             </div>
+            <div className="btn-container">
+              <Button
+                variant="secondary"
+                type="submit"
+                className="login-button"
+              >
+                Ingresar
+              </Button>
 
-            <Button variant="secondary" type="submit" className="login-button">
-              Ingresar
-            </Button>
-
-            <Button
-              variant="secondary"
-              className="cancel-button"
-              onClick={handleCancel}
-            >
-              Cancelar
-            </Button>
+              <Button
+                variant="secondary"
+                className="cancel-button"
+                onClick={handleCancel}
+              >
+                Cancelar
+              </Button>
+            </div>
           </Form>
         </div>
       </div>

@@ -1,4 +1,4 @@
-import { getToken } from "./authService.js";
+import { getToken, fetchWithAuth } from "./authService.js";
 const API_URL = process.env.REACT_APP_API_URL;
 
 const updateUser = async (userData) => {
@@ -6,7 +6,7 @@ const updateUser = async (userData) => {
 
   const token = getToken();
   if (!token) {
-    console.error("Token no encontrado en updateUser");
+    //console.error("Token no encontrado en updateUser");
     throw new Error("El usuario no está autenticado.");
   }
 
@@ -20,11 +20,11 @@ const updateUser = async (userData) => {
         : null;
   });
 
-  console.log("Datos preparados para enviar al backend:", preparedData);
+  //console.log("Datos preparados para enviar al backend:", preparedData);
 
   try {
-    console.log("Enviando solicitud a:", `${API_URL}/auth/update`);
-    const response = await fetch(`${API_URL}/auth/update`, {
+    //console.log("Enviando solicitud a:", `${API_URL}/auth/update`);
+    const response = await fetchWithAuth(`${API_URL}/auth/update`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -33,15 +33,15 @@ const updateUser = async (userData) => {
       body: JSON.stringify(preparedData),
     });
 
-    console.log(
+    /*console.log(
       "Estado de la respuesta del servidor:",
       response.status,
       response.statusText
-    );
+    );*/
 
     if (!response.ok) {
       const errorDetails = await response.json(); // Asume que el backend devuelve JSON con detalles de error
-      console.error("Detalles del error del backend:", errorDetails);
+      //console.error("Detalles del error del backend:", errorDetails);
       throw new Error(
         `No se pudo actualizar el usuario. Código: ${
           response.status
@@ -50,10 +50,10 @@ const updateUser = async (userData) => {
     }
 
     const responseData = await response.json();
-    console.log("Respuesta del backend:", responseData);
+    //console.log("Respuesta del backend:", responseData);
     return responseData;
   } catch (error) {
-    console.error("Error capturado en updateUser:", error);
+    //console.error("Error capturado en updateUser:", error);
     throw error;
   }
 };
@@ -80,7 +80,7 @@ export const updatePassword = async (actualPassword, newPassword) => {
   }
 
   try {
-    const response = await fetch(
+    const response = await fetchWithAuth(
       `${API_URL}/auth/update/password?actual_password=${encodeURIComponent(
         actualPassword
       )}&new_password=${encodeURIComponent(newPassword)}`,
@@ -102,7 +102,7 @@ export const updatePassword = async (actualPassword, newPassword) => {
 
     return await response.json(); // Devuelve el detalle del éxito
   } catch (error) {
-    console.error("Error en updatePassword:", error.message);
+    //console.error("Error en updatePassword:", error.message);
     throw error;
   }
 };
@@ -112,7 +112,7 @@ export const updatePassword = async (actualPassword, newPassword) => {
 export const createUser = async ({ email, role }) => {
   const token = getToken();
   try {
-    const response = await fetch(
+    const response = await fetchWithAuth(
       `${API_URL}/auth/generate_user?email=${encodeURIComponent(
         email
       )}&role=${encodeURIComponent(role)}`,
@@ -134,7 +134,7 @@ export const createUser = async ({ email, role }) => {
 
     return await response.json(); // Devuelve la respuesta en caso de éxito
   } catch (error) {
-    console.error("Error al generar el usuario:", error.message);
+    // console.error("Error al generar el usuario:", error.message);
     throw error;
   }
 };

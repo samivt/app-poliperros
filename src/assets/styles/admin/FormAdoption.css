@@ -1,0 +1,81 @@
+/* Contenedor principal */
+.form-adoption-container {
+  background-color: #ffffff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 20px;
+  max-width: 600px;
+  margin: 0 auto;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Título del formulario */
+.form-adoption-title {
+  text-align: center;
+  font-size: 24px;
+  color: #f2762e;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+/* Estilo de los grupos de campos */
+.form-adoption-group {
+  margin-bottom: 20px;
+}
+
+/* Estilo de los labels */
+.form-adoption-label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #555;
+}
+
+/* Estilo de los campos de entrada */
+.form-adoption-input {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+/* Campo de solo lectura */
+.form-adoption-input.readonly {
+  background-color: #f9f9f9;
+  color: #888;
+  border: none;
+  font-weight: bold;
+}
+
+/* Estilo de los mensajes de error */
+.form-adoption-error {
+  color: #d9534f;
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+/* Contenedor de botones centrado */
+.form-adoption-button-container {
+  display: flex; /* Habilitar flexbox */
+  justify-content: center; /* Centrar horizontalmente */
+  margin-top: 20px; /* Separar del último campo */
+}
+
+/* Estilo del botón */
+.form-adoption-button {
+  background-color: #f2762e;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 4px;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+/* Efecto hover en el botón */
+.form-adoption-button:hover {
+  background-color: #e6c300;
+}

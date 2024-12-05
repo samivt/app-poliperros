@@ -18,7 +18,7 @@ const AdoptionDogsView = ({
       {/* Encabezado */}
       <div className="d-flex justify-content-between align-items-center mb-3">
         <h1 className="h4">Perros Temporales</h1>
-        <Button variant="primary" onClick={onAddNew}>
+        <Button className="agregar-btn" onClick={onAddNew}>
           <i className="fas fa-plus me-2"></i> Nuevo
         </Button>
       </div>
@@ -50,11 +50,11 @@ const AdoptionDogsView = ({
           <tbody>
             {dogs.map((dog) => (
               <tr key={dog.id}>
-                <td>
+                <td className="actions-cell">
                   <Button
                     variant="warning"
                     size="sm"
-                    className="me-2"
+                    className="action-button"
                     onClick={() =>
                       navigate(`/admin/edit-adoption-dog/${dog.id}`)
                     }
@@ -64,17 +64,17 @@ const AdoptionDogsView = ({
                   <Button
                     variant="danger"
                     size="sm"
-                    className="me-2"
+                    className="action-button"
                     onClick={() => onDelete(dog.id)}
                   >
                     <i className="fas fa-trash-alt"></i>
                   </Button>
                   <Button
                     variant="success"
-                    size="sm"
+                    className="action-button"
                     onClick={() => onAdopt(dog)}
                   >
-                    <i className="fas fa-hand-holding-heart"></i> Adoptar
+                    <i className="fas fa-hand-holding-heart"></i>
                   </Button>
                 </td>
                 <td>{dog.name || "Sin nombre"}</td>
