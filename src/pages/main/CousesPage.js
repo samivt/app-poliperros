@@ -51,7 +51,7 @@ const CoursesPage = () => {
           </Spinner>
         </div>
       ) : (
-        <div className="courses-container mt-4">
+        <div className="courses-container mt-3">
           <h2 className="section-title text-center mb-4">
             Cursos de Adiestramiento Canino
           </h2>
@@ -65,9 +65,7 @@ const CoursesPage = () => {
                 <div className="info-course shadow">
                   <h3 id="name-course">{course.name}</h3>
                   <div className="info-content">
-                    <p>
-                      <strong>Descripción:</strong> {course.description}
-                    </p>
+                    <p>{course.description}</p>
                     <p>
                       <strong>Fecha Inicio:</strong> {course.start_date}
                       <br />
@@ -76,7 +74,6 @@ const CoursesPage = () => {
                     <p>
                       <strong>Precio:</strong> ${course.price}
                       <br />
-                      <strong>Capacidad:</strong> {course.capacity}
                     </p>
                     <p>
                       <strong>Horarios:</strong>

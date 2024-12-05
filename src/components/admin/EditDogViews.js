@@ -126,12 +126,15 @@ const EditDogView = ({ type, onSave }) => {
             ? formData.image
             : null,
         gender: sanitizeInput(formData.gender),
-        entry_date: sanitizeInput(formData.entry_date || ""),
+        entry_date: formData.entry_date
+          ? sanitizeInput(formData.entry_date)
+          : null, // Envía null si no hay fecha
         is_sterilized: formData.is_sterilized || false,
         is_dewormed: formData.is_dewormed || false,
         operation: sanitizeInput(formData.operation || ""),
       };
 
+      console.log("Payload enviado al backend:", payload);
       const updateMethod =
         type === "static"
           ? updateStaticDog
@@ -246,7 +249,7 @@ const EditDogView = ({ type, onSave }) => {
               <Form.Control
                 type="date"
                 name="entry_date"
-                value={sanitizeInput(formData.entry_date || "")}
+                value={sanitizeInput(formData.entry_date || null)}
                 onChange={handleInputChange}
               />
             </Form.Group>

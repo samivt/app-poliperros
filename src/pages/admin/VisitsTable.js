@@ -123,7 +123,7 @@ const VisitsTable = () => {
     <div className="container mt-4">
       <h2 className="text-center">Tabla de Visitas</h2>
       <div className="d-flex justify-content-end mb-4">
-        <Button variant="primary" onClick={handleAddVisit}>
+        <Button className="agregar-btn" onClick={handleAddVisit}>
           <i className="fas fa-plus me-2"></i> Agregar Visita
         </Button>
       </div>
@@ -144,9 +144,10 @@ const VisitsTable = () => {
         <thead>
           <tr>
             <th>Acciones</th>
+            <th>Fecha de Visita</th>
             <th>Nombre del Perro</th>
             <th>Nombre del Dueño</th>
-            <th>Fecha de Visita</th>
+
             <th>Observaciones</th>
             <th>Foto de Evidencia</th>
           </tr>
@@ -171,9 +172,10 @@ const VisitsTable = () => {
                   <i className="fas fa-trash"></i>
                 </Button>
               </td>
+              <td>{visit.visit_date || "Sin fecha"}</td>
+
               <td>{visit.adopted_dog?.name || "Sin nombre"}</td>
               <td>{visit.adopted_dog?.owner?.name || "Sin asignar"}</td>
-              <td>{visit.visit_date || "Sin fecha"}</td>
               <td>{visit.observations || "Sin observaciones"}</td>
               <td>
                 {visit.evidenceImage ? (

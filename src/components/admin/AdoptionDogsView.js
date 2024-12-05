@@ -86,9 +86,17 @@ const AdoptionDogsView = ({
                 <td>{dog.id_chip || "No tiene"}</td>
                 <td>
                   {dog.entry_date
-                    ? new Date(dog.entry_date).toLocaleDateString()
+                    ? new Date(
+                        new Date(dog.entry_date).getTime() +
+                          new Date().getTimezoneOffset() * 60000
+                      ).toLocaleDateString("es-ES", {
+                        year: "numeric",
+                        month: "2-digit",
+                        day: "2-digit",
+                      })
                     : "Sin fecha"}
                 </td>
+
                 <td>{dog.operation || "Ninguna"}</td>
               </tr>
             ))}

@@ -15,7 +15,7 @@
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  height: 400px; /* Tamaño fijo */
+  height: auto; /* Tamaño fijo */
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   overflow: hidden; /* Para contenido extra */
   text-align: center;

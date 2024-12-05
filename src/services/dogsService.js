@@ -78,8 +78,8 @@ export const updateStaticDog = async (id, dogData) => {
     );
 
     if (!response.ok) {
-      //const errorData = await response.json();
-      //console.error("Detalle del error del backend:", errorData);
+      const errorData = await response.json();
+      console.error("Detalle del error del backend:", errorData);
       throw new Error("Error al actualizar el perro");
     }
 
@@ -209,14 +209,17 @@ export const createAdoptionDog = async (dogData) => {
       JSON.stringify(payload, null, 2)
     ); // Imprime el payload
 
-    const response = await fetch(`${API_URL}/dog/adoption_dog/create/`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(payload),
-    });
+    const response = await fetchWithAuth(
+      `${API_URL}/dog/adoption_dog/create/`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(payload),
+      }
+    );
 
     if (!response.ok) {
       const errorData = await response.json();
@@ -403,9 +406,9 @@ export const fetchAdoptedDogs = async () => {
       throw new Error("Error al obtener los perros adoptados.");
     }
 
-    //const data = await response.json();
+    const data = await response.json();
     //console.log("Datos recibidos del backend (fetchAdoptedDogs):", data); // Log de los datos
-    //return data;
+    return data;
   } catch (error) {
     //console.error("Error en fetchAdoptedDogs:", error); // Log de errores
     throw error;

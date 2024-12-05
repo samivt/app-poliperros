@@ -20,7 +20,7 @@ import FormVisits from "./FormVisits";
 import FormRegisterUser from "./FormRegisterUser";
 import EditUser from "./UserProfileUpdate";
 import UpdatePassword from "./UpdatePassword";
-import VisitsView from "./VisitsView";
+//import VisitsView from "./VisitsView";
 import VisitsTable from "./VisitsTable";
 import FormCourse from "./FormCourse";
 import CoursesList from "./CoursesList";
@@ -182,7 +182,7 @@ const AdminPanel = () => {
           <Route path="form-visit" element={<FormVisits />} />
           <Route path="edit-visit/:visitId" element={<EditVisitsView />} />
 
-          <Route path="visits" element={<VisitsView />} />
+          {/*} <Route path="visits" element={<VisitsView />} />*/}
           <Route path="visits-table" element={<VisitsTable />} />
 
           <Route path="register-user" element={<FormRegisterUser />} />

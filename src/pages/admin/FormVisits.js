@@ -27,7 +27,7 @@ const FormVisits = ({ onVisitCreated }) => {
         setAdoptedDogs(data);
       } catch (error) {
         console.error("Error al cargar los perros adoptados:", error);
-        //showErrorAlert("No se pudieron cargar los perros adoptados.");
+        showErrorAlert("No se pudieron cargar los perros adoptados.", "Error");
       }
     };
     loadAdoptedDogs();
@@ -100,18 +100,22 @@ const FormVisits = ({ onVisitCreated }) => {
                 onChange={(e) => {
                   const selectedId = e.target.value;
                   setFieldValue("adopted_dog_id", selectedId);
+
+                  // Encuentra el perro seleccionado si existe
                   const dog = adoptedDogs.find(
                     (d) => d.id === parseInt(selectedId, 10)
                   );
-                  setSelectedDog(dog); // Actualiza el estado con el perro seleccionado
+                  setSelectedDog(dog || null); // Actualiza el estado
                 }}
               >
                 <option value="">Seleccionar</option>
-                {adoptedDogs.map((dog) => (
-                  <option key={dog.id} value={dog.id}>
-                    {dog.name}
-                  </option>
-                ))}
+                {/* Verifica que adoptedDogs sea un array */}
+                {Array.isArray(adoptedDogs) &&
+                  adoptedDogs.map((dog) => (
+                    <option key={dog.id} value={dog.id}>
+                      {dog.name}
+                    </option>
+                  ))}
               </Field>
               <ErrorMessage
                 name="adopted_dog_id"
@@ -120,23 +124,21 @@ const FormVisits = ({ onVisitCreated }) => {
               />
             </Form.Group>
 
-            {/* Dueño */}
             <Form.Group className="mb-4">
               <Form.Label className="custom-label">Dueño:</Form.Label>
               <Form.Control
                 type="text"
-                value={selectedDog?.owner?.name || ""}
+                value={selectedDog?.owner?.name || "No disponible"} // Valor predeterminado si no hay dueño
                 readOnly
                 className="form-control-plaintext"
               />
             </Form.Group>
 
-            {/* Dirección */}
             <Form.Group className="mb-4">
               <Form.Label className="custom-label">Dirección:</Form.Label>
               <Form.Control
                 type="text"
-                value={selectedDog?.owner?.direction || ""}
+                value={selectedDog?.owner?.direction || "No disponible"} // Valor predeterminado
                 readOnly
                 className="form-control-plaintext"
               />

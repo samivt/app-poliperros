@@ -208,6 +208,17 @@ const FormDogs = ({ onSave = () => {} }) => {
                 className="text-danger"
               />
             </Form.Group>
+            <Form.Group className="mb-4">
+              <Form.Label className="custom-label">
+                Fecha de ingreso:
+              </Form.Label>
+              <Field type="date" name="entry_date" className="form-control" />
+              <ErrorMessage
+                name="entry_date"
+                component="div"
+                className="text-danger"
+              />
+            </Form.Group>
             {/* ¿Está vacunado? */}
             <Form.Group className="mb-4">
               <Form.Label className="custom-label">¿Está vacunado?</Form.Label>

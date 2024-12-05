@@ -4,6 +4,8 @@ import {
   fetchApplicantsByCourse,
   fetchApplicantImage,
 } from "../../services/applicantService";
+//import { showErrorAlert } from "../../services/alertService";
+
 import { fetchCourses } from "../../services/courseService"; // Servicio para obtener cursos
 import "../../assets/styles/admin/ApplicantsByCourse.css";
 
@@ -22,7 +24,7 @@ const ApplicantsByCourse = () => {
         setCourses(data);
       } catch (error) {
         console.error("Error al cargar los cursos:", error);
-        alert("No se pudieron cargar los cursos.");
+        // alert("No se pudieron cargar los cursos.");
       } finally {
         setLoadingCourses(false);
       }
@@ -50,8 +52,8 @@ const ApplicantsByCourse = () => {
 
       setApplicants(applicantsWithImages);
     } catch (error) {
-      console.error("Error al cargar los solicitantes:", error);
-      alert("No se pudieron cargar los solicitantes.");
+      //console.error("Error al cargar los solicitantes:", error);
+      //showErrorAlert("No se pudieron cargar los solicitantes.");
     } finally {
       setLoadingApplicants(false);
     }
@@ -141,7 +143,7 @@ const ApplicantsByCourse = () => {
         ) : (
           <p className="text-muted">
             {selectedCourseId
-              ? "No hay solicitantes para este curso."
+              ? "No hay inscritos para este curso."
               : "Selecciona un curso para ver los inscritos."}
           </p>
         )}

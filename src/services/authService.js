@@ -1,4 +1,5 @@
 import { jwtDecode } from "jwt-decode";
+import { showErrorAlert } from "./alertService";
 const API_URL = process.env.REACT_APP_API_URL;
 
 export const login = async (username, password) => {
@@ -165,6 +166,7 @@ export const resetPassword = async (code, newPassword) => {
     throw error;
   }
 };
+
 export const fetchWithAuth = async (url, options = {}) => {
   const token = getToken(); // Obtén el token almacenado
   const headers = {
@@ -176,15 +178,24 @@ export const fetchWithAuth = async (url, options = {}) => {
     const response = await fetch(url, { ...options, headers });
 
     if (response.status === 401) {
-      // Si el token es inválido o expirado, cierra sesión y redirige al login
-      logout(); // Elimina el token de sessionStorage
-      window.location.href = "/login"; // Redirige al login
+      // Mostrar la alerta personalizada
+      showErrorAlert(
+        "Tu sesión ha expirado. Por favor, inicia sesión nuevamente.",
+        "Sesión expirada"
+      );
+
+      // Cerrar sesión y redirigir al login después de un breve retraso
+      setTimeout(() => {
+        logout(); // Elimina el token de sessionStorage
+        window.location.href = "/login"; // Redirige al login
+      }, 5000); // 2 segundos (puedes ajustar este tiempo)
+
       throw new Error("Sesión expirada. Por favor, inicia sesión nuevamente.");
     }
 
     return response; // Devuelve la respuesta si no es 401
   } catch (error) {
     console.error("Error en fetchWithAuth:", error);
-    throw error;
+    throw error; // Vuelve a lanzar el error para manejarlo en otros lugares si es necesario
   }
 };

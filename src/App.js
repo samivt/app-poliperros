@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Home from "./pages/main/Home.js";
 import QuienesSomos from "./pages/main/QuienesSomos.js";
 import Inscription from "./pages/main/Inscription.js";
-import Contact from "./pages/main/Contact.js";
+import Contacto from "./pages/main/Contacto.js";
 import InfoAdoptionDogs from "./pages/main/InfoAdoptionDogs.js";
 import ViewAdoptionDogs from "./pages/main/ViewAdoptionDogs.js";
 import ViewPermanentDogs from "./pages/main/ViewPermanentDogs.js";
@@ -29,7 +29,7 @@ const App = () => {
         <Route path="/" element={<Home />} />
         <Route path="/quienes-somos" element={<QuienesSomos />} />
         <Route path="/inscriptions" element={<Inscription />} />
-        <Route path="/contact" element={<Contact />} />
+        <Route path="/contact" element={<Contacto />} />
 
         <Route path="/view-adoption-dogs" element={<ViewAdoptionDogs />} />
         <Route

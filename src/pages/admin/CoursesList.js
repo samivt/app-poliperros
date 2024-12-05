@@ -22,7 +22,7 @@ const CoursesList = () => {
         setCourses(data);
       } catch (error) {
         console.error("Error al cargar los cursos:", error);
-        showErrorAlert("No se pudieron cargar los cursos.");
+        //showErrorAlert("No se pudieron cargar los cursos.");
       } finally {
         setLoading(false);
       }
@@ -56,7 +56,7 @@ const CoursesList = () => {
   };
 
   const handleAddCourse = () => {
-    navigate("/admin/add-course");
+    navigate("/admin/create-course");
   };
 
   const dayTranslations = {
@@ -96,7 +96,7 @@ const CoursesList = () => {
     <div className="container mt-4">
       <h2 className="text-center">Lista de Cursos</h2>
       <div className="d-flex justify-content-end mb-4">
-        <Button variant="primary" onClick={handleAddCourse}>
+        <Button className="agregar-btn" onClick={handleAddCourse}>
           <i className="fas fa-plus me-2"></i> Agregar Curso
         </Button>
       </div>
