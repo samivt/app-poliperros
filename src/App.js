@@ -15,7 +15,7 @@ import VerifyResetCode from "./components/auth/VerifyResetCode.js";
 import ResetPassword from "./components/auth/ResetPassword.js";
 
 import "./App.css";
-import FormInscription from "./pages/main/FormInscription.js";
+import FormInscription from "./components/main/FormInscription.js";
 import AdminPanel from "./pages/admin/AdminPanel.js";
 import ProtectedRoute from "./components/admin/ProtectedRoute.js";
 import Unauthorized from "./pages/admin/Unauthorized.js";

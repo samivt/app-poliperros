@@ -89,69 +89,71 @@ const AdoptedDogsView = () => {
           </Spinner>
         </div>
       ) : dogs.length > 0 ? (
-        <Table striped bordered hover responsive>
-          <thead>
-            <tr>
-              <th style={{ width: "20%" }}>Acciones</th>
-              <th>Nombre Perro</th>
-              <th>Nombre Dueño</th>
-              <th>Dirección</th>
-              <th>Teléfono</th>
-            </tr>
-          </thead>
-          <tbody>
-            {dogs.map((dog) => (
-              <tr key={dog.id}>
-                <td className="actions-cell">
-                  <Button
-                    variant="info"
-                    size="sm"
-                    className="action-button"
-                    title="Editar Dueño"
-                    onClick={() =>
-                      navigate("/admin/edit-owner", {
-                        state: {
-                          owner: {
-                            id: dog.id,
-                            name: dog.ownerName,
-                            direction: dog.ownerDirection,
-                            cellphone: dog.ownerCellphone,
-                          },
-                        },
-                      })
-                    }
-                  >
-                    <i className="fas fa-user-edit"></i>
-                  </Button>
-                  <Button
-                    variant="warning"
-                    size="sm"
-                    className="action-button"
-                    title="Editar Perro"
-                    onClick={() =>
-                      navigate(`/admin/edit-adopted-dog/${dog.id}`)
-                    }
-                  >
-                    <i className="fas fa-dog"></i>
-                  </Button>
-                  <Button
-                    variant="danger"
-                    size="sm"
-                    className="action-button"
-                    title="Quitar Adopción"
-                    onClick={() => handleUnadopt(dog.id)}
-                  >
-                    <i className="fas fa-heart-crack"></i>
-                  </Button>
-                </td>
-                <td>{dog.name}</td>
-                <td>{dog.ownerName}</td>
-                <td>{dog.ownerDirection}</td>
-                <td>{dog.ownerCellphone}</td>
+        <div className="table-responsive">
+          <Table striped bordered hover>
+            <thead>
+              <tr>
+                <th style={{ width: "20%" }}>Acciones</th>
+                <th>Nombre Perro</th>
+                <th>Nombre Dueño</th>
+                <th>Dirección</th>
+                <th>Teléfono</th>
               </tr>
-            ))}
-          </tbody>
-        </Table>
+            </thead>
+            <tbody>
+              {dogs.map((dog) => (
+                <tr key={dog.id}>
+                  <td className="actions-cell">
+                    <Button
+                      variant="info"
+                      size="sm"
+                      className="action-button"
+                      title="Editar Dueño"
+                      onClick={() =>
+                        navigate("/admin/edit-owner", {
+                          state: {
+                            owner: {
+                              id: dog.id,
+                              name: dog.ownerName,
+                              direction: dog.ownerDirection,
+                              cellphone: dog.ownerCellphone,
+                            },
+                          },
+                        })
+                      }
+                    >
+                      <i className="fas fa-user-edit"></i>
+                    </Button>
+                    <Button
+                      variant="warning"
+                      size="sm"
+                      className="action-button"
+                      title="Editar Perro"
+                      onClick={() =>
+                        navigate(`/admin/edit-adopted-dog/${dog.id}`)
+                      }
+                    >
+                      <i className="fas fa-dog"></i>
+                    </Button>
+                    <Button
+                      variant="danger"
+                      size="sm"
+                      className="action-button"
+                      title="Quitar Adopción"
+                      onClick={() => handleUnadopt(dog.id)}
+                    >
+                      <i className="fas fa-heart-crack"></i>
+                    </Button>
+                  </td>
+                  <td>{dog.name}</td>
+                  <td>{dog.ownerName}</td>
+                  <td>{dog.ownerDirection}</td>
+                  <td>{dog.ownerCellphone}</td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+        </div>
       ) : (
         <div className="text-center">
           <p className="text-muted">No hay perros adoptados disponibles.</p>

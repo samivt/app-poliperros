@@ -131,7 +131,7 @@ const VisitsTable = () => {
       <Form.Group className="mb-4">
         <Form.Label>Seleccionar perro:</Form.Label>
         <Form.Select value={selectedDogId} onChange={handleDogFilterChange}>
-          <option value="">Todos los Perros</option>
+          <option value="">Todos</option>
           {dogNames.map((dog) => (
             <option key={dog.id} value={dog.id}>
               {dog.name}
@@ -139,59 +139,60 @@ const VisitsTable = () => {
           ))}
         </Form.Select>
       </Form.Group>
+      <div className="table-responsive">
+        <Table striped bordered hover>
+          <thead>
+            <tr>
+              <th>Acciones</th>
+              <th>Fecha de Visita</th>
+              <th>Nombre del Perro</th>
+              <th>Nombre del Dueño</th>
 
-      <Table striped bordered hover responsive>
-        <thead>
-          <tr>
-            <th>Acciones</th>
-            <th>Fecha de Visita</th>
-            <th>Nombre del Perro</th>
-            <th>Nombre del Dueño</th>
-
-            <th>Observaciones</th>
-            <th>Foto de Evidencia</th>
-          </tr>
-        </thead>
-        <tbody>
-          {visits.map((visit) => (
-            <tr key={visit.id}>
-              <td>
-                <Button
-                  variant="warning"
-                  size="sm"
-                  onClick={() => handleEdit(visit.id)}
-                >
-                  <i className="fas fa-edit"></i>
-                </Button>
-                <Button
-                  variant="danger"
-                  size="sm"
-                  className="ms-2"
-                  onClick={() => handleDelete(visit.id)}
-                >
-                  <i className="fas fa-trash"></i>
-                </Button>
-              </td>
-              <td>{visit.visit_date || "Sin fecha"}</td>
-
-              <td>{visit.adopted_dog?.name || "Sin nombre"}</td>
-              <td>{visit.adopted_dog?.owner?.name || "Sin asignar"}</td>
-              <td>{visit.observations || "Sin observaciones"}</td>
-              <td>
-                {visit.evidenceImage ? (
-                  <img
-                    src={visit.evidenceImage}
-                    alt="Evidencia"
-                    style={{ width: "100px", height: "auto" }}
-                  />
-                ) : (
-                  "Sin evidencia"
-                )}
-              </td>
+              <th>Observaciones</th>
+              <th>Foto de Evidencia</th>
             </tr>
-          ))}
-        </tbody>
-      </Table>
+          </thead>
+          <tbody>
+            {visits.map((visit) => (
+              <tr key={visit.id}>
+                <td>
+                  <Button
+                    variant="warning"
+                    size="sm"
+                    onClick={() => handleEdit(visit.id)}
+                  >
+                    <i className="fas fa-edit"></i>
+                  </Button>
+                  <Button
+                    variant="danger"
+                    size="sm"
+                    className="ms-2"
+                    onClick={() => handleDelete(visit.id)}
+                  >
+                    <i className="fas fa-trash"></i>
+                  </Button>
+                </td>
+                <td>{visit.visit_date || "Sin fecha"}</td>
+
+                <td>{visit.adopted_dog?.name || "Sin nombre"}</td>
+                <td>{visit.adopted_dog?.owner?.name || "Sin asignar"}</td>
+                <td>{visit.observations || "Sin observaciones"}</td>
+                <td>
+                  {visit.evidenceImage ? (
+                    <img
+                      src={visit.evidenceImage}
+                      alt="Evidencia"
+                      style={{ width: "100px", height: "auto" }}
+                    />
+                  ) : (
+                    "Sin evidencia"
+                  )}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+      </div>
     </div>
   );
 };

@@ -50,6 +50,12 @@ const CoursesList = () => {
       showErrorAlert("No se pudo eliminar el curso. Inténtalo nuevamente.");
     }
   };
+  const truncateText = (text, maxLength = 50) => {
+    if (!text) return "";
+    return text.length > maxLength
+      ? `${text.substring(0, maxLength)}...`
+      : text;
+  };
 
   const handleEdit = (courseId) => {
     navigate(`/admin/edit-course/${courseId}`);
@@ -100,51 +106,55 @@ const CoursesList = () => {
           <i className="fas fa-plus me-2"></i> Agregar Curso
         </Button>
       </div>
-      <Table striped bordered hover responsive>
-        <thead>
-          <tr>
-            <th>Acciones</th>
-            <th>Nombre</th>
-            <th>Descripción</th>
-            <th>Fecha Inicio</th>
-            <th>Fecha Fin</th>
-            <th>Precio</th>
-            <th>Capacidad</th>
-            <th>Horarios</th>
-          </tr>
-        </thead>
-        <tbody>
-          {courses.map((course) => (
-            <tr key={course.id}>
-              <td>
-                <Button
-                  variant="warning"
-                  size="sm"
-                  onClick={() => handleEdit(course.id)}
-                  className="me-2"
-                >
-                  <i className="fas fa-edit"></i>
-                </Button>
-                <Button
-                  variant="danger"
-                  size="sm"
-                  onClick={() => handleDelete(course.id)}
-                  className="me-2"
-                >
-                  <i className="fas fa-trash"></i>
-                </Button>
-              </td>
-              <td>{course.name}</td>
-              <td>{course.description}</td>
-              <td>{course.start_date}</td>
-              <td>{course.end_date}</td>
-              <td>${course.price}</td>
-              <td>{course.capacity}</td>
-              <td>{renderSchedule(course.schedule)}</td>
+      <div className="table-responsive">
+        <Table striped bordered hover>
+          <thead>
+            <tr>
+              <th>Acciones</th>
+              <th>Nombre</th>
+              <th>Descripción</th>
+              <th>Fecha Inicio</th>
+              <th>Fecha Fin</th>
+              <th>Precio</th>
+              <th>Capacidad</th>
+              <th>Horarios</th>
             </tr>
-          ))}
-        </tbody>
-      </Table>
+          </thead>
+          <tbody>
+            {courses.map((course) => (
+              <tr key={course.id}>
+                <td>
+                  <Button
+                    variant="warning"
+                    size="sm"
+                    onClick={() => handleEdit(course.id)}
+                    className="me-2"
+                  >
+                    <i className="fas fa-edit"></i>
+                  </Button>
+                  <Button
+                    variant="danger"
+                    size="sm"
+                    onClick={() => handleDelete(course.id)}
+                    className="me-2"
+                  >
+                    <i className="fas fa-trash"></i>
+                  </Button>
+                </td>
+                <td>{course.name}</td>
+                <td title={course.description}>
+                  {truncateText(course.description, 50)}
+                </td>
+                <td>{course.start_date}</td>
+                <td>{course.end_date}</td>
+                <td>${course.price}</td>
+                <td>{course.capacity}</td>
+                <td>{renderSchedule(course.schedule)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+      </div>
     </div>
   );
 };

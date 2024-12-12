@@ -68,7 +68,7 @@ const Login = () => {
         ? "Error interno del servidor. Inténtalo más tarde."
         : "Credenciales incorrectas. Verifica tu usuario y contraseña.";
 
-      setErrorMessage(errorText);
+      //setErrorMessage(errorText);
       console.error("Error al iniciar sesión:", error.message);
 
       showErrorAlert(errorText, "Error al iniciar sesión");

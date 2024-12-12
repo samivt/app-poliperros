@@ -1,0 +1,63 @@
+/* Welcome.css */
+
+/* Contenedor principal */
+.welcome-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  text-align: center;
+  background-color: #f9f9f9;
+  padding: 20px;
+}
+
+/* Estilo del título */
+.welcome-heading {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #f38b32;
+  margin-bottom: 10px;
+}
+
+/* Estilo del párrafo */
+.welcome-paragraph {
+  font-size: 1.2rem;
+  color: #555;
+  margin-bottom: 20px;
+}
+
+/* Estilo de la imagen */
+.welcome-image {
+  max-width: 300px;
+  margin-bottom: 20px;
+}
+
+/* Media queries para responsividad */
+@media (max-width: 768px) {
+  .welcome-heading {
+    font-size: 2rem;
+  }
+
+  .welcome-paragraph {
+    font-size: 1rem;
+  }
+
+  .welcome-image {
+    max-width: 200px;
+  }
+}
+
+@media (max-width: 480px) {
+  .welcome-heading {
+    font-size: 1.8rem;
+  }
+
+  .welcome-paragraph {
+    font-size: 0.9rem;
+  }
+
+  .welcome-image {
+    max-width: 150px;
+  }
+}

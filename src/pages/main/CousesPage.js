@@ -52,9 +52,7 @@ const CoursesPage = () => {
         </div>
       ) : (
         <div className="courses-container mt-3">
-          <h2 className="section-title text-center mb-4">
-            Cursos de Adiestramiento Canino
-          </h2>
+          <h2 className="section-title text-center mb-4">Cursos</h2>
           <p className="courses-description text-center">
             Explora nuestros cursos y adquiere nuevas habilidades. Inscríbete
             ahora para aprovechar esta oportunidad.

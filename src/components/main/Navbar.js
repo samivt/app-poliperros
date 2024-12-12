@@ -58,7 +58,7 @@ const Navbar = () => {
                   `nav-link ${isActive ? "active" : ""}`
                 }
               >
-                Poli Perros
+                Poliperros
               </NavLink>
             </li>
             <li className="nav-item me-4">

@@ -4,27 +4,23 @@ import {
   fetchApplicantsByCourse,
   fetchApplicantImage,
 } from "../../services/applicantService";
-//import { showErrorAlert } from "../../services/alertService";
-
-import { fetchCourses } from "../../services/courseService"; // Servicio para obtener cursos
+import { fetchCourses } from "../../services/courseService";
 import "../../assets/styles/admin/ApplicantsByCourse.css";
 
 const ApplicantsByCourse = () => {
-  const [courses, setCourses] = useState([]); // Lista de cursos
-  const [selectedCourseId, setSelectedCourseId] = useState(null); // Curso seleccionado
-  const [applicants, setApplicants] = useState([]); // Lista de solicitantes
-  const [loadingCourses, setLoadingCourses] = useState(true); // Carga de cursos
-  const [loadingApplicants, setLoadingApplicants] = useState(false); // Carga de solicitantes
+  const [courses, setCourses] = useState([]);
+  const [selectedCourseId, setSelectedCourseId] = useState(null);
+  const [applicants, setApplicants] = useState([]);
+  const [loadingCourses, setLoadingCourses] = useState(true);
+  const [loadingApplicants, setLoadingApplicants] = useState(false);
 
   useEffect(() => {
-    // Cargar los cursos al montar el componente
     const loadCourses = async () => {
       try {
-        const data = await fetchCourses(); // Servicio para obtener los cursos
+        const data = await fetchCourses();
         setCourses(data);
       } catch (error) {
         console.error("Error al cargar los cursos:", error);
-        // alert("No se pudieron cargar los cursos.");
       } finally {
         setLoadingCourses(false);
       }
@@ -40,7 +36,6 @@ const ApplicantsByCourse = () => {
     try {
       const applicantsData = await fetchApplicantsByCourse(courseId);
 
-      // Obtener imágenes para cada solicitante
       const applicantsWithImages = await Promise.all(
         applicantsData.map(async (applicant) => {
           const imageUrl = await fetchApplicantImage(applicant.id).catch(
@@ -52,17 +47,16 @@ const ApplicantsByCourse = () => {
 
       setApplicants(applicantsWithImages);
     } catch (error) {
-      //console.error("Error al cargar los solicitantes:", error);
-      //showErrorAlert("No se pudieron cargar los solicitantes.");
+      console.error("Error al cargar los solicitantes:", error);
     } finally {
       setLoadingApplicants(false);
     }
   };
 
   return (
-    <div className="applicants-container d-flex">
-      {/* Lista de Cursos */}
-      <div className="courses-table me-4">
+    <div className="applicants-container">
+      {/* Cursos */}
+      <div className="courses-section">
         <h4>Cursos</h4>
         {loadingCourses ? (
           <div className="text-center">
@@ -71,31 +65,33 @@ const ApplicantsByCourse = () => {
             </Spinner>
           </div>
         ) : courses.length > 0 ? (
-          <Table striped bordered hover responsive>
-            <thead>
-              <tr>
-                <th>Nombre del Curso</th>
-              </tr>
-            </thead>
-            <tbody>
-              {courses.map((course) => (
-                <tr
-                  key={course.id}
-                  onClick={() => handleCourseClick(course.id)}
-                  className="clickable-row"
-                >
-                  <td>{course.name}</td>
+          <div className="table-responsive">
+            <Table striped bordered hover>
+              <thead>
+                <tr>
+                  <th>Nombre del Curso</th>
                 </tr>
-              ))}
-            </tbody>
-          </Table>
+              </thead>
+              <tbody>
+                {courses.map((course) => (
+                  <tr
+                    key={course.id}
+                    onClick={() => handleCourseClick(course.id)}
+                    className="clickable-row"
+                  >
+                    <td>{course.name}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+          </div>
         ) : (
           <p className="text-muted">No hay cursos disponibles.</p>
         )}
       </div>
 
-      {/* Lista de Solicitantes */}
-      <div className="applicants-table flex-grow-1">
+      {/* Solicitantes */}
+      <div className="applicants-section">
         <h4>Inscritos</h4>
         {loadingApplicants ? (
           <div className="text-center">
@@ -104,42 +100,43 @@ const ApplicantsByCourse = () => {
             </Spinner>
           </div>
         ) : selectedCourseId && applicants.length > 0 ? (
-          <Table striped bordered hover responsive>
-            <thead>
-              <tr>
-                <th>Nombre</th>
-                <th>Apellido</th>
-                <th>Email</th>
-                <th>Teléfono</th>
-                <th>Comprobante de pago</th>
-              </tr>
-            </thead>
-            <tbody>
-              {applicants.map((applicant) => (
-                <tr key={applicant.id}>
-                  <td>{applicant.first_name}</td>
-                  <td>{applicant.last_name}</td>
-                  <td>{applicant.email}</td>
-                  <td>{applicant.cellphone}</td>
-                  <td>
-                    {applicant.imageUrl ? (
-                      <img
-                        src={applicant.imageUrl}
-                        alt="Comprobante de pago"
-                        className="applicant-img"
-                        onClick={() =>
-                          window.open(applicant.imageUrl, "_blank")
-                        }
-                        style={{ cursor: "pointer" }} // Indica que es clickeable
-                      />
-                    ) : (
-                      "Sin imagen"
-                    )}
-                  </td>
+          <div className="applicants-table">
+            <Table striped bordered hover>
+              <thead>
+                <tr>
+                  <th>Nombre</th>
+                  <th>Apellido</th>
+                  <th>Email</th>
+                  <th>Teléfono</th>
+                  <th>Comprobante de pago</th>
                 </tr>
-              ))}
-            </tbody>
-          </Table>
+              </thead>
+              <tbody>
+                {applicants.map((applicant) => (
+                  <tr key={applicant.id}>
+                    <td>{applicant.first_name}</td>
+                    <td>{applicant.last_name}</td>
+                    <td>{applicant.email}</td>
+                    <td>{applicant.cellphone}</td>
+                    <td>
+                      {applicant.imageUrl ? (
+                        <img
+                          src={applicant.imageUrl}
+                          alt="Comprobante de pago"
+                          className="applicant-img"
+                          onClick={() =>
+                            window.open(applicant.imageUrl, "_blank")
+                          }
+                        />
+                      ) : (
+                        "Sin imagen"
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+          </div>
         ) : (
           <p className="text-muted">
             {selectedCourseId

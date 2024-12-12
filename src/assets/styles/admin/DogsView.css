@@ -23,7 +23,7 @@ button.btn-primary {
 .table {
   background-color: white;
   border-radius: 8px;
-  overflow: hidden;
+  overflow: auto;
 }
 
 .table th {
@@ -34,84 +34,49 @@ button.btn-primary {
   font-size: 0.9rem;
   text-transform: uppercase;
   padding: 12px;
+  position: sticky;
+  top: 0;
+  z-index: 1;
 }
 
 .table td {
   text-align: center;
   vertical-align: middle;
   font-size: 0.85rem;
+  padding: 8px;
 }
 
-.table td:first-child {
-  /*display: flex;*/
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
+/* Make the table responsive */
+.table-responsive {
+  max-width: 100%;
+  overflow-x: auto;
 }
 
-.table tbody tr:hover {
-  background-color: #f1f1f1; /* Subtle hover effect */
-  cursor: pointer;
-}
-
-/* Button styling for edit and delete */
-button.btn-warning {
-  background-color: #129c1c;
-  border: none;
-  color: #fff;
-  padding: 6px 8px;
-  font-size: 0.85rem;
-}
-
-button.btn-danger {
-  background-color: #dc3545;
-  border: none;
-  color: #fff;
-  padding: 6px 8px;
-  font-size: 0.85rem;
-}
-
-/* Make the buttons look rounder */
+/* Botones redondos y con transición */
 button {
   border-radius: 4px;
+  transition: transform 0.2s ease-in-out;
 }
+
+button:hover {
+  transform: scale(1.05); /* Efecto de hover más visible */
+}
+
 .agregar-btn {
   background-color: #023e73;
   border-color: #023e73;
+  color: white;
+  font-weight: bold;
 }
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
-  .table thead {
-    display: none;
+  .table {
+    font-size: 0.8rem;
   }
-
-  .table tbody tr {
-    display: block;
-    margin-bottom: 16px;
-    border: 1px solid #dee2e6;
-    border-radius: 8px;
-    padding: 8px;
-  }
-
-  .table tbody tr td {
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.9rem;
-    padding: 8px;
-  }
-
-  .table tbody tr td:first-child {
-    justify-content: flex-start;
-    gap: 16px;
-  }
-
-  .table tbody tr td::before {
-    content: attr(data-label);
-    font-weight: bold;
-    color: #343a40;
-    text-transform: uppercase;
-    margin-right: 8px;
+  .actions-cell {
+    flex-direction: column; /* Cambiar la dirección de los botones a columna */
+    gap: 8px; /* Ajustar el espacio entre los botones */
   }
 }
 /* Acciones alineadas y consistentes */
@@ -130,6 +95,8 @@ button {
   height: 36px;
   padding: 0;
   font-size: 1rem;
+  border-radius: 4px;
+  transition: transform 0.2s ease-in-out;
 }
 
 .action-button i {
@@ -138,5 +105,4 @@ button {
 
 .action-button:hover {
   transform: scale(1.1);
-  transition: transform 0.2s ease-in-out;
 }

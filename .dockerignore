@@ -1,0 +1,5 @@
+node_modules
+build/static/js/*.map
+.env.local
+.env.development
+.env.development.local

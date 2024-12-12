@@ -10,23 +10,23 @@ import {
 import Sidebar from "../../components/admin/Sidebar";
 import Header from "../../components/admin/Header";
 import Welcome from "./Welcome";
-import FormDogs from "./FormDogs";
-import StaticDogsView from "../../components/admin/StaticDogsView";
+import FormDogs from "../../components/admin/FormDogs";
+import StaticDogsView from "./StaticDogsView";
 import EditDogView from "../../components/admin/EditDogViews";
-import AdoptionDogsView from "../../components/admin/AdoptionDogsView";
-import AdoptedDogsView from "../../components/admin/AdoptedDogsView";
-import FormAdoption from "./FormAdoption";
-import FormVisits from "./FormVisits";
-import FormRegisterUser from "./FormRegisterUser";
+import AdoptionDogsView from "./AdoptionDogsView";
+import AdoptedDogsView from "./AdoptedDogsView";
+import FormAdoption from "../../components/admin/FormAdoption";
+import FormVisits from "../../components/admin/FormVisits";
+import FormRegisterUser from "../../components/admin/FormRegisterUser";
 import EditUser from "./UserProfileUpdate";
 import UpdatePassword from "./UpdatePassword";
 //import VisitsView from "./VisitsView";
 import VisitsTable from "./VisitsTable";
-import FormCourse from "./FormCourse";
+import FormCourse from "../../components/admin/FormCourse";
 import CoursesList from "./CoursesList";
 import ApplicantsByCourse from "./ApplicantsByCourse";
-import EditVisitsView from "./EditVisitsView";
-import EditOwnerForm from "./EditOwnerForm";
+import EditVisitsForm from "../../components/admin/EditVisitsForm";
+import EditOwnerForm from "../../components/admin/EditOwnerForm";
 
 import useAdminData from "../../hooks/useAdminData";
 import { logout } from "../../services/authService";
@@ -180,7 +180,7 @@ const AdminPanel = () => {
           />
           {/* Formulario de visitas */}
           <Route path="form-visit" element={<FormVisits />} />
-          <Route path="edit-visit/:visitId" element={<EditVisitsView />} />
+          <Route path="edit-visit/:visitId" element={<EditVisitsForm />} />
 
           {/*} <Route path="visits" element={<VisitsView />} />*/}
           <Route path="visits-table" element={<VisitsTable />} />

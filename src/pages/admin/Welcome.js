@@ -1,42 +1,16 @@
 import React from "react";
+import "../../assets/styles/admin/Welcome.css";
 
 const Welcome = () => {
-  const styles = {
-    container: {
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-      justifyContent: "center",
-      height: "100vh",
-      textAlign: "center",
-      backgroundColor: "#f9f9f9",
-      padding: "20px",
-    },
-    heading: {
-      fontSize: "2.5rem",
-      fontWeight: "bold",
-      color: "#f38b32",
-      marginBottom: "10px",
-    },
-    paragraph: {
-      fontSize: "1.2rem",
-      color: "#555",
-      marginBottom: "20px",
-    },
-    image: {
-      maxWidth: "300px",
-      marginBottom: "20px",
-    },
-  };
-
   return (
-    <div style={styles.container}>
+    <div className="welcome-container">
       <img
         src={require("../../assets/images/logo_poliperros.png")}
         alt="PoliPerros Logo"
+        className="welcome-image"
       />
-      <h1 style={styles.heading}>¡Bienvenido!</h1>
-      <p style={styles.paragraph}>
+      <h1 className="welcome-heading">¡Bienvenido!</h1>
+      <p className="welcome-paragraph">
         Selecciona una opción del menú para comenzar.
       </p>
     </div>
