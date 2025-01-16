@@ -170,7 +170,15 @@ const EditVisitsView = ({ onVisitUpdated }) => {
 
         <div className="custom-button-container">
           <Button type="submit" className="custom-button">
-            Actualizar
+            Guardar Cambios
+          </Button>
+          <Button
+            type="button"
+            variant="secondary"
+            className="custom-button"
+            onClick={() => navigate("/admin/visits-table")}
+          >
+            Cancelar
           </Button>
         </div>
       </Form>

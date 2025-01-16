@@ -61,7 +61,7 @@ const FormRegisterUser = () => {
     try {
       await createUser(formData); // Llamar al servicio para crear el usuario
       showSuccessAlert("Usuario generado exitosamente.", "¡Éxito!");
-      navigate("/admin/welcome");
+      navigate("/admin/list-users");
     } catch (error) {
       console.error("Error al generar el usuario:", error.message);
       showErrorAlert(

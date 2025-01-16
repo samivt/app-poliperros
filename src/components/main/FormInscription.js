@@ -16,7 +16,7 @@ const validationSchema = Yup.object({
     .required("El nombre es obligatorio"),
   last_name: Yup.string()
     .transform((value) => DOMPurify.sanitize(value.trim()))
-    .matches(/^[a-zA-Z\s]+$/, "Solo se permiten letras y espacios")
+    .matches(/^[a-zA-ZñÑ\s]+$/, "Solo se permiten letras y espacios")
     .required("El apellido es obligatorio"),
   email: Yup.string()
     .transform((value) => DOMPurify.sanitize(value.trim()))
@@ -28,7 +28,7 @@ const validationSchema = Yup.object({
     )
     .matches(/^\d{10}$/, "Debe contener exactamente 10 dígitos")
     .required("El teléfono es obligatorio"),
-  image: Yup.mixed().nullable(),
+  image: Yup.mixed().nullable().required("El comprobante es obligatorio"),
 });
 
 const FormInscription = () => {
@@ -49,8 +49,8 @@ const FormInscription = () => {
       await createApplicant(values);
       navigate("/thank-you");
     } catch (error) {
-      console.error("Error al registrar la inscripción:", error);
-      showErrorAlert("Ocurrió un error al intentar registrar la inscripción.");
+      //console.error("Error al registrar la inscripción:", error);
+      showErrorAlert(error);
     } finally {
       setSubmitting(false);
     }

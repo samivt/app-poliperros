@@ -1,4 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
+import DOMPurify from "dompurify";
 import userService from "../../services/userService";
 import { logout } from "../../services/authService";
 import "../../assets/styles/admin/UserProfileUpdate.css";
@@ -7,61 +10,26 @@ import {
   showErrorAlert,
   showWarningAlert,
 } from "../../services/alertService";
-import DOMPurify from "dompurify"; // Para sanitización
 
 const UserProfileUpdate = ({ user, token }) => {
-  const [formData, setFormData] = useState({
-    username: user?.username || "",
-    email: user?.email || "",
+  // Esquema de validación con Yup
+  const validationSchema = Yup.object().shape({
+    username: Yup.string()
+      .nullable()
+      .transform((value) =>
+        value.trim() ? DOMPurify.sanitize(value.trim()) : null
+      ),
+    email: Yup.string()
+      .nullable()
+      .email("El formato del correo electrónico no es válido.")
+      .transform((value) =>
+        value.trim() ? DOMPurify.sanitize(value.trim()) : null
+      ),
   });
 
-  const [errors, setErrors] = useState({});
-
-  const validateFields = () => {
-    const newErrors = {};
-
-    // Validar solo si el campo está lleno
-    if (
-      formData.email.trim() &&
-      !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(DOMPurify.sanitize(formData.email))
-    ) {
-      newErrors.email = "El formato del correo electrónico no es válido.";
-    }
-
-    return newErrors;
-  };
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-
-    // Sanitización al momento de escribir
-    setFormData({
-      ...formData,
-      [name]: DOMPurify.sanitize(value.trim()),
-    });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    const validationErrors = validateFields();
-    if (Object.keys(validationErrors).length > 0) {
-      setErrors(validationErrors);
-      showWarningAlert(
-        "Por favor, corrige los errores antes de continuar.",
-        "Campos inválidos"
-      );
-      return;
-    }
-
+  const handleSubmit = async (values, { setSubmitting }) => {
     try {
-      // Preparar datos para enviar
-      const dataToSend = {
-        username: formData.username || null,
-        email: formData.email || null,
-      };
-
-      const response = await userService.updateUser(dataToSend, token);
+      const response = await userService.updateUser(values, token);
 
       if (response?.detail === "Información Actualizada") {
         showSuccessAlert("Usuario actualizado correctamente.");
@@ -69,6 +37,7 @@ const UserProfileUpdate = ({ user, token }) => {
         window.location.href = "/login";
       } else {
         console.warn("Respuesta inesperada del backend:", response);
+        showWarningAlert("Respuesta inesperada del servidor.");
       }
     } catch (error) {
       console.error("Error capturado en handleSubmit:", error);
@@ -76,51 +45,75 @@ const UserProfileUpdate = ({ user, token }) => {
         "Hubo un problema al actualizar los datos. Inténtelo de nuevo.",
         "Error de actualización"
       );
+    } finally {
+      setSubmitting(false);
     }
   };
 
   return (
     <div className="custom-form-container">
       <h2 className="form-title">Actualizar Perfil</h2>
-      <form onSubmit={handleSubmit}>
-        {/* Nombre de usuario */}
-        <div className="mb-3">
-          <label htmlFor="username" className="custom-label">
-            Nombre de usuario
-          </label>
-          <input
-            type="text"
-            className="form-control"
-            id="username"
-            name="username"
-            value={formData.username}
-            onChange={handleInputChange}
-          />
-        </div>
+      <Formik
+        initialValues={{
+          username: user?.username || "",
+          email: user?.email || "",
+        }}
+        validationSchema={validationSchema}
+        onSubmit={handleSubmit}
+      >
+        {({ isSubmitting }) => (
+          <Form>
+            {/* Nombre de usuario */}
+            <div className="mb-3">
+              <label htmlFor="username" className="custom-label">
+                Nombre de usuario
+              </label>
+              <Field
+                type="text"
+                className="form-control"
+                id="username"
+                name="username"
+                placeholder="Ingrese su nuevo usuario"
+              />
+              <ErrorMessage
+                name="username"
+                component="div"
+                className="text-danger"
+              />
+            </div>
 
-        {/* Correo electrónico */}
-        <div className="mb-3">
-          <label htmlFor="email" className="custom-label">
-            Correo Electrónico
-          </label>
-          <input
-            type="email"
-            className={`form-control ${errors.email ? "is-invalid" : ""}`}
-            id="email"
-            name="email"
-            value={formData.email}
-            onChange={handleInputChange}
-          />
-          {errors.email && <div className="text-danger">{errors.email}</div>}
-        </div>
+            {/* Correo electrónico */}
+            <div className="mb-3">
+              <label htmlFor="email" className="custom-label">
+                Correo Electrónico
+              </label>
+              <Field
+                type="email"
+                className="form-control"
+                id="email"
+                name="email"
+                placeholder="Ingrese su correo electrónico"
+              />
+              <ErrorMessage
+                name="email"
+                component="div"
+                className="text-danger"
+              />
+            </div>
 
-        {/* Botón para enviar */}
-        <div className="custom-button-container">
-          <button type="submit" className="btn custom-button">
-            Actualizar Perfil
-          </button>
-        </div>
-      </form>
+            {/* Botón para enviar */}
+            <div className="custom-button-container">
+              <button
+                type="submit"
+                className="btn custom-button"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? "Actualizando..." : "Actualizar Perfil"}
+              </button>
+            </div>
+          </Form>
+        )}
+      </Formik>
     </div>
   );
 };

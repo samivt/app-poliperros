@@ -119,7 +119,7 @@ const FormCourse = () => {
   return (
     <div className="custom-form-container">
       <h2 className="form-title">
-        {isEditMode ? "Actualizar Curso" : "Registrar Nuevo Curso"}
+        {isEditMode ? "Actualizar Curso" : "Registrar Curso"}
       </h2>
       <Formik
         initialValues={initialValues}
@@ -131,8 +131,14 @@ const FormCourse = () => {
           <Form onSubmit={handleSubmit}>
             {/* Nombre */}
             <Form.Group className="mb-4 custom-label">
-              <Form.Label>Nombre del Curso:</Form.Label>
-              <Field name="name" className="form-control" />
+              <Form.Label>
+                Nombre del Curso:<span className="required">*</span>
+              </Form.Label>
+              <Field
+                name="name"
+                className="form-control"
+                placeholder="Ingrese el nombre del curso"
+              />
               <ErrorMessage
                 name="name"
                 component="div"
@@ -142,11 +148,14 @@ const FormCourse = () => {
 
             {/* Descripción */}
             <Form.Group className="mb-4 custom-label">
-              <Form.Label>Descripción:</Form.Label>
+              <Form.Label>
+                Descripción:<span className="required">*</span>
+              </Form.Label>
               <Field
                 as="textarea"
                 name="description"
                 className="form-control"
+                placeholder="Ingrese una descripción"
               />
               <ErrorMessage
                 name="description"
@@ -159,7 +168,9 @@ const FormCourse = () => {
             <Row>
               <Col>
                 <Form.Group className="mb-4 custom-label">
-                  <Form.Label>Fecha de Inicio:</Form.Label>
+                  <Form.Label>
+                    Fecha de Inicio:<span className="required">*</span>
+                  </Form.Label>
                   <Field
                     type="date"
                     name="start_date"
@@ -174,7 +185,9 @@ const FormCourse = () => {
               </Col>
               <Col>
                 <Form.Group className="mb-4 custom-label">
-                  <Form.Label>Fecha de Fin:</Form.Label>
+                  <Form.Label>
+                    Fecha de Fin:<span className="required">*</span>
+                  </Form.Label>
                   <Field type="date" name="end_date" className="form-control" />
                   <ErrorMessage
                     name="end_date"
@@ -187,8 +200,15 @@ const FormCourse = () => {
 
             {/* Precio */}
             <Form.Group className="mb-4 custom-label">
-              <Form.Label>Precio:</Form.Label>
-              <Field type="number" name="price" className="form-control" />
+              <Form.Label>
+                Precio:<span className="required">*</span>
+              </Form.Label>
+              <Field
+                type="number"
+                name="price"
+                className="form-control"
+                placeholder="Ingrese el precio"
+              />
               <ErrorMessage
                 name="price"
                 component="div"
@@ -198,32 +218,38 @@ const FormCourse = () => {
 
             {/* Capacidad */}
             <Form.Group className="mb-4 custom-label">
-              <Form.Label>Capacidad:</Form.Label>
-              <Field type="number" name="capacity" className="form-control" />
+              <Form.Label>
+                Capacidad:<span className="required">*</span>
+              </Form.Label>
+              <Field
+                type="number"
+                name="capacity"
+                className="form-control"
+                placeholder="Ingrese la capacidad"
+              />
               <ErrorMessage
                 name="capacity"
                 component="div"
                 className="form-error"
               />
             </Form.Group>
-            <Row>
-              <p className="custom-label">
-                Seleccionar dia, hora de inicio y hora de fin:
-              </p>
-            </Row>
+
             {/* Horario */}
             <FieldArray name="schedule">
               {({ push, remove }) => (
                 <>
                   {values.schedule.map((item, index) => (
-                    <Row key={index} className="mb-3">
+                    <Row key={index} className="mb-3 schedule-container">
                       <Col>
+                        <Form.Label className="custom-label">
+                          Seleccionar: <span className="required">*</span>
+                        </Form.Label>
                         <Field
                           as="select"
                           name={`schedule.${index}.day`}
                           className="form-control"
                         >
-                          <option value="">Seleccionar Día</option>
+                          <option value="">Seleccionar día</option>
                           <option value="monday">Lunes</option>
                           <option value="tuesday">Martes</option>
                           <option value="wednesday">Miércoles</option>
@@ -239,6 +265,9 @@ const FormCourse = () => {
                         />
                       </Col>
                       <Col>
+                        <Form.Label className="custom-label">
+                          Hora inicio: <span className="required">*</span>
+                        </Form.Label>
                         <Field
                           type="time"
                           name={`schedule.${index}.start_hour`}
@@ -251,6 +280,9 @@ const FormCourse = () => {
                         />
                       </Col>
                       <Col>
+                        <Form.Label className="custom-label">
+                          Hora fin: <span className="required">*</span>
+                        </Form.Label>
                         <Field
                           type="time"
                           name={`schedule.${index}.end_hour`}

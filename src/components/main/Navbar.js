@@ -7,12 +7,10 @@ const Navbar = () => {
   return (
     <nav className="navbar navbar-expand-lg bg-custom">
       <div className="container-fluid">
-        {/* Logo redondo */}
         <NavLink to="/" className="navbar-brand">
           <img src={logo} alt="Poliperros Logo" className="logo" />
         </NavLink>
 
-        {/* Botón del togglebar mejorado */}
         <button
           className="navbar-toggler custom-toggler"
           type="button"
@@ -58,7 +56,7 @@ const Navbar = () => {
                   `nav-link ${isActive ? "active" : ""}`
                 }
               >
-                Poliperros
+                PoliPerros
               </NavLink>
             </li>
             <li className="nav-item me-4">

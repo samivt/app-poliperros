@@ -1,4 +1,5 @@
 import { getToken, fetchWithAuth } from "./authService.js";
+
 const API_URL = process.env.REACT_APP_API_URL;
 
 const updateUser = async (userData) => {
@@ -136,5 +137,56 @@ export const createUser = async ({ email, role }) => {
   } catch (error) {
     // console.error("Error al generar el usuario:", error.message);
     throw error;
+  }
+};
+// Obtener todos los usuarios
+export const fetchAllUsers = async () => {
+  const token = getToken();
+
+  try {
+    const response = await fetchWithAuth(`${API_URL}/auth/`, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      const errorMessage = errorData.detail || "Error al obtener los usuarios.";
+      throw new Error(errorMessage); // Lanza un error si la respuesta no es exitosa
+    }
+
+    return await response.json(); // Devuelve los datos de los usuarios si la respuesta es exitosa
+  } catch (error) {
+    // console.error("Error al obtener los usuarios:", error.message);
+    throw error; // Lanza el error para manejarlo en el componente que llame a esta función
+  }
+};
+
+// Servicio para eliminar un usuario
+export const deleteUser = async (userId) => {
+  const token = getToken(); // Obtén el token del usuario logeado
+
+  try {
+    // Si no es el mismo usuario, realiza la solicitud de eliminación
+    const response = await fetchWithAuth(`${API_URL}/auth/delete/${userId}`, {
+      method: "DELETE",
+      headers: {
+        Accept: "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      const errorMessage = errorData.detail || "Error al eliminar el usuario.";
+      throw new Error(errorMessage);
+    }
+
+    return await response.json(); // Devuelve la respuesta de la eliminación si fue exitosa
+  } catch (error) {
+    throw error; // Lanza el error para manejarlo en el componente
   }
 };

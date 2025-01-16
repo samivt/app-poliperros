@@ -52,7 +52,7 @@ const UpdatePassword = () => {
 
   return (
     <div className="custom-form-container">
-      <h2 className="form-title">Actualizar Contraseña</h2>
+      <h2 className="form-title">Cambiar Contraseña</h2>
       <Formik
         initialValues={{
           actualPassword: "",
@@ -129,12 +129,8 @@ const UpdatePassword = () => {
 
             {/* Botón para enviar */}
             <div className="custom-button-container">
-              <Button
-                type="submit"
-                className="btn custom-button"
-                disabled={isSubmitting}
-              >
-                {isSubmitting ? "Actualizando..." : "Actualizar Contraseña"}
+              <Button type="submit" className="btn custom-button">
+                Cambiar Contraseña
               </Button>
             </div>
           </Form>

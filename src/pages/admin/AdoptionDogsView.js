@@ -1,7 +1,6 @@
-import React from "react";
-import { Button, Table, Spinner } from "react-bootstrap";
+import React, { useState } from "react";
+import { Button, Table, Spinner, Modal } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-
 import "../../assets/styles/admin/DogsView.css";
 
 const AdoptionDogsView = ({
@@ -11,7 +10,23 @@ const AdoptionDogsView = ({
   onAddNew,
   onAdopt,
 }) => {
+  const [showModal, setShowModal] = useState(false);
+  const [selectedDog, setSelectedDog] = useState(null); // Estado para almacenar el perro seleccionado
   const navigate = useNavigate();
+
+  const handleClose = () => setShowModal(false);
+  const handleShow = (dog) => {
+    setSelectedDog(dog); // Establecer el perro seleccionado
+    setShowModal(true); // Mostrar el modal
+  };
+
+  const handleAdoptOption = (option) => {
+    console.log(option); // Aquí puedes manejar la lógica según la opción seleccionada
+    if (selectedDog) {
+      onAdopt(selectedDog); // Llamar a la función onAdopt con el perro seleccionado
+    }
+    setShowModal(false); // Cerrar el modal
+  };
 
   return (
     <div className="container mt-4">
@@ -69,10 +84,11 @@ const AdoptionDogsView = ({
                     >
                       <i className="fas fa-trash-alt"></i>
                     </Button>
+                    {/* Botón para abrir el modal */}
                     <Button
                       variant="success"
                       className="action-button"
-                      onClick={() => onAdopt(dog)}
+                      onClick={() => handleShow(dog)}
                     >
                       <i className="fas fa-hand-holding-heart"></i>
                     </Button>
@@ -96,7 +112,6 @@ const AdoptionDogsView = ({
                         })
                       : "Sin fecha"}
                   </td>
-
                   <td>{dog.operation || "Ninguna"}</td>
                 </tr>
               ))}
@@ -110,6 +125,27 @@ const AdoptionDogsView = ({
           </div>
         )
       )}
+
+      {/* Modal con opciones de adopción */}
+      <Modal show={showModal} onHide={handleClose} centered>
+        <Modal.Header closeButton className="title-modal">
+          <Modal.Title>Elegir un tipo de adopción</Modal.Title>
+        </Modal.Header>
+        <Modal.Body className="text-center">
+          <Button
+            onClick={() => handleAdoptOption("Nuevo dueño")}
+            className="btn1-modal"
+          >
+            Nuevo dueño
+          </Button>
+          <Button
+            onClick={() => handleAdoptOption("Dueño existente")}
+            className="btn-modal"
+          >
+            Dueño existente
+          </Button>
+        </Modal.Body>
+      </Modal>
     </div>
   );
 };

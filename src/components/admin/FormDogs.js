@@ -103,7 +103,7 @@ const FormDogs = ({ onSave = () => {} }) => {
 
   return (
     <div className="custom-form-container">
-      <h2 className="form-title">Registrar Nuevo Perro</h2>
+      <h2 className="form-title">Registrar Perro</h2>
       <Formik
         initialValues={{
           id_chip: "",
@@ -122,7 +122,7 @@ const FormDogs = ({ onSave = () => {} }) => {
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
       >
-        {({ handleSubmit, setFieldValue, isSubmitting }) => (
+        {({ handleSubmit, setFieldValue }) => (
           <Form onSubmit={handleSubmit}>
             {/* Nº Chip */}
             <Form.Group className="mb-4">
@@ -338,12 +338,8 @@ const FormDogs = ({ onSave = () => {} }) => {
 
             {/* Botón para registrar */}
             <div className="custom-button-container">
-              <Button
-                type="submit"
-                className="custom-button"
-                disabled={isSubmitting}
-              >
-                {isSubmitting ? "Registrando..." : "Registrar"}
+              <Button type="submit" className="custom-button">
+                Registrar
               </Button>
             </div>
           </Form>

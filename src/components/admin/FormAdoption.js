@@ -82,23 +82,23 @@ const FormAdoption = ({ onSubmit, onSuccess }) => {
         {({ handleSubmit, isSubmitting }) => (
           <Form onSubmit={handleSubmit}>
             {/* Nombre del perro */}
-            <div className="form-adoption-group">
-              <label htmlFor="dog_id" className="form-adoption-label">
+            <Form.Group className="mb-4">
+              <Form.Label className="custom-label">
                 Nombre del Perro:
-              </label>
+              </Form.Label>
               <Field
                 name="dog_id"
                 value={dogName}
                 className="form-adoption-input readonly"
                 readOnly
               />
-            </div>
+            </Form.Group>
 
             {/* Fecha de adopción */}
-            <div className="form-adoption-group">
-              <label htmlFor="adoption_date" className="form-adoption-label">
-                Fecha de Adopción:
-              </label>
+            <Form.Group className="mb-4">
+              <Form.Label className="custom-label">
+                Fecha de Adopción:<span className="required">*</span>
+              </Form.Label>
               <Field
                 type="date"
                 name="adoption_date"
@@ -109,13 +109,13 @@ const FormAdoption = ({ onSubmit, onSuccess }) => {
                 component="div"
                 className="form-adoption-error"
               />
-            </div>
+            </Form.Group>
 
             {/* Nombre del dueño */}
-            <div className="form-adoption-group">
-              <label htmlFor="name" className="form-adoption-label">
-                Nombre del Dueño:
-              </label>
+            <Form.Group className="mb-4">
+              <Form.Label className="custom-label">
+                Nombre del Dueño:<span className="required">*</span>
+              </Form.Label>
               <Field
                 type="text"
                 name="name"
@@ -127,13 +127,13 @@ const FormAdoption = ({ onSubmit, onSuccess }) => {
                 component="div"
                 className="form-adoption-error"
               />
-            </div>
-
+            </Form.Group>
             {/* Dirección */}
-            <div className="form-adoption-group">
-              <label htmlFor="direction" className="form-adoption-label">
-                Dirección:
-              </label>
+            <Form.Group className="mb-4">
+              <Form.Label className="custom-label">
+                Dirección:<span className="required">*</span>
+              </Form.Label>
+
               <Field
                 type="text"
                 name="direction"
@@ -145,13 +145,14 @@ const FormAdoption = ({ onSubmit, onSuccess }) => {
                 component="div"
                 className="form-adoption-error"
               />
-            </div>
+            </Form.Group>
 
             {/* Teléfono */}
-            <div className="form-adoption-group">
-              <label htmlFor="cellphone" className="form-adoption-label">
-                Teléfono:
-              </label>
+            <Form.Group className="mb-4">
+              <Form.Label className="custom-label">
+                Teléfono:<span className="required">*</span>
+              </Form.Label>
+
               <Field
                 type="tel"
                 name="cellphone"
@@ -163,7 +164,7 @@ const FormAdoption = ({ onSubmit, onSuccess }) => {
                 component="div"
                 className="form-adoption-error"
               />
-            </div>
+            </Form.Group>
 
             <div className="form-adoption-button-container">
               <Button

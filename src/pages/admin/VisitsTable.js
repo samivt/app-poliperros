@@ -121,7 +121,7 @@ const VisitsTable = () => {
 
   return (
     <div className="container mt-4">
-      <h2 className="text-center">Tabla de Visitas</h2>
+      <h2 className="text-center">Historial de Visitas</h2>
       <div className="d-flex justify-content-end mb-4">
         <Button className="agregar-btn" onClick={handleAddVisit}>
           <i className="fas fa-plus me-2"></i> Agregar Visita
@@ -149,7 +149,7 @@ const VisitsTable = () => {
               <th>Nombre del Dueño</th>
 
               <th>Observaciones</th>
-              <th>Foto de Evidencia</th>
+              <th>Evidencia</th>
             </tr>
           </thead>
           <tbody>

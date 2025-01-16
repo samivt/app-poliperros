@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Row, Col, Spinner } from "react-bootstrap";
+import { Row, Col } from "react-bootstrap";
 import Navbar from "../../components/main/Navbar";
 import Footer from "../../components/main/Footer";
 import "../../assets/styles/main/CoursesPage.css";
@@ -45,10 +45,10 @@ const CoursesPage = () => {
     <div>
       <Navbar />
       {loading ? (
-        <div className="text-center mt-5">
-          <Spinner animation="border" role="status" variant="primary">
-            <span className="visually-hidden">Cargando...</span>
-          </Spinner>
+        <div className="loading-container">
+          <div className="paw-spinner">
+            <i className="fas fa-paw fa-spin"></i>
+          </div>
         </div>
       ) : (
         <div className="courses-container mt-3">

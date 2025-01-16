@@ -31,11 +31,11 @@ const AdoptedDogsView = () => {
 
       setDogs(transformedDogs);
     } catch (error) {
-      console.error("Error al cargar los perros adoptados:", error);
-      showErrorAlert(
+      //console.error("Error al cargar los perros adoptados:", error);
+      /*showErrorAlert(
         "No se pudieron cargar los perros adoptados. Inténtalo nuevamente.",
         "Error"
-      );
+      );*/
     } finally {
       setLoading(false);
     }

@@ -26,8 +26,8 @@ const FormVisits = ({ onVisitCreated }) => {
         const data = await fetchAdoptedDogs();
         setAdoptedDogs(data);
       } catch (error) {
-        console.error("Error al cargar los perros adoptados:", error);
-        showErrorAlert("No se pudieron cargar los perros adoptados.", "Error");
+        console.error("No hay perros adoptados:", error);
+        //showErrorAlert("No se pudieron cargar los perros adoptados.", "Error");
       }
     };
     loadAdoptedDogs();
@@ -77,7 +77,7 @@ const FormVisits = ({ onVisitCreated }) => {
 
   return (
     <div className="custom-form-container">
-      <h2 className="form-title">Registrar Nueva Visita</h2>
+      <h2 className="form-title">Registrar Visita</h2>
       <Formik
         initialValues={{
           visit_date: "",
@@ -199,6 +199,7 @@ const FormVisits = ({ onVisitCreated }) => {
                 as="textarea"
                 name="observations"
                 className="form-control"
+                placeholder="Ingrese una descripción (opcional)"
               />
               <ErrorMessage
                 name="observations"

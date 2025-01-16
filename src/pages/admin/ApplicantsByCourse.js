@@ -1,11 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { Table, Spinner } from "react-bootstrap";
+import { Table, Spinner, Button } from "react-bootstrap";
 import {
   fetchApplicantsByCourse,
   fetchApplicantImage,
+  deleteApplicant,
 } from "../../services/applicantService";
 import { fetchCourses } from "../../services/courseService";
 import "../../assets/styles/admin/ApplicantsByCourse.css";
+import {
+  showSuccessAlert,
+  showErrorAlert,
+  showConfirmationAlert,
+} from "../../services/alertService";
 
 const ApplicantsByCourse = () => {
   const [courses, setCourses] = useState([]);
@@ -50,6 +56,24 @@ const ApplicantsByCourse = () => {
       console.error("Error al cargar los solicitantes:", error);
     } finally {
       setLoadingApplicants(false);
+    }
+  };
+
+  const handleDeleteApplicant = async (idVisit, idApplicant) => {
+    const confirmed = await showConfirmationAlert(
+      "Esta acción no se puede deshacer.",
+      "¿Estás seguro de eliminar esta inscripción?"
+    );
+
+    if (!confirmed) return;
+    try {
+      await deleteApplicant(idVisit, idApplicant);
+      setApplicants((prevApplicants) =>
+        prevApplicants.filter((applicant) => applicant.id !== idApplicant)
+      );
+      showSuccessAlert("Solicitante eliminado exitosamente.");
+    } catch (error) {
+      showErrorAlert("Error al eliminar el solicitante.");
     }
   };
 
@@ -104,6 +128,7 @@ const ApplicantsByCourse = () => {
             <Table striped bordered hover>
               <thead>
                 <tr>
+                  <th>Acciones</th>
                   <th>Nombre</th>
                   <th>Apellido</th>
                   <th>Email</th>
@@ -114,6 +139,16 @@ const ApplicantsByCourse = () => {
               <tbody>
                 {applicants.map((applicant) => (
                   <tr key={applicant.id}>
+                    <td>
+                      <Button
+                        variant="danger"
+                        onClick={() =>
+                          handleDeleteApplicant(selectedCourseId, applicant.id)
+                        }
+                      >
+                        <i className="fas fa-trash"></i>
+                      </Button>
+                    </td>
                     <td>{applicant.first_name}</td>
                     <td>{applicant.last_name}</td>
                     <td>{applicant.email}</td>

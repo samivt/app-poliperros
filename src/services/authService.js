@@ -188,7 +188,7 @@ export const fetchWithAuth = async (url, options = {}) => {
       setTimeout(() => {
         logout(); // Elimina el token de sessionStorage
         window.location.href = "/login"; // Redirige al login
-      }, 5000); // 2 segundos (puedes ajustar este tiempo)
+      }, 2000); // 2 segundos (puedes ajustar este tiempo)
 
       throw new Error("Sesión expirada. Por favor, inicia sesión nuevamente.");
     }

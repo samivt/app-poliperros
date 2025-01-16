@@ -8,7 +8,7 @@ export const rolePermissions = {
     },
     {
       path: "update-password",
-      label: "Actualizar Contraseña",
+      label: "Cambiar Contraseña",
       icon: "fas fa-key",
       category: "personal",
     },
@@ -53,6 +53,12 @@ export const rolePermissions = {
       path: "register-user",
       label: "Generar Usuario",
       icon: "fas fa-user-plus",
+      category: "users",
+    },
+    {
+      path: "list-users",
+      label: "Ver Usuarios",
+      icon: "fas fa-users",
       category: "users",
     },
     {

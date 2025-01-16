@@ -80,7 +80,7 @@ const Home = () => {
               title="DeUna"
               content={
                 <img
-                  src={require("../../assets/images/qr_deuna.jpeg")}
+                  src={require("../../assets/images/qr_deuna.png")}
                   alt="QR Code"
                   className="donation-qr"
                 />

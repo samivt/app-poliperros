@@ -12,15 +12,18 @@ import Header from "../../components/admin/Header";
 import Welcome from "./Welcome";
 import FormDogs from "../../components/admin/FormDogs";
 import StaticDogsView from "./StaticDogsView";
-import EditDogView from "../../components/admin/EditDogViews";
+
+import EditStaticDog from "../../components/admin/EditStaticDog";
+import EditAdoptionDog from "../../components/admin/EditAdoptionDog";
+import EditAdoptedDog from "../../components/admin/EditAdoptedDog";
 import AdoptionDogsView from "./AdoptionDogsView";
 import AdoptedDogsView from "./AdoptedDogsView";
 import FormAdoption from "../../components/admin/FormAdoption";
 import FormVisits from "../../components/admin/FormVisits";
 import FormRegisterUser from "../../components/admin/FormRegisterUser";
+import UsersTable from "./UsersTable";
 import EditUser from "./UserProfileUpdate";
 import UpdatePassword from "./UpdatePassword";
-//import VisitsView from "./VisitsView";
 import VisitsTable from "./VisitsTable";
 import FormCourse from "../../components/admin/FormCourse";
 import CoursesList from "./CoursesList";
@@ -136,20 +139,21 @@ const AdminPanel = () => {
               />
             }
           />
-          {/* Editar perro permanente */}
+          {/* Editar perro permanente 
+          <Route path="edit-static-dog/:id" element={<EditStaticDog />} />*/}
           <Route
             path="edit-static-dog/:id"
-            element={<EditDogView type="static" onSave={loadStaticDogs} />}
+            element={<EditStaticDog onSave={loadStaticDogs} />}
           />
           {/* Editar perro en adopción */}
           <Route
             path="edit-adoption-dog/:id"
-            element={<EditDogView type="adoption" onSave={loadAdoptionDogs} />}
+            element={<EditAdoptionDog onSave={loadAdoptionDogs} />}
           />
           {/* Editar perro adoptado */}
           <Route
             path="edit-adopted-dog/:id"
-            element={<EditDogView type="adopted" onSave={loadAdoptedDogs} />}
+            element={<EditAdoptedDog onSave={loadAdoptedDogs} />}
           />
           {/* Editar dueño de perro */}
           <Route
@@ -169,23 +173,41 @@ const AdminPanel = () => {
                 onSubmit={async (formData) => {
                   try {
                     const { dog_id, adoption_date, ...ownerData } = formData;
-                    await adoptDog(dog_id, adoption_date, ownerData);
-                    await loadAdoptionDogs();
+                    // Imprimir el payload completo
+                    console.log("Payload enviado:", {
+                      dog_id,
+                      adoption_date,
+                      ownerData,
+                    });
+                    const response = await adoptDog(
+                      dog_id,
+                      adoption_date,
+                      ownerData
+                    );
+
+                    if (response.ok) {
+                      // Verifica si la respuesta fue exitosa
+                      await loadAdoptionDogs();
+                    } else {
+                      throw new Error("Error en la respuesta del servidor");
+                    }
                   } catch (error) {
                     console.error("Error al registrar la adopción:", error);
+                    throw error; // Lanza el error para que handleSubmit lo capture
                   }
                 }}
               />
             }
           />
+
           {/* Formulario de visitas */}
           <Route path="form-visit" element={<FormVisits />} />
           <Route path="edit-visit/:visitId" element={<EditVisitsForm />} />
 
-          {/*} <Route path="visits" element={<VisitsView />} />*/}
           <Route path="visits-table" element={<VisitsTable />} />
 
           <Route path="register-user" element={<FormRegisterUser />} />
+          <Route path="list-users" element={<UsersTable />} />
           <Route path="edit-profile" element={<EditUser />} />
           <Route path="update-password" element={<UpdatePassword />} />
 

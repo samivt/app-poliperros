@@ -131,3 +131,30 @@ export const fetchApplicantImage = async (applicantId) => {
     throw error;
   }
 };
+//eliminar aplicante
+export const deleteApplicant = async (idVisit, idApplicant) => {
+  const token = getToken();
+
+  try {
+    const response = await fetchWithAuth(
+      `${API_URL}/applicant/delete/${idVisit}?id_applicant=${idApplicant}`,
+      {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: "application/json", // Especificamos que aceptamos una respuesta JSON
+        },
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("Error al eliminar el solicitante.");
+    }
+
+    const data = await response.json(); // Si la respuesta es JSON, la extraemos
+    return data; // Retorna los datos de la respuesta si fue exitosa
+  } catch (error) {
+    // console.error("Error en deleteApplicant:", error);
+    throw error;
+  }
+};

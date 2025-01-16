@@ -106,4 +106,7 @@
     width: 0.7rem; /* Ajusta el tamaño del ícono */
     height: 0.7rem;
   }
+  .schedule-container {
+    align-items: start;
+  }
 }
