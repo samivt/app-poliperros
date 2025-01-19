@@ -92,11 +92,15 @@ const AdminPanel = () => {
               <AdoptionDogsView
                 dogs={adoptionDogs}
                 loading={isLoading.adoptionDogs}
-                onDelete={(id) => deleteDog(id, "adoption")}
+                onDelete={async (id) => {
+                  await deleteDog(id, "adoption"); // Eliminar perro en adopción
+                  await loadAdoptionDogs(); // Recargar los datos después de eliminar
+                }}
                 onAddNew={handleAddNewDog}
               />
             }
           />
+
           {/* Vista de perros adoptados */}
           <Route
             path="adopted-dogs"
@@ -105,7 +109,6 @@ const AdminPanel = () => {
                 dogs={adoptedDogs}
                 loading={isLoading.adoptedDogs}
                 onEdit={(dog) => console.log("Editar dueño:", dog)}
-                onUnadopt={(id) => console.log("Quitar adopción:", id)}
                 onViewVisits={(id) => console.log("Ver visitas:", id)}
                 onAddVisit={handleAddVisit}
               />
@@ -155,6 +158,7 @@ const AdminPanel = () => {
               <FormAdoption
                 onSuccess={async () => {
                   await loadAdoptedDogs();
+                  await loadAdoptionDogs();
                   navigate("/admin/adopted-dogs");
                 }}
                 onSubmit={async (formData) => {}}
@@ -168,6 +172,7 @@ const AdminPanel = () => {
               <FormAdoptionOwner
                 onSuccess={async () => {
                   await loadAdoptedDogs();
+                  await loadAdoptionDogs();
                   navigate("/admin/adopted-dogs");
                 }}
                 onSubmit={async (formData) => {}}

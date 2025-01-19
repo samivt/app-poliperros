@@ -1,14 +1,30 @@
-# Usar una imagen base de Nginx
-FROM nginx:stable-alpine
+# Fase 1: Construcción de la aplicación
+FROM node:alpine as build
 
-# Copiar los archivos build de React al directorio de Nginx
-COPY build /usr/share/nginx/html
+# Establecer el directorio de trabajo
+WORKDIR /app
 
-# Copiar un archivo de configuración personalizada de Nginx si es necesario (opcional)
-# COPY nginx.conf /etc/nginx/conf.d/default.conf
+# Copiar los archivos necesarios
+COPY package.json package-lock.json ./
+COPY .env ./
+
+# Instalar dependencias
+RUN npm install
+
+# Copiar el código fuente
+COPY . .
+
+# Construir la aplicación React
+RUN npm run build
+
+# Fase 2: Servir la aplicación con Nginx
+FROM nginx:alpine
+
+# Copiar el build al servidor Nginx
+COPY --from=build /app/build /usr/share/nginx/html
 
 # Exponer el puerto 80
 EXPOSE 80
 
-# Comando para ejecutar Nginx
+# Comando por defecto para iniciar Nginx
 CMD ["nginx", "-g", "daemon off;"]

@@ -109,28 +109,6 @@ const useAdminData = () => {
   };
 
   /**
-   * Quitar la adopción de un perro con confirmación.
-   * @param {number} id - ID del perro.
-   */
-  const unadoptDog = async (id) => {
-    const confirmed = await showConfirmationAlert(
-      "¿Estás seguro de quitar la adopción?",
-      "Esta acción no se puede deshacer."
-    );
-
-    if (!confirmed) return; // Si no confirma, cancelar la acción
-
-    try {
-      await deleteAdoptionDog(id); // Supongamos que esta acción quita la adopción
-      setAdoptedDogs((prevDogs) => prevDogs.filter((dog) => dog.id !== id));
-      showSuccessAlert("Adopción eliminada exitosamente.");
-    } catch (error) {
-      console.error("Error al quitar la adopción:", error);
-      showErrorAlert("No se pudo quitar la adopción. Inténtalo nuevamente.");
-    }
-  };
-
-  /**
    * Cargar datos iniciales al montar el componente.
    */
   useEffect(() => {
@@ -148,7 +126,6 @@ const useAdminData = () => {
     loadAdoptionDogs,
     loadAdoptedDogs,
     deleteDog,
-    unadoptDog,
   };
 };
 

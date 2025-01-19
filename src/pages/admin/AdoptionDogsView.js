@@ -1,9 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Table, Spinner, Modal } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import "../../assets/styles/admin/DogsView.css";
+import { fetchAdoptionDogs } from "../../services/dogsService";
 
-const AdoptionDogsView = ({ dogs = [], loading, onDelete, onAddNew }) => {
+const AdoptionDogsView = ({ onDelete, onAddNew }) => {
+  const [dogs, setDogs] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [selectedDog, setSelectedDog] = useState(null);
   const navigate = useNavigate();
@@ -14,18 +17,37 @@ const AdoptionDogsView = ({ dogs = [], loading, onDelete, onAddNew }) => {
     setShowModal(true);
   };
 
-  const handleAdoptOption = (option) => {
+  const handleAdoptOption = () => {
     if (selectedDog) {
       navigate(`/admin/adopt-dog/${selectedDog.id}`);
     }
     setShowModal(false);
   };
-  const handleAdoptOwnerOption = (option) => {
+
+  const handleAdoptOwnerOption = () => {
     if (selectedDog) {
       navigate(`/admin/adopt-dog-owner/${selectedDog.id}`);
     }
     setShowModal(false);
   };
+
+  // Función para cargar los datos de perros en adopción
+  const loadAdoptionDogs = async () => {
+    setLoading(true);
+    try {
+      const data = await fetchAdoptionDogs();
+      setDogs(data);
+    } catch (error) {
+      console.error("Error al cargar los perros en adopción:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Cargar datos al montar la vista
+  useEffect(() => {
+    loadAdoptionDogs();
+  }, []);
 
   return (
     <div className="container mt-4">
@@ -101,10 +123,7 @@ const AdoptionDogsView = ({ dogs = [], loading, onDelete, onAddNew }) => {
                   <td>{dog.id_chip || "No tiene"}</td>
                   <td>
                     {dog.entry_date
-                      ? new Date(
-                          new Date(dog.entry_date).getTime() +
-                            new Date().getTimezoneOffset() * 60000
-                        ).toLocaleDateString("es-ES", {
+                      ? new Date(dog.entry_date).toLocaleDateString("es-ES", {
                           year: "numeric",
                           month: "2-digit",
                           day: "2-digit",
@@ -118,11 +137,9 @@ const AdoptionDogsView = ({ dogs = [], loading, onDelete, onAddNew }) => {
           </Table>
         </div>
       ) : (
-        !loading && (
-          <div className="text-center">
-            <p className="text-muted">No hay perros temporales disponibles.</p>
-          </div>
-        )
+        <div className="text-center">
+          <p className="text-muted">No hay perros temporales disponibles.</p>
+        </div>
       )}
 
       {/* Modal con opciones de adopción */}
@@ -131,16 +148,10 @@ const AdoptionDogsView = ({ dogs = [], loading, onDelete, onAddNew }) => {
           <Modal.Title>Elegir un tipo de adopción</Modal.Title>
         </Modal.Header>
         <Modal.Body className="text-center">
-          <Button
-            onClick={() => handleAdoptOption("Nuevo dueño")}
-            className="btn1-modal"
-          >
+          <Button onClick={handleAdoptOption} className="btn1-modal">
             Nuevo dueño
           </Button>
-          <Button
-            onClick={() => handleAdoptOwnerOption("Dueño existente")}
-            className="btn-modal"
-          >
+          <Button onClick={handleAdoptOwnerOption} className="btn-modal">
             Dueño existente
           </Button>
         </Modal.Body>

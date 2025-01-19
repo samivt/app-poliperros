@@ -24,7 +24,7 @@ const FormAdoptionOwner = ({ onSuccess }) => {
         setDogName(dog.name || "");
       } catch (error) {
         console.error("Error al cargar el perro:", error);
-        showErrorAlert("No se pudo cargar la información del perro.");
+        //showErrorAlert("No se pudo cargar la información del perro.");
       }
     };
 

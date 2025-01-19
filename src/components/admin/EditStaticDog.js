@@ -226,9 +226,9 @@ const EditStaticDog = ({ onSave }) => {
           />
         </Form.Group>
 
-        {/* ¿Está desparacitado? */}
+        {/* ¿Está desparasitado? */}
         <Form.Group className="mb-4">
-          <Form.Label className="custom-label">¿Está desparacitado?</Form.Label>
+          <Form.Label className="custom-label">¿Está desparasitado?</Form.Label>
           <Form.Check
             type="switch"
             id="is_dewormed"

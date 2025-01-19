@@ -1,5 +1,24 @@
+# Ignorar dependencias locales
 node_modules
+npm-debug.log
+
+# Ignorar carpetas y archivos de build generados
+build
 build/static/js/*.map
+
+# Ignorar archivos de entorno locales y de desarrollo
+
 .env.local
 .env.development
 .env.development.local
+.env.test
+.env.test.local
+
+# Ignorar archivos de control de versiones y configuraciones específicas del sistema
+.git
+.gitignore
+.DS_Store
+
+# Ignorar logs y archivos temporales
+*.log
+.tmp
