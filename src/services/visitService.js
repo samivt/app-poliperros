@@ -41,7 +41,7 @@ export const fetchVisitsByDogId = async (dogId) => {
       method: "GET",
       headers: {
         Accept: "application/json",
-        Authorization: `Bearer ${token}`, // Incluye el token JWT
+        Authorization: `Bearer ${token}`,
       },
     });
 
@@ -103,7 +103,6 @@ export const fetchAllVisits = async () => {
 };
 
 // Obtener evidencia de una visita
-
 export const fetchEvidenceImage = async (visitId) => {
   const token = getToken();
   try {
@@ -122,7 +121,7 @@ export const fetchEvidenceImage = async (visitId) => {
     }
 
     const blob = await response.blob();
-    return URL.createObjectURL(blob); // Devuelve la URL de la imagen
+    return URL.createObjectURL(blob);
   } catch (error) {
     /*console.error(
       `Error al obtener la evidencia para la visita ${visitId}:`,
@@ -143,7 +142,7 @@ export const updateVisit = async (visitData) => {
         Authorization: `Bearer ${token}`,
         Accept: "application/json",
       },
-      body: JSON.stringify(visitData), // Incluye el cuerpo con los datos de la visita
+      body: JSON.stringify(visitData),
     });
 
     if (!response.ok) {

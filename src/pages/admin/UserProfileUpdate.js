@@ -12,7 +12,6 @@ import {
 } from "../../services/alertService";
 
 const UserProfileUpdate = ({ user, token }) => {
-  // Esquema de validación con Yup
   const validationSchema = Yup.object().shape({
     username: Yup.string()
       .nullable()

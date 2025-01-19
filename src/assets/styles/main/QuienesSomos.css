@@ -1,12 +1,10 @@
 .quienes-somos-page {
-  font-family: "Nunito", sans-serif;
   background-color: #ffffff;
   color: #333;
   margin: 0;
   padding: 0;
 }
 
-/* Cabecera */
 .qs-header {
   background-image: url("../../images/slide1.jpg");
   background-size: cover;

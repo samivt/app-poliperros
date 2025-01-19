@@ -62,7 +62,6 @@ const EditOwnerForm = ({ onOwnerUpdated }) => {
     const { name, value } = event.target;
     const sanitizedValue = sanitizeInput(value);
 
-    // Validar el campo en tiempo real
     const error = validateField(name, sanitizedValue);
 
     setFormData({ ...formData, [name]: sanitizedValue });
@@ -100,7 +99,6 @@ const EditOwnerForm = ({ onOwnerUpdated }) => {
 
       const response = await updateOwner(owner.id, sanitizedData);
 
-      // Si la respuesta tiene el campo 'detail', lo mostramos
       if (response && response.detail) {
         showSuccessAlert(response.detail, "¡Éxito!");
       } else {
@@ -110,7 +108,7 @@ const EditOwnerForm = ({ onOwnerUpdated }) => {
         );
       }
 
-      navigate("/admin/adopted-dogs"); // Redirigir al listado de perros adoptados
+      navigate("/admin/adopted-dogs");
     } catch (error) {
       showErrorAlert(
         error.message ||

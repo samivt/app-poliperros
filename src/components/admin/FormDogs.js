@@ -128,7 +128,7 @@ const FormDogs = ({ onSave = () => {} }) => {
             <Form.Group className="mb-4">
               <Form.Label className="custom-label">Nº Chip:</Form.Label>
               <Field
-                type="text"
+                type="number"
                 name="id_chip"
                 className="form-control"
                 placeholder="Ingrese el Nº de chip"

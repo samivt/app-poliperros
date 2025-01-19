@@ -13,37 +13,35 @@ import {
 } from "../../services/alertService";
 
 const EditVisitsView = ({ onVisitUpdated }) => {
-  const { visitId } = useParams(); // Obtiene el parámetro visitId de la URL
+  const { visitId } = useParams();
   const [formData, setFormData] = useState({
     visit_date: "",
     evidence: null,
     observations: "",
-    adopted_dog_id: null, // ID del perro adoptado
-    id: visitId, // ID de la visita
+    adopted_dog_id: null,
+    id: visitId,
   });
-  const [dogName, setDogName] = useState(""); // Nombre del perro adoptado
-  const [imagePreview, setImagePreview] = useState(null); // URL de la imagen previa
+  const [dogName, setDogName] = useState("");
+  const [imagePreview, setImagePreview] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
     const loadVisit = async () => {
       try {
-        // Obtener datos de la visita
         const visitData = await fetchVisitById(visitId);
         setFormData({
           visit_date: visitData.visit_date,
-          evidence: null, // Solo se actualizará si el usuario selecciona una nueva imagen
+          evidence: null,
           observations: visitData.observations,
           adopted_dog_id: visitData.adopted_dog?.id,
           id: visitData.id,
         });
 
-        setDogName(visitData.adopted_dog?.name || "Desconocido"); // Guardar el nombre del perro
-        const evidenceUrl = await fetchEvidenceImage(visitId); // Obtener la URL de la imagen desde el servicio
+        setDogName(visitData.adopted_dog?.name || "Desconocido");
+        const evidenceUrl = await fetchEvidenceImage(visitId);
         setImagePreview(evidenceUrl);
       } catch (error) {
         console.error("Error al cargar los datos de la visita:", error);
-        // showErrorAlert("No se pudieron cargar los datos de la visita.");
       }
     };
 
@@ -70,7 +68,6 @@ const EditVisitsView = ({ onVisitUpdated }) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    // Validación de campos requeridos
     if (!formData.visit_date || !formData.adopted_dog_id || !formData.id) {
       showErrorAlert("Los campos requeridos no pueden estar vacíos.");
       return;
@@ -84,16 +81,15 @@ const EditVisitsView = ({ onVisitUpdated }) => {
     if (!confirmed) return;
 
     try {
-      // Construir los datos para enviar al backend
       const updatedFormData = {
         visit_date: formData.visit_date,
-        evidence: formData.evidence || null, // Si no hay evidencia, enviar null
-        observations: formData.observations || null, // Observaciones opcionales
+        evidence: formData.evidence || null,
+        observations: formData.observations || null,
         adopted_dog_id: formData.adopted_dog_id,
         id: formData.id,
       };
 
-      await updateVisit(updatedFormData); // Llamar al servicio para actualizar
+      await updateVisit(updatedFormData);
       showSuccessAlert("Visita actualizada exitosamente.", "¡Éxito!");
 
       if (onVisitUpdated) {
@@ -117,7 +113,7 @@ const EditVisitsView = ({ onVisitUpdated }) => {
           <Form.Label className="custom-label">Perro Adoptado:</Form.Label>
           <Form.Control
             type="text"
-            value={dogName} // Mostrar solo el nombre del perro
+            value={dogName}
             readOnly
             className="form-control-plaintext"
           />

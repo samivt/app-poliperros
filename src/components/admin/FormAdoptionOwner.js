@@ -8,21 +8,20 @@ import {
   fetchAdoptionDogById,
   fetchAllOwners,
   adoptDogOwner,
-} from "../../services/dogsService"; // Servicios para obtener el perro, los dueños y realizar la adopción
-import "../../assets/styles/admin/FormAdoption.css"; // Estilos personalizados
+} from "../../services/dogsService";
+import "../../assets/styles/admin/FormAdoption.css";
 
 const FormAdoptionOwner = ({ onSuccess }) => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [dogName, setDogName] = useState(""); // Estado para almacenar el nombre del perro
-  const [owners, setOwners] = useState([]); // Estado para almacenar la lista de dueños
+  const [dogName, setDogName] = useState("");
+  const [owners, setOwners] = useState([]);
 
-  // Cargar el nombre del perro por ID
   useEffect(() => {
     const loadDogName = async () => {
       try {
-        const dog = await fetchAdoptionDogById(id); // Supone que `fetchAdoptionDogById` devuelve un objeto perro
-        setDogName(dog.name || ""); // Actualiza el estado con el nombre del perro
+        const dog = await fetchAdoptionDogById(id);
+        setDogName(dog.name || "");
       } catch (error) {
         console.error("Error al cargar el perro:", error);
         showErrorAlert("No se pudo cargar la información del perro.");
@@ -31,8 +30,8 @@ const FormAdoptionOwner = ({ onSuccess }) => {
 
     const loadOwners = async () => {
       try {
-        const ownersList = await fetchAllOwners(); // Suponiendo que este servicio devuelve una lista de dueños
-        setOwners(ownersList); // Actualiza el estado con la lista de dueños
+        const ownersList = await fetchAllOwners();
+        setOwners(ownersList);
       } catch (error) {
         console.error("Error al cargar los dueños:", error);
         showErrorAlert("No se pudo cargar la lista de dueños.");
@@ -45,7 +44,6 @@ const FormAdoptionOwner = ({ onSuccess }) => {
     loadOwners();
   }, [id]);
 
-  // Esquema de validación con Yup
   const validationSchema = Yup.object({
     adoption_date: Yup.date().required("La fecha de adopción es obligatoria."),
     owner_id: Yup.string().required("Debe seleccionar un dueño."),
@@ -54,15 +52,14 @@ const FormAdoptionOwner = ({ onSuccess }) => {
   const handleSubmit = async (values, { setSubmitting, resetForm }) => {
     try {
       const { adoption_date, owner_id } = values;
-      // Llamada al servicio adoptDog para realizar la adopción
+
       const response = await adoptDogOwner(id, adoption_date, owner_id);
 
-      // Verificar si la adopción fue exitosa con el mensaje esperado
       if (response && response.detail === "Perro Adoptado creado") {
         showSuccessAlert("¡La adopción se registró correctamente!");
         resetForm();
-        if (onSuccess) onSuccess(); // Acción posterior a la adopción exitosa
-        navigate("/admin/adopted-dogs"); // Redirige a la página de perros adoptados
+        if (onSuccess) onSuccess();
+        navigate("/admin/adopted-dogs");
       } else {
         showErrorAlert("No se pudo registrar la adopción.");
       }
@@ -144,13 +141,17 @@ const FormAdoptionOwner = ({ onSuccess }) => {
               />
             </Form.Group>
 
-            <div className="form-adoption-button-container">
+            <div className="custom-button-container">
+              <Button type="submit" className="custom-button">
+                Registrar
+              </Button>
               <Button
-                type="submit"
-                className="form-adoption-button"
-                disabled={isSubmitting}
+                type="button"
+                variant="secondary"
+                className="custom-button"
+                onClick={() => navigate("/admin/adoption-dogs")}
               >
-                {isSubmitting ? "Registrando..." : "Registrar"}
+                Cancelar
               </Button>
             </div>
           </Form>

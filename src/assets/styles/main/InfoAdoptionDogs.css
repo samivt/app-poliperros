@@ -1,21 +1,18 @@
-/* Contenedor general de la vista */
 .info-adoption-section {
   background-color: #f7f9fc;
-  padding: 32px; /* 2rem convertido a px */
+  padding: 32px;
 }
 
-/* Título principal */
 .info-adoption-title {
   text-align: center;
-  font-size: 40px; /* 2.5rem convertido a px */
+  font-size: 40px;
   font-weight: bold;
   color: #f38b32;
-  margin-bottom: 32px; /* 2rem convertido a px */
+  margin-bottom: 32px;
   text-transform: uppercase;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
 }
 
-/* Tarjeta de información */
 .info-adoption-card {
   display: flex;
   flex-wrap: wrap;
@@ -33,7 +30,7 @@
   max-width: 250px;
   height: auto;
   border-radius: 10px;
-  margin: 16px; /* 10px convertido a px */
+  margin: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -43,30 +40,30 @@
 }
 
 .info-adoption-name {
-  font-size: 32px; /* 2rem convertido a px */
+  font-size: 32px;
   color: #008eb6;
-  margin-bottom: 16px; /* 10px convertido a px */
+  margin-bottom: 16px;
 }
 
 .info-adoption-about {
-  font-size: 19px; /* 1.2rem convertido a px */
+  font-size: 19px;
   line-height: 1.5;
   color: #555;
-  margin: 16px 0; /* 10px y 0 convertido a px */
+  margin: 16px 0;
 }
 
 .info-adoption-buttons {
   margin-top: 20px;
   display: flex;
-  gap: 16px; /* 10px convertido a px */
+  gap: 16px;
 }
 
 .info-adoption-btn-adopt {
   background-color: #f38b32;
   color: white;
   border: none;
-  padding: 16px 32px; /* 10px 20px convertido a px */
-  font-size: 16px; /* 1rem convertido a px */
+  padding: 16px 32px;
+  font-size: 16px;
   font-weight: bold;
   border-radius: 10px;
   cursor: pointer;
@@ -81,8 +78,8 @@
   background-color: #008eb6;
   color: white;
   border: none;
-  padding: 16px 32px; /* 10px 20px convertido a px */
-  font-size: 16px; /* 1rem convertido a px */
+  padding: 16px 32px;
+  font-size: 16px;
   font-weight: bold;
   border-radius: 10px;
   cursor: pointer;
@@ -102,7 +99,7 @@
 }
 
 .info-adoption-paw-spinner {
-  font-size: 48px; /* 3rem convertido a px */
+  font-size: 48px;
   color: #f38b32;
   animation: spin 1s linear infinite;
 }
@@ -118,7 +115,7 @@
 
 .info-adoption-error {
   text-align: center;
-  font-size: 24px; /* 1.5rem convertido a px */
+  font-size: 24px;
   color: #ff6b6b;
   margin-top: 20px;
 }

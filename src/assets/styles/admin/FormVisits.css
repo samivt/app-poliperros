@@ -1,74 +1,31 @@
-/* Contenedor del formulario */
 .custom-form-container {
-  max-width: 650px; /* Aumenta ligeramente el ancho máximo */
+  max-width: 650px;
   margin: 30px auto;
-  padding: 30px 40px; /* Ajusta el espaciado interno */
-  border-radius: 12px; /* Bordes más suaves */
+  padding: 30px 40px;
+  border-radius: 12px;
   background-color: #ffffff;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Sombra más suave */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Título del formulario 
-.form-title {
-  color: #f38b32;
-  font-size: 1.8rem;
-  font-weight: bold;
-  text-align: center;
-  margin-bottom: 20px;
-}
-se comparte del dogs*/
-/* Etiquetas personalizadas */
 .custom-label {
   font-weight: 600;
-  color: #333333; /* Color neutro para contraste */
-  font-size: 1rem;
+  color: #333333;
+  font-size: 16px;
 }
 
-/* Campo obligatorio */
 .required {
   color: #e74c3c;
-  font-size: 0.9rem;
+  font-size: 14.4px;
   margin-left: 5px;
 }
 
-/* Botón del formulario 
-.custom-button-container {
-  display: flex;
-  justify-content: center;
-}
-
-.custom-button {
-  display: flex; /* Permite usar flexbox 
-  align-items: center; /* Alinea verticalmente 
-  justify-content: center; /* Alinea horizontalmente 
-  max-width: 220px;
-  margin-top: 20px;
-  background-color: #f38b32 !important;
-  border-color: #f38b32 !important;
-  color: #ffffff !important;
-  width: 100%;
-  padding: 10px 20px;
-  font-size: 1rem;
-  font-weight: bold;
-  border-radius: 8px;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-.custom-button:hover {
-  background-color: #e59400 !important;
-  border-color: #e59400 !important;
-  transform: translateY(-2px); /* Efecto de elevación 
-}*/
-
-/* Campos de entrada */
 .custom-form-container input,
 .custom-form-container textarea,
 .custom-form-container select {
   border: 1px solid #cccccc;
   border-radius: 5px;
   padding: 8px 12px;
-  font-size: 1rem;
-  font-family: "Nunito", sans-serif;
+  font-size: 16px;
 }
 
 .custom-form-container input:focus,
@@ -79,7 +36,6 @@ se comparte del dogs*/
   box-shadow: 0 0 4px rgba(243, 139, 50, 0.5);
 }
 
-/* Imagen de vista previa */
 .custom-form-container img {
   display: block;
   margin: 10px auto;
@@ -93,7 +49,6 @@ se comparte del dogs*/
   background-color: #f2efef;
 }
 
-/* Validaciones */
 .is-invalid {
   border: 1px solid #e74c3c !important;
 }
@@ -102,7 +57,6 @@ se comparte del dogs*/
   border: 1px solid #2ecc71 !important;
 }
 
-/* Ajustes responsivos */
 @media (max-width: 768px) {
   .custom-form-container {
     max-width: 90%;
@@ -110,16 +64,16 @@ se comparte del dogs*/
   }
 
   .form-title {
-    font-size: 1.5rem;
+    font-size: 24px;
   }
 
   .custom-label {
-    font-size: 0.9rem;
+    font-size: 14.4px;
   }
 
   .custom-button {
     max-width: 100%;
-    font-size: 0.9rem;
+    font-size: 14.4px;
   }
 
   .custom-form-container img {

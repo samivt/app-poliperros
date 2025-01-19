@@ -128,8 +128,7 @@ const AdminPanel = () => {
               />
             }
           />
-          {/* Editar perro permanente 
-          <Route path="edit-static-dog/:id" element={<EditStaticDog />} />*/}
+          {/* Editar perro permanente */}
           <Route
             path="edit-static-dog/:id"
             element={<EditStaticDog onSave={loadStaticDogs} />}

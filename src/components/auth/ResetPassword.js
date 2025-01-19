@@ -15,25 +15,23 @@ const ResetPassword = () => {
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
-  const code = searchParams.get("code"); // Obtener el código de la URL
+  const code = searchParams.get("code");
 
-  // Validar que la contraseña cumpla con los requisitos
   const isValidPassword = (password) =>
     /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*.,+])[A-Za-z\d!@#$%^&*.,+]{8,}$/.test(
       password
     );
 
   const handleCancel = () => {
-    navigate("/login"); // Redirige al login
+    navigate("/login");
   };
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
 
-    // Sanitizar entrada
     setFormData({
       ...formData,
-      [name]: value.trim().slice(0, 50), // Limitar longitud máxima
+      [name]: value.trim().slice(0, 50),
     });
   };
 
@@ -41,7 +39,6 @@ const ResetPassword = () => {
     event.preventDefault();
     setError("");
 
-    // Validar contraseñas
     const newPassword = formData.new_password.trim();
     const confirmPassword = formData.confirm_password.trim();
 
@@ -63,14 +60,12 @@ const ResetPassword = () => {
     }
 
     try {
-      // Llamada al servicio para restablecer la contraseña
       await resetPassword(code, newPassword);
       showSuccessAlert("Contraseña restablecida exitosamente.", "¡Éxito!");
-      navigate("/login"); // Redirigir al login
+      navigate("/login");
     } catch (error) {
       console.error("Error al restablecer la contraseña:", error);
 
-      // Procesar errores del backend
       let errorMessage =
         "No se pudo restablecer la contraseña. Inténtalo nuevamente.";
       try {
@@ -83,7 +78,7 @@ const ResetPassword = () => {
         console.error("No se pudo procesar el error del backend:", parseError);
       }
 
-      setError(errorMessage); // Mostrar el mensaje específico en la interfaz
+      setError(errorMessage);
       showErrorAlert(errorMessage, "Error");
     }
   };

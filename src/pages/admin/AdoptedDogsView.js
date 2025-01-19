@@ -14,13 +14,11 @@ const AdoptedDogsView = () => {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
-  // Cargar los perros adoptados y transformar los datos
   const loadAdoptedDogs = async () => {
     setLoading(true);
     try {
       const data = await fetchAdoptedDogs();
 
-      // Transformar los datos específicamente para esta vista
       const transformedDogs = data.map((dog) => ({
         id: dog.id,
         name: dog.name,
@@ -46,7 +44,6 @@ const AdoptedDogsView = () => {
     loadAdoptedDogs();
   }, []);
 
-  // Manejar la eliminación de adopción
   const handleUnadopt = async (dogId) => {
     const confirmed = await showConfirmationAlert(
       "¿Estás seguro de quitar la adopción?",

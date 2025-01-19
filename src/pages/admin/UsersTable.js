@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Table, Spinner, Button } from "react-bootstrap";
-import { fetchAllUsers, deleteUser } from "../../services/userService"; // Asumiendo que tienes un servicio para obtener todos los usuarios
+import { fetchAllUsers, deleteUser } from "../../services/userService";
 import { useNavigate } from "react-router-dom";
 import {
   showConfirmationAlert,
@@ -17,7 +17,7 @@ const UsersTable = () => {
   useEffect(() => {
     const loadUsers = async () => {
       try {
-        const data = await fetchAllUsers(); // Obtiene todos los usuarios
+        const data = await fetchAllUsers();
         setUsers(data);
       } catch (error) {
         console.error("Error al cargar los usuarios:", error);

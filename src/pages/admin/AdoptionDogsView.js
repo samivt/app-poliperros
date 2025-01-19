@@ -5,28 +5,26 @@ import "../../assets/styles/admin/DogsView.css";
 
 const AdoptionDogsView = ({ dogs = [], loading, onDelete, onAddNew }) => {
   const [showModal, setShowModal] = useState(false);
-  const [selectedDog, setSelectedDog] = useState(null); // Estado para almacenar el perro seleccionado
+  const [selectedDog, setSelectedDog] = useState(null);
   const navigate = useNavigate();
 
   const handleClose = () => setShowModal(false);
   const handleShow = (dog) => {
-    setSelectedDog(dog); // Establecer el perro seleccionado
-    setShowModal(true); // Mostrar el modal
+    setSelectedDog(dog);
+    setShowModal(true);
   };
 
   const handleAdoptOption = (option) => {
     if (selectedDog) {
-      // Redirigir a la ruta de adopción
       navigate(`/admin/adopt-dog/${selectedDog.id}`);
     }
-    setShowModal(false); // Cerrar el modal
+    setShowModal(false);
   };
   const handleAdoptOwnerOption = (option) => {
     if (selectedDog) {
-      // Redirigir a la ruta de adopción
       navigate(`/admin/adopt-dog-owner/${selectedDog.id}`);
     }
-    setShowModal(false); // Cerrar el modal
+    setShowModal(false);
   };
 
   return (

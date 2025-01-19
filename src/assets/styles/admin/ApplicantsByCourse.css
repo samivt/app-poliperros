@@ -1,40 +1,36 @@
-/* General styling for the table */
 .applicants-table table {
   width: 100%;
-  table-layout: auto; /* Permite que las columnas se ajusten automáticamente al contenido */
+  table-layout: auto;
   border-collapse: collapse;
 }
 
 .applicants-table th,
 .applicants-table td {
-  white-space: normal; /* Permite que el texto se ajuste en varias líneas */
+  white-space: normal;
   padding: 8px;
   text-align: center;
   vertical-align: middle;
-  word-wrap: break-word; /* Permite el ajuste de palabras largas */
+  word-wrap: break-word;
 }
 
-/* Ajuste del tamaño de la imagen */
 .applicant-img {
-  max-width: 80px; /* Tamaño de la imagen en pantallas grandes */
+  max-width: 80px;
   max-height: 80px;
   border-radius: 4px;
-  object-fit: cover; /* Mantiene la proporción de la imagen */
+  object-fit: cover;
 }
 
-/* Responsividad */
 @media (max-width: 768px) {
   .applicants-table th,
   .applicants-table td {
-    font-size: 0.9rem; /* Reduce el tamaño de fuente en móviles */
+    font-size: 16px;
   }
 
   .applicant-img {
-    max-width: 60px; /* Ajusta el tamaño de la imagen para móviles */
+    max-width: 60px;
     max-height: 60px;
   }
 
-  /* Asegura que la tabla no tenga desbordamiento horizontal */
   .applicants-table {
     overflow-x: auto;
   }

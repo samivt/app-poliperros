@@ -50,7 +50,6 @@ const FormCourse = () => {
           });
         } catch (error) {
           console.error("Error al cargar el curso:", error);
-          // showErrorAlert("No se pudo cargar la información del curso.");
         }
       };
       loadCourseData();

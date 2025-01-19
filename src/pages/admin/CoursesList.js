@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Table, Spinner, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import "../../assets/styles/admin/CoursesList.css";
 import { fetchCourses, deleteCourse } from "../../services/courseService";
 import {
   showSuccessAlert,
   showErrorAlert,
   showConfirmationAlert,
 } from "../../services/alertService";
-//import { FaEdit, FaTrash } from "react-icons/fa";
 
 const CoursesList = () => {
   const [courses, setCourses] = useState([]);

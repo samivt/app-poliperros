@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Navbar from "../../components/main/Navbar";
 import Footer from "../../components/main/Footer";
 import "../../assets/styles/main/ViewPermanentDogs.css";
-import { fetchStaticDogs } from "../../services/dogsService"; // Importa el servicio
+import { fetchStaticDogs } from "../../services/dogsService";
 
 const ViewDogs = ({
   id,
@@ -29,20 +29,20 @@ const ViewDogs = ({
 };
 
 const Dogs = () => {
-  const [dogs, setDogs] = useState([]); // Lista de perros
-  const [isLoading, setIsLoading] = useState(true); // Estado de carga
-  const [expandedDogId, setExpandedDogId] = useState(null); // ID del perro expandido
+  const [dogs, setDogs] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [expandedDogId, setExpandedDogId] = useState(null);
 
   useEffect(() => {
     const fetchDogs = async () => {
       try {
-        const data = await fetchStaticDogs(); // Llama al servicio
-        setDogs(data); // Guarda los datos en el estado
+        const data = await fetchStaticDogs();
+        setDogs(data);
       } catch (error) {
         console.error("Error al cargar los perros:", error);
-        setDogs([]); // Asegura que la lista quede vacía si falla
+        setDogs([]);
       } finally {
-        setIsLoading(false); // Finaliza el estado de carga
+        setIsLoading(false);
       }
     };
 
@@ -50,7 +50,7 @@ const Dogs = () => {
   }, []);
 
   const handleToggleExpand = (id) => {
-    setExpandedDogId(expandedDogId === id ? null : id); // Alterna el estado de la tarjeta expandida
+    setExpandedDogId(expandedDogId === id ? null : id);
   };
 
   return (
@@ -70,11 +70,11 @@ const Dogs = () => {
               <ViewDogs
                 key={dog.id}
                 id={dog.id}
-                imageDog={dog.image} // URL de la imagen desde el backend
+                imageDog={dog.image}
                 nameDog={dog.name}
                 description={dog.about}
-                isExpanded={expandedDogId === dog.id} // Verifica si esta tarjeta está expandida
-                onToggleExpand={handleToggleExpand} // Pasar función para alternar expansión
+                isExpanded={expandedDogId === dog.id}
+                onToggleExpand={handleToggleExpand}
               />
             ))
           ) : (

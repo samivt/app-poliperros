@@ -1,4 +1,3 @@
-/* Contenedor del formulario */
 .custom-form-container {
   max-width: 650px;
   margin: 30px auto;
@@ -8,30 +7,26 @@
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Título del formulario */
 .form-title {
   color: #f38b32;
-  font-size: 1.8rem;
+  font-size: 28.8px;
   font-weight: bold;
   text-align: center;
   margin-bottom: 20px;
 }
 
-/* Etiquetas personalizadas */
 .custom-label {
   font-weight: 600;
   color: #333333;
-  font-size: 1rem;
+  font-size: 16px;
 }
 
-/* Campo obligatorio */
 .required {
   color: #e74c3c;
-  font-size: 0.9rem;
+  font-size: 14px;
   margin-left: 5px;
 }
 
-/* Botón del formulario */
 .custom-button-container {
   display: flex;
   justify-content: center;
@@ -45,7 +40,7 @@
   color: #ffffff !important;
   width: 100%;
   padding: 10px 20px;
-  font-size: 1rem;
+  font-size: 16px;
   font-weight: bold;
   border-radius: 8px;
   transition: background-color 0.3s ease, transform 0.2s ease;
@@ -57,15 +52,13 @@
   transform: translateY(-2px);
 }
 
-/* Campos de entrada */
 .custom-form-container input,
 .custom-form-container textarea,
 .custom-form-container select {
   border: 1px solid #cccccc;
   border-radius: 5px;
   padding: 8px 12px;
-  font-size: 1rem;
-  font-family: "Nunito", sans-serif;
+  font-size: 16px;
 }
 
 .custom-form-container input:focus,
@@ -75,9 +68,10 @@
   border-color: #f38b32;
   box-shadow: 0 0 4px rgba(243, 139, 50, 0.5);
 }
+
 .cancel-button {
   background-color: #cccccc;
-  color: #333333;
+  color: #000000;
   margin-left: 15px;
   transition: background-color 0.3s ease, color 0.3s ease;
 }

@@ -21,11 +21,9 @@ export const login = async (username, password) => {
       body: body.toString(),
     });
 
-    // Lee el cuerpo de la respuesta una sola vez
     const responseBody = await response.text();
 
     if (!response.ok) {
-      // Intenta procesar el error como JSON
       let errorMessage = "Error al iniciar sesión";
       try {
         const errorData = JSON.parse(responseBody);
@@ -34,13 +32,11 @@ export const login = async (username, password) => {
             ? errorData.detail.map((err) => err.msg).join(", ")
             : errorData.detail || errorMessage;
       } catch {
-        // Si no es JSON, usa el texto plano
         errorMessage = responseBody;
       }
       throw new Error(errorMessage);
     }
 
-    // Procesa la respuesta como JSON si fue exitosa
     return JSON.parse(responseBody);
   } catch (error) {
     console.error("Error en login:", error.message);
@@ -48,10 +44,8 @@ export const login = async (username, password) => {
   }
 };
 
-// Obtener el token almacenado
 export const getToken = () => sessionStorage.getItem("accessToken");
 
-// Decodificar el token usando jwt-decode
 export const decodeToken = (token) => {
   try {
     let decode = jwtDecode(token);
@@ -168,7 +162,7 @@ export const resetPassword = async (code, newPassword) => {
 };
 
 export const fetchWithAuth = async (url, options = {}) => {
-  const token = getToken(); // Obtén el token almacenado
+  const token = getToken();
   const headers = {
     ...options.headers,
     Authorization: token ? `Bearer ${token}` : undefined,
@@ -188,7 +182,7 @@ export const fetchWithAuth = async (url, options = {}) => {
       setTimeout(() => {
         logout(); // Elimina el token de sessionStorage
         window.location.href = "/login"; // Redirige al login
-      }, 2000); // 2 segundos (puedes ajustar este tiempo)
+      }, 2000); // 2 segundos
 
       throw new Error("Sesión expirada. Por favor, inicia sesión nuevamente.");
     }

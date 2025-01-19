@@ -25,12 +25,12 @@ const EditStaticDog = ({ onSave }) => {
     operation: "",
     about: "",
     entry_date: "",
-    image: null, // Base64 de la imagen
+    image: null,
   });
   const [errors, setErrors] = useState({
     name: "",
   });
-  const [imagePreview, setImagePreview] = useState(null); // Para la vista previa de la imagen
+  const [imagePreview, setImagePreview] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -48,9 +48,9 @@ const EditStaticDog = ({ onSave }) => {
           operation: dogData.operation,
           about: dogData.about,
           entry_date: dogData.entry_date,
-          image: null, // La imagen inicial
+          image: null,
         });
-        setImagePreview(dogData.image); // Para la vista previa de la imagen
+        setImagePreview(dogData.image);
       } catch (error) {
         console.error("Error al cargar el perro:", error);
         showErrorAlert("No se pudo cargar la información del perro.");
@@ -77,7 +77,7 @@ const EditStaticDog = ({ onSave }) => {
       reader.onload = () => {
         const base64String = reader.result.split(",")[1];
         setImagePreview(reader.result);
-        setFormData({ ...formData, image: base64String }); // Actualizar el formData con la imagen en base64
+        setFormData({ ...formData, image: base64String });
       };
       reader.readAsDataURL(file);
     } else {
@@ -95,7 +95,7 @@ const EditStaticDog = ({ onSave }) => {
       showWarningAlert("Corrija los errores antes de enviar.");
       return;
     }
-    // Validación de campos requeridos
+
     if (!formData.name || !formData.age || !formData.gender) {
       showErrorAlert("Los campos requeridos no pueden estar vacíos.");
       return;
@@ -109,7 +109,6 @@ const EditStaticDog = ({ onSave }) => {
     if (!confirmed) return;
 
     try {
-      // Construir los datos para enviar al backend
       const updatedFormData = {
         id_chip: formData.id_chip || null,
         name: formData.name,
@@ -121,10 +120,10 @@ const EditStaticDog = ({ onSave }) => {
         operation: formData.operation || null,
         about: formData.about || null,
         entry_date: formData.entry_date || null,
-        image: formData.image || null, // Enviar la imagen base64 o null si no hay
+        image: formData.image || null,
       };
 
-      await updateStaticDog(id, updatedFormData); // Llamar al servicio para actualizar
+      await updateStaticDog(id, updatedFormData);
       showSuccessAlert("Perro actualizado exitosamente.", "¡Éxito!");
 
       if (onSave) {

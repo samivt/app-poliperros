@@ -1,12 +1,9 @@
-/* Estilo del navbar */
 .navbar {
-  font-family: "Nunito", sans-serif;
   padding: 10px 20px;
-  background-color: rgba(0, 142, 182) !important; /* Fondo personalizado */
+  background-color: rgba(0, 142, 182) !important;
   border-bottom: 2px solid #00bcd4;
 }
 
-/* Logo redondo */
 .navbar-brand {
   width: 70px;
   height: 70px;
@@ -24,11 +21,11 @@
   object-fit: cover;
 }
 
-/* Toggle bar mejorado */
 .custom-toggler {
   border: none;
   background: none;
 }
+
 .navbar-toggler-icon {
   width: 30px;
   height: 3px;
@@ -55,11 +52,11 @@
 .navbar-toggler-icon::after {
   top: 8px;
 }
+
 .navbar-toggler:focus {
   box-shadow: none;
 }
 
-/* Links del navbar */
 .nav-link {
   color: rgb(255, 255, 255) !important;
   font-weight: 600;
@@ -76,11 +73,10 @@
   border-bottom: 2px solid #000000;
 }
 
-/* Botón de inicio de sesión */
 .login-btn {
   background: linear-gradient(90deg, #00bcd4, #008eb6);
   color: white;
-  padding: 0.5rem 1rem;
+  padding: 8px 16px;
   border: none;
   border-radius: 20px;
   transition: all 0.3s ease-in-out;
@@ -92,7 +88,6 @@
   border: 1px solid #008eb6;
 }
 
-/* Estilo responsive */
 @media (max-width: 768px) {
   .navbar {
     padding: 10px;
@@ -105,7 +100,7 @@
 
   .login-btn {
     width: 50px;
-    padding: 0.5rem;
+    padding: 8px;
     border-radius: 50%;
   }
 

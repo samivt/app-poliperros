@@ -1,18 +1,18 @@
 /* Contenido principal */
 .content {
-  margin-left: 250px; /* Espacio para el Sidebar */
+  margin-left: 250px;
   padding: 20px;
-  margin-top: 60px; /* Espacio para el Header */
+  margin-top: 60px;
   transition: margin-left 0.3s ease-in-out;
-  overflow-x: hidden; /* Evita scroll horizontal innecesario */
+  overflow-x: hidden;
 }
 
 @media (max-width: 768px) {
   .content {
-    margin-left: 0; /* Sin espacio para el Sidebar */
+    margin-left: 0;
   }
 
   .content.sidebar-open {
-    margin-left: 250px; /* Ajusta el contenido si el Sidebar está visible */
+    margin-left: 250px;
   }
 }

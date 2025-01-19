@@ -6,7 +6,7 @@ import { getUserRole } from "../../services/authService";
 import { rolePermissions } from "../../config/roles";
 
 const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
-  const userRole = getUserRole(); // Obtiene el rol del usuario
+  const userRole = getUserRole();
   const links = rolePermissions[userRole] || [];
   const [expandedCategory, setExpandedCategory] = useState(null);
 
@@ -14,7 +14,6 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
     setExpandedCategory(expandedCategory === category ? null : category);
   };
 
-  // Filtra las categorías según los enlaces disponibles para el rol actual
   const categories = {
     personal: links.filter((link) => link.category === "personal"),
     dogs: links.filter((link) => link.category === "dogs"),
@@ -26,7 +25,7 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
     courses:
       userRole === "admin"
         ? links.filter((link) => link.category === "courses")
-        : [], // Solo admin puede ver cursos
+        : [],
   };
 
   return (

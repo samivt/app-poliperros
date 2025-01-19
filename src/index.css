@@ -1,17 +1,14 @@
-/* Importa Google Fonts o cualquier fuente personalizada */
 @import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap");
 
-/* Estilo global */
 body {
   font-family: "Nunito", sans-serif;
   margin: 0;
   padding: 0;
-  box-sizing: border-box; /* Para evitar problemas de padding */
+  box-sizing: border-box;
 }
 
-/* Botones y otros elementos que hereden la fuente */
 button,
 input,
 textarea {
-  font-family: inherit; /* Hereda el estilo del body */
+  font-family: inherit;
 }

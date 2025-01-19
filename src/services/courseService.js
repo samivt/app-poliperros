@@ -15,7 +15,7 @@ const API_URL = process.env.REACT_APP_API_URL;
  */
 
 export const createCourse = async (courseData) => {
-  const token = getToken(); // Obtiene el token del authService
+  const token = getToken();
 
   try {
     const response = await fetchWithAuth(`${API_URL}/course/create`, {
@@ -33,7 +33,7 @@ export const createCourse = async (courseData) => {
       throw new Error(errorData.message || "Error al crear el curso.");
     }
 
-    return await response.json(); // Devuelve la respuesta en formato JSON
+    return await response.json();
   } catch (error) {
     //console.error("Error en createCourse:", error);
     throw error;
@@ -56,7 +56,7 @@ export const fetchCourses = async () => {
       throw new Error("Error al cargar los cursos.");
     }
 
-    return await response.json(); // Devuelve la lista de cursos en formato JSON
+    return await response.json();
   } catch (error) {
     //console.error("Error en fetchCourses:", error);
     throw error;
@@ -96,7 +96,7 @@ export const fetchCourseById = async (courseId) => {
  * @returns {Promise<void>} - Promesa que se resuelve si el curso se elimina correctamente.
  */
 export const deleteCourse = async (courseId) => {
-  const token = getToken(); // Obtiene el token desde el servicio de autenticación
+  const token = getToken();
 
   try {
     const response = await fetchWithAuth(
@@ -123,7 +123,7 @@ export const deleteCourse = async (courseId) => {
 //Actualizar curso
 export const updateCourse = async (idCourse, courseData) => {
   try {
-    const token = getToken(); // Obtén el token utilizando el servicio de autenticación
+    const token = getToken();
     if (!token) {
       throw new Error("Token no encontrado. Por favor, inicie sesión.");
     }
@@ -134,10 +134,10 @@ export const updateCourse = async (idCourse, courseData) => {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`, // Incluye el token en el encabezado
+          Authorization: `Bearer ${token}`,
           Accept: "application/json",
         },
-        body: JSON.stringify(courseData), // Convierte el curso a JSON
+        body: JSON.stringify(courseData),
       }
     );
 
@@ -146,7 +146,7 @@ export const updateCourse = async (idCourse, courseData) => {
       throw new Error(errorData?.message || "No se pudo actualizar el curso.");
     }
 
-    return await response.json(); // Devuelve la respuesta en JSON si es exitosa
+    return await response.json();
   } catch (error) {
     //console.error("Error al actualizar el curso:", error);
     throw error;

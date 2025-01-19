@@ -12,7 +12,7 @@ const Login = () => {
   });
 
   const [showPassword, setShowPassword] = useState(false);
-  //const [errorMessage, setErrorMessage] = useState("");
+
   const [setErrorMessage] = useState("");
 
   const navigate = useNavigate();
@@ -21,7 +21,6 @@ const Login = () => {
     const { name, value } = event.target;
 
     if (name === "username") {
-      // Permitir solo letras y números en el campo de usuario
       const sanitizedValue = value.replace(/[^a-zA-Z0-9]/g, "");
       setFormData((prev) => ({
         ...prev,
@@ -42,7 +41,6 @@ const Login = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    // Validar que los campos no estén vacíos
     if (!formData.username || !formData.password) {
       setErrorMessage("Por favor completa todos los campos.");
       showErrorAlert(
@@ -53,22 +51,18 @@ const Login = () => {
     }
 
     try {
-      // Enviar los datos al backend para validar la autenticación
       const result = await login(formData.username.trim(), formData.password);
       console.log("Inicio de sesión exitoso:", result);
 
-      // Guarda el token y redirige
       sessionStorage.setItem("accessToken", result.access_token);
 
       showSuccessAlert("Bienvenido a PoliPerros.", "Inicio de sesión exitoso");
-      navigate("/admin"); // Redirige al dashboard
+      navigate("/admin");
     } catch (error) {
-      // Manejo genérico del error sin exponer información sensible
       const errorText = error.message.includes("500")
         ? "Error interno del servidor. Inténtalo más tarde."
         : "Credenciales incorrectas. Verifica tu usuario y contraseña.";
 
-      //setErrorMessage(errorText);
       console.error("Error al iniciar sesión:", error.message);
 
       showErrorAlert(errorText, "Error al iniciar sesión");
@@ -76,7 +70,7 @@ const Login = () => {
   };
 
   const handleCancel = () => {
-    navigate("/"); // Redirige al home
+    navigate("/");
   };
 
   return (
@@ -97,7 +91,7 @@ const Login = () => {
                 id="username"
                 name="username"
                 required
-                maxLength={50} // Limitar longitud máxima
+                maxLength={50}
                 value={formData.username}
                 onChange={handleChange}
               />
@@ -111,7 +105,7 @@ const Login = () => {
                   id="password"
                   name="password"
                   required
-                  maxLength={50} // Limitar longitud máxima
+                  maxLength={50}
                   value={formData.password}
                   onChange={handleChange}
                 />

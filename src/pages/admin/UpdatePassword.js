@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import { Formik, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import DOMPurify from "dompurify"; // Para sanitización
+import DOMPurify from "dompurify";
 import "../../assets/styles/admin/UpdatePassword.css";
 import { updatePassword } from "../../services/userService";
 import { showSuccessAlert, showErrorAlert } from "../../services/alertService";
@@ -10,7 +10,7 @@ import { showSuccessAlert, showErrorAlert } from "../../services/alertService";
 const validationSchema = Yup.object({
   actualPassword: Yup.string()
     .required("La contraseña actual es obligatoria")
-    .transform((value) => DOMPurify.sanitize(value.trim())), // Elimina espacios extra al inicio y final, y sanitiza
+    .transform((value) => DOMPurify.sanitize(value.trim())),
 
   newPassword: Yup.string()
     .required("La nueva contraseña es obligatoria")
@@ -18,12 +18,12 @@ const validationSchema = Yup.object({
       /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()\-_=+{}[\]:;'"|\\<>,.?/~`])[A-Za-z\d!@#$%^&*()\-_=+{}[\]:;'"|\\<>,.?/~`]{8,}$/,
       "Debe tener al menos 8 caracteres, una letra mayúscula, un número y un carácter especial"
     )
-    .transform((value) => DOMPurify.sanitize(value)), // Sanitiza sin afectar espacios internos
+    .transform((value) => DOMPurify.sanitize(value)),
 
   confirmPassword: Yup.string()
     .oneOf([Yup.ref("newPassword"), null], "Las contraseñas no coinciden")
     .required("Confirma tu nueva contraseña")
-    .transform((value) => DOMPurify.sanitize(value)), // Sanitiza sin afectar espacios internos
+    .transform((value) => DOMPurify.sanitize(value)),
 });
 
 const UpdatePassword = () => {

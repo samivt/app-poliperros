@@ -1,46 +1,41 @@
-/* Contenedor principal de las tarjetas */
 .view-container {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  gap: 20px; /* Espaciado entre tarjetas */
+  gap: 20px;
   padding: 20px;
 }
 
-/* Título de la sección */
 .view-info h2 {
   color: #f38b32;
-  font-size: 2.5rem;
-  margin-bottom: 1rem;
-  font-family: "Nunito", sans-serif;
+  font-size: 40px;
+  margin-bottom: 16px;
+
   font-weight: bold;
-  text-transform: uppercase; /* Mayúsculas */
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+  text-transform: uppercase;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
   text-align: center;
 }
 
-/* Estilo de cada tarjeta */
 .view-dog {
   border-radius: 10px;
   padding: 20px;
   text-align: center;
-  font-family: "Nunito", sans-serif;
+
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  width: calc(33.333% - 20px); /* Ocupa un tercio con espacio entre filas */
+  width: calc(33.333% - 20px);
   max-width: 400px;
   transition: transform 0.3s ease, background-color 0.3s ease;
-  position: relative; /* Para el control del contenido expandido */
+  position: relative;
   background-color: white;
 }
 
-/* Cambio visual al expandir */
 .view-dog.expanded {
-  transform: scale(1.05); /* Aumenta ligeramente el tamaño */
+  transform: scale(1.05);
   background-color: rgba(0, 142, 180, 0.4);
-  z-index: 1; /* Coloca la tarjeta por encima del resto */
+  z-index: 1;
 }
 
-/* Descripción del perro */
 .dog-description {
   margin-top: 10px;
   font-size: 16px;
@@ -48,7 +43,6 @@
   overflow: hidden;
 }
 
-/* Nombre del perro */
 #nameDog {
   color: #008eb6;
   font-size: 24px;
@@ -56,7 +50,6 @@
   margin-top: 10px;
 }
 
-/* Imagen del perro */
 .view-dog img {
   width: 200px;
   height: 200px;
@@ -66,15 +59,14 @@
 }
 
 .view-dog:hover img {
-  transform: scale(1.1); /* Efecto de zoom al pasar el mouse */
+  transform: scale(1.1);
 }
 
-/* Botón dentro de la tarjeta */
 .view-dog button {
   background-color: #008eb6;
   color: white;
   border: none;
-  padding: 0.5rem 1rem;
+  padding: 8px 16px;
   cursor: pointer;
   font-weight: 600;
   border-radius: 10px;
@@ -86,21 +78,18 @@
   background-color: #005f80;
 }
 
-/* Responsivo para pantallas medianas */
 @media (max-width: 1024px) {
   .view-dog {
-    width: calc(50% - 20px); /* Dos tarjetas por fila */
+    width: calc(50% - 20px);
   }
 }
 
-/* Responsivo para pantallas pequeñas */
 @media (max-width: 768px) {
   .view-dog {
-    width: 100%; /* Una tarjeta por fila */
+    width: 100%;
   }
 }
 
-/* Animación del spinner */
 @keyframes spin {
   0% {
     transform: rotate(0deg);

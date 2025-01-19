@@ -3,28 +3,28 @@ import Navbar from "../../components/main/Navbar";
 import Footer from "../../components/main/Footer";
 import "../../assets/styles/main/InfoAdoptionDogs.css";
 import { useParams, useNavigate } from "react-router-dom";
-import { fetchAdoptionDogById } from "../../services/dogsService"; // Importar el servicio
+import { fetchAdoptionDogById } from "../../services/dogsService";
 
 const InfoAdoptionDogs = () => {
-  const { dog_id } = useParams(); // Obtener el ID del perro desde la URL
-  const navigate = useNavigate(); // Hook para navegación
-  const [dog, setDog] = useState(null); // Estado para el perro
-  const [isLoading, setIsLoading] = useState(true); // Estado de carga
+  const { dog_id } = useParams();
+  const navigate = useNavigate();
+  const [dog, setDog] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchDogDetails = async () => {
       try {
-        const data = await fetchAdoptionDogById(dog_id); // Llama al servicio
-        setDog(data); // Guarda los datos en el estado
+        const data = await fetchAdoptionDogById(dog_id);
+        setDog(data);
       } catch (error) {
         console.error("Error al cargar el perro:", error);
-        setDog(null); // Manejo de error: asegura que el estado quede claro
+        setDog(null);
       } finally {
-        setIsLoading(false); // Finaliza el estado de carga
+        setIsLoading(false);
       }
     };
 
-    fetchDogDetails(); // Llama a la función de carga
+    fetchDogDetails();
   }, [dog_id]);
 
   if (isLoading) {
@@ -50,7 +50,7 @@ const InfoAdoptionDogs = () => {
   }
 
   const handleAdoptClick = () => {
-    const whatsappNumber = "593983023135"; // Número con código de país
+    const whatsappNumber = "593983023135";
     const whatsappLink = `https://api.whatsapp.com/send/?phone=${whatsappNumber}&text&type=phone_number&app_absent=0`;
 
     // Ejemplo: abrir el enlace

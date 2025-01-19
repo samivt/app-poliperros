@@ -11,7 +11,6 @@ const updateUser = async (userData) => {
     throw new Error("El usuario no está autenticado.");
   }
 
-  // Preparar los datos para enviar (manejo explícito de `null`)
   const preparedData = {};
   Object.keys(userData).forEach((key) => {
     const value = userData[key];
@@ -41,7 +40,7 @@ const updateUser = async (userData) => {
     );*/
 
     if (!response.ok) {
-      const errorDetails = await response.json(); // Asume que el backend devuelve JSON con detalles de error
+      const errorDetails = await response.json();
       //console.error("Detalles del error del backend:", errorDetails);
       throw new Error(
         `No se pudo actualizar el usuario. Código: ${
@@ -75,7 +74,7 @@ export default userService;
  * @throws {Error} - Si ocurre un error durante la solicitud.
  */
 export const updatePassword = async (actualPassword, newPassword) => {
-  const token = getToken(); // Obtener el token de autenticación
+  const token = getToken();
   if (!token) {
     throw new Error("El usuario no está autenticado.");
   }
@@ -89,7 +88,7 @@ export const updatePassword = async (actualPassword, newPassword) => {
         method: "PUT",
         headers: {
           Accept: "application/json",
-          Authorization: `Bearer ${token}`, // Token JWT
+          Authorization: `Bearer ${token}`,
         },
       }
     );
@@ -101,7 +100,7 @@ export const updatePassword = async (actualPassword, newPassword) => {
       throw new Error(errorMessage);
     }
 
-    return await response.json(); // Devuelve el detalle del éxito
+    return await response.json();
   } catch (error) {
     //console.error("Error en updatePassword:", error.message);
     throw error;
@@ -109,7 +108,6 @@ export const updatePassword = async (actualPassword, newPassword) => {
 };
 
 // Crear un nuevo usuario
-
 export const createUser = async ({ email, role }) => {
   const token = getToken();
   try {
@@ -133,7 +131,7 @@ export const createUser = async ({ email, role }) => {
       throw new Error(errorMessage);
     }
 
-    return await response.json(); // Devuelve la respuesta en caso de éxito
+    return await response.json();
   } catch (error) {
     // console.error("Error al generar el usuario:", error.message);
     throw error;
@@ -155,22 +153,21 @@ export const fetchAllUsers = async () => {
     if (!response.ok) {
       const errorData = await response.json();
       const errorMessage = errorData.detail || "Error al obtener los usuarios.";
-      throw new Error(errorMessage); // Lanza un error si la respuesta no es exitosa
+      throw new Error(errorMessage);
     }
 
-    return await response.json(); // Devuelve los datos de los usuarios si la respuesta es exitosa
+    return await response.json();
   } catch (error) {
     // console.error("Error al obtener los usuarios:", error.message);
-    throw error; // Lanza el error para manejarlo en el componente que llame a esta función
+    throw error;
   }
 };
 
 // Servicio para eliminar un usuario
 export const deleteUser = async (userId) => {
-  const token = getToken(); // Obtén el token del usuario logeado
+  const token = getToken();
 
   try {
-    // Si no es el mismo usuario, realiza la solicitud de eliminación
     const response = await fetchWithAuth(`${API_URL}/auth/delete/${userId}`, {
       method: "DELETE",
       headers: {
@@ -185,8 +182,8 @@ export const deleteUser = async (userId) => {
       throw new Error(errorMessage);
     }
 
-    return await response.json(); // Devuelve la respuesta de la eliminación si fue exitosa
+    return await response.json();
   } catch (error) {
-    throw error; // Lanza el error para manejarlo en el componente
+    throw error;
   }
 };

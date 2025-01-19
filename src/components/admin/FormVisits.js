@@ -15,11 +15,10 @@ import {
 
 const FormVisits = ({ onVisitCreated }) => {
   const [adoptedDogs, setAdoptedDogs] = useState([]);
-  const [selectedDog, setSelectedDog] = useState(null); // Estado para almacenar el perro seleccionado
+  const [selectedDog, setSelectedDog] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
   const navigate = useNavigate();
 
-  // Cargar perros adoptados
   useEffect(() => {
     const loadAdoptedDogs = async () => {
       try {
@@ -27,13 +26,11 @@ const FormVisits = ({ onVisitCreated }) => {
         setAdoptedDogs(data);
       } catch (error) {
         console.error("No hay perros adoptados:", error);
-        //showErrorAlert("No se pudieron cargar los perros adoptados.", "Error");
       }
     };
     loadAdoptedDogs();
   }, []);
 
-  // Esquema de validación con Yup
   const validationSchema = Yup.object({
     adopted_dog_id: Yup.string().required(
       "Debes seleccionar un perro adoptado."
@@ -128,7 +125,7 @@ const FormVisits = ({ onVisitCreated }) => {
               <Form.Label className="custom-label">Dueño:</Form.Label>
               <Form.Control
                 type="text"
-                value={selectedDog?.owner?.name || "No disponible"} // Valor predeterminado si no hay dueño
+                value={selectedDog?.owner?.name || "No disponible"}
                 readOnly
                 className="form-control-plaintext"
               />
@@ -138,7 +135,7 @@ const FormVisits = ({ onVisitCreated }) => {
               <Form.Label className="custom-label">Dirección:</Form.Label>
               <Form.Control
                 type="text"
-                value={selectedDog?.owner?.direction || "No disponible"} // Valor predeterminado
+                value={selectedDog?.owner?.direction || "No disponible"}
                 readOnly
                 className="form-control-plaintext"
               />

@@ -3,7 +3,7 @@ import Navbar from "../../components/main/Navbar";
 import Footer from "../../components/main/Footer";
 import "../../assets/styles/main/ViewAdoptionDogs.css";
 import { Link } from "react-router-dom";
-import { fetchAdoptionDogs } from "../../services/dogsService"; // Importar el servicio
+import { fetchAdoptionDogs } from "../../services/dogsService";
 
 const ViewDogs = ({ nameDog, imageDog, link }) => {
   return (
@@ -18,21 +18,21 @@ const ViewDogs = ({ nameDog, imageDog, link }) => {
 };
 
 const Dogs = () => {
-  const [dogs, setDogs] = useState([]); // Lista de perros
-  const [error, setError] = useState(false); // Estado de error
-  const [isLoading, setIsLoading] = useState(true); // Estado de carga
+  const [dogs, setDogs] = useState([]);
+  const [error, setError] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchDogs = async () => {
       try {
-        const data = await fetchAdoptionDogs(); // Llama al servicio
+        const data = await fetchAdoptionDogs();
         setDogs(data);
-        setError(false); // No hay error si la carga es exitosa
+        setError(false);
       } catch (error) {
         console.error("Error al cargar los perros:", error);
         setError(true);
       } finally {
-        setIsLoading(false); // Finaliza el estado de carga
+        setIsLoading(false);
       }
     };
 
@@ -40,7 +40,7 @@ const Dogs = () => {
       fetchDogs();
     }, 1000);
 
-    return () => clearTimeout(delayLoading); // Limpia el temporizador al desmontar
+    return () => clearTimeout(delayLoading);
   }, []);
 
   return (

@@ -10,11 +10,10 @@ const VerifyResetCode = () => {
   const navigate = useNavigate();
   const [code, setCode] = useState(searchParams.get("code") || "");
 
-  // Función para sanitizar el código: solo permite números
   const sanitizeCode = (input) => input.replace(/[^0-9]/g, "");
 
   const handleCancel = () => {
-    navigate("/login"); // Redirige al login
+    navigate("/login");
   };
 
   const handleChange = (e) => {
@@ -35,7 +34,7 @@ const VerifyResetCode = () => {
     try {
       await verifyResetCode(sanitizedCode);
       showSuccessAlert("Código verificado correctamente.", "Éxito");
-      navigate(`/reset-password?code=${sanitizedCode}`); // Pasa el código a la siguiente vista
+      navigate(`/reset-password?code=${sanitizedCode}`);
     } catch (error) {
       console.error("Error al verificar el código:", error);
       showErrorAlert(
@@ -60,8 +59,8 @@ const VerifyResetCode = () => {
               value={code}
               onChange={handleChange}
               required
-              maxLength={6} // Limita la longitud del código a 6 dígitos
-              isInvalid={!/^\d{1,6}$/.test(code) && code !== ""} // Valida que sean solo números en tiempo real
+              maxLength={6}
+              isInvalid={!/^\d{1,6}$/.test(code) && code !== ""}
             />
             <Form.Control.Feedback type="invalid">
               El código debe ser numérico.

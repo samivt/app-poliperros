@@ -5,7 +5,6 @@ const API_URL = process.env.REACT_APP_API_URL;
 export const createStaticDog = async (dogData) => {
   const token = getToken();
 
-  // Garantizar que todos los campos estén presentes
   const payload = {
     id_chip: dogData.id_chip || null,
     name: dogData.name || null,
@@ -36,7 +35,6 @@ export const createStaticDog = async (dogData) => {
       const errorData = await response.json();
       //console.error("Error del backend recibido:", errorData);
 
-      // Procesar y mostrar errores del campo `detail`
       if (errorData.detail && Array.isArray(errorData.detail)) {
         const detailedErrors = errorData.detail.map(
           (err) =>
@@ -46,7 +44,6 @@ export const createStaticDog = async (dogData) => {
         throw new Error(detailedErrors.join("; "));
       }
 
-      // Mensaje genérico en caso de que no haya detalles específicos
       throw new Error(
         errorData.detail ||
           errorData.message ||
@@ -54,7 +51,6 @@ export const createStaticDog = async (dogData) => {
       );
     }
 
-    // Devuelve la respuesta del servidor en caso de éxito
     return await response.json();
   } catch (error) {
     console.error("Error al registrar el perro:", error.message || error);
@@ -83,7 +79,7 @@ export const updateStaticDog = async (id, dogData) => {
       throw new Error("Error al actualizar el perro");
     }
 
-    return await response.json(); // Devuelve la respuesta si es exitosa
+    return await response.json();
   } catch (error) {
     // console.error("Error actualizando el perro:", error);
     throw error;
@@ -101,7 +97,7 @@ export const fetchStaticDogs = async () => {
       },
     });
 
-    // console.log("Estado de la respuesta:", response.status); // Verifica el estado HTTP
+    // console.log("Estado de la respuesta:", response.status); // estado HTTP
 
     if (!response.ok) {
       //const errorMessage = await response.text();
@@ -154,8 +150,8 @@ export const fetchStaticDogImage = async (dogId) => {
       throw new Error("Error al obtener la imagen");
     }
 
-    const blob = await response.blob(); // Convierte la respuesta a un Blob
-    return URL.createObjectURL(blob); // Devuelve la URL de la imagen para usar en <img>
+    const blob = await response.blob();
+    return URL.createObjectURL(blob);
   } catch (error) {
     //console.error("Error al obtener la imagen:", error);
     throw error; // Lanza el error para manejarlo en el componente
@@ -188,7 +184,6 @@ export const deleteStaticDog = async (id) => {
 export const createAdoptionDog = async (dogData) => {
   const token = getToken();
 
-  // Garantizar que todos los campos estén presentes
   const payload = {
     id_chip: dogData.id_chip || null,
     name: dogData.name || null,
@@ -207,7 +202,7 @@ export const createAdoptionDog = async (dogData) => {
     console.log(
       "Payload enviado al backend:",
       JSON.stringify(payload, null, 2)
-    ); // Imprime el payload
+    );
 
     const response = await fetchWithAuth(
       `${API_URL}/dog/adoption_dog/create/`,
@@ -225,7 +220,6 @@ export const createAdoptionDog = async (dogData) => {
       const errorData = await response.json();
       console.error("Error del backend recibido:", errorData);
 
-      // Procesar y mostrar errores del campo `detail`
       if (errorData.detail && Array.isArray(errorData.detail)) {
         const detailedErrors = errorData.detail.map(
           (err) =>
@@ -253,12 +247,11 @@ export const createAdoptionDog = async (dogData) => {
 // Servicio para actualizar un perro estático
 export const updateAdoptionDog = async (dogId, dogData) => {
   try {
-    const token = getToken(); // Obtener el token de autenticación
+    const token = getToken();
     if (!token) {
       throw new Error("Token no encontrado. Por favor, inicie sesión.");
     }
 
-    // Hacer la solicitud PUT para actualizar el perro
     const response = await fetch(
       `${API_URL}/dog/adoption_dog/update/${dogId}`,
       {
@@ -266,15 +259,13 @@ export const updateAdoptionDog = async (dogId, dogData) => {
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
-          Authorization: `Bearer ${token}`, // Incluir el token de autorización
+          Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(dogData), // Convertir los datos a JSON
+        body: JSON.stringify(dogData),
       }
     );
 
-    // Comprobar si la respuesta fue exitosa
     if (!response.ok) {
-      // Intentar leer el cuerpo de la respuesta como JSON en caso de error
       let errorData;
       try {
         errorData = await response.json();
@@ -334,7 +325,6 @@ export const deleteAdoptionDog = async (id) => {
   }
 };
 //obtener perro por id
-
 export const fetchAdoptionDogById = async (id) => {
   try {
     const response = await fetchWithAuth(`${API_URL}/dog/adoption_dog/${id}`, {
@@ -369,17 +359,17 @@ export const fetchAdoptionDogImage = async (dogId) => {
       throw new Error("Error al obtener la imagen");
     }
 
-    const blob = await response.blob(); // Convierte la respuesta a un Blob
-    return URL.createObjectURL(blob); // Devuelve la URL de la imagen para usar en <img>
+    const blob = await response.blob();
+    return URL.createObjectURL(blob);
   } catch (error) {
     //console.error("Error al obtener la imagen:", error);
-    throw error; // Lanza el error para manejarlo en el componente
+    throw error;
   }
 };
 
 //Adoptar perro se crea el dueño
 export const adoptDog = async (dog_id, adoption_date, ownerData) => {
-  const token = getToken(); // Método para obtener el token
+  const token = getToken();
   const url = `${API_URL}/dog/adoption_dog/adopt/${dog_id}/${adoption_date}`;
 
   const response = await fetchWithAuth(url, {
@@ -388,11 +378,11 @@ export const adoptDog = async (dog_id, adoption_date, ownerData) => {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify(ownerData), // Solo los datos del propietario en el cuerpo
+    body: JSON.stringify(ownerData),
   });
 
   if (!response.ok) {
-    const error = await response.json(); // Intentamos obtener más detalles del error
+    const error = await response.json();
     throw new Error(error.message || "Error al registrar la adopción.");
   }
 
@@ -432,7 +422,7 @@ export const fetchAdoptedDogById = async (id) => {
     const response = await fetch(`${API_URL}/dog/adopted_dog/${id}`, {
       method: "GET",
       headers: {
-        Accept: "application/json", // Acepta JSON
+        Accept: "application/json",
       },
     });
 
@@ -443,7 +433,7 @@ export const fetchAdoptedDogById = async (id) => {
       );
     }
 
-    return await response.json(); // Retorna la respuesta en JSON si es exitosa
+    return await response.json();
   } catch (error) {
     console.error("Error al obtener la información del perro adoptado:", error);
     throw error;
@@ -451,7 +441,7 @@ export const fetchAdoptedDogById = async (id) => {
 };
 //Quitar adopcion perro
 export const unadoptDog = async (dogId) => {
-  const token = getToken(); // Obtén el token de autenticación
+  const token = getToken();
 
   try {
     const response = await fetchWithAuth(
@@ -462,7 +452,7 @@ export const unadoptDog = async (dogId) => {
           Authorization: `Bearer ${token}`,
           Accept: "application/json",
         },
-        body: "", // El cuerpo está vacío según el curl proporcionado
+        body: "",
       }
     );
 
@@ -494,15 +484,10 @@ export const updateOwner = async (idOwner, ownerData) => {
       body: JSON.stringify(ownerData),
     });
 
-    // Verifica si la respuesta es exitosa
     if (response.ok) {
-      // Obtener la respuesta JSON
       const data = await response.json();
-
-      // Si la respuesta contiene el detalle, lo mostramos
-      return data; // Retornamos la respuesta JSON
+      return data;
     } else {
-      // Si la respuesta no es exitosa, manejamos el error
       const contentType = response.headers.get("Content-Type");
 
       if (contentType && contentType.includes("application/json")) {
@@ -519,14 +504,14 @@ export const updateOwner = async (idOwner, ownerData) => {
     }
   } catch (error) {
     console.error("Error en updateOwner:", error.message || error);
-    throw error; // Re-lanzar el error para manejarlo en el componente que lo invoca
+    throw error;
   }
 };
 
 //Actualizar perro adoptado
 export const updateAdoptedDog = async (idDog, dogData) => {
   try {
-    const token = getToken(); // Obtener el token de autorización
+    const token = getToken();
     if (!token) {
       throw new Error("Token no encontrado. Por favor, inicie sesión.");
     }
@@ -537,10 +522,10 @@ export const updateAdoptedDog = async (idDog, dogData) => {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`, // Token JWT
+          Authorization: `Bearer ${token}`,
           Accept: "application/json",
         },
-        body: JSON.stringify(dogData), // Datos del perro a actualizar
+        body: JSON.stringify(dogData),
       }
     );
 
@@ -551,14 +536,13 @@ export const updateAdoptedDog = async (idDog, dogData) => {
       );
     }
 
-    return await response.json(); // Retorna la respuesta en JSON si la solicitud es exitosa
+    return await response.json();
   } catch (error) {
     //console.error("Error al actualizar el perro adoptado:", error);
     throw error;
   }
 };
 //obtener todos lo dueños
-
 export const fetchAllOwners = async () => {
   try {
     const token = getToken();
@@ -567,7 +551,6 @@ export const fetchAllOwners = async () => {
       throw new Error("Token de autenticación no disponible.");
     }
 
-    // Realiza la solicitud GET al endpoint
     const response = await fetchWithAuth(`${API_URL}/owner/all/`, {
       method: "GET",
       headers: {
@@ -596,26 +579,23 @@ export const fetchAllOwners = async () => {
 };
 //adopcion dueño existente
 export const adoptDogOwner = async (dogId, adoptionDate, ownerId) => {
-  const token = getToken(); // Método para obtener el token de autenticación
+  const token = getToken();
   const url = `${API_URL}/dog/adoption_dog/adopt/${dogId}/${ownerId}/${adoptionDate}`;
 
-  // Realizamos la solicitud POST
   const response = await fetchWithAuth(url, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`, // Enviar el token en el encabezado
+      Authorization: `Bearer ${token}`,
       accept: "application/json",
     },
-    body: "", // El cuerpo está vacío, ya que los datos se envían a través de la URL
+    body: "",
   });
 
-  // Verificamos si la respuesta fue exitosa
   if (!response.ok) {
-    const error = await response.json(); // Obtenemos el mensaje de error
+    const error = await response.json();
     throw new Error(error.message || "Error al registrar la adopción.");
   }
 
-  // Si la respuesta es exitosa, devolvemos la respuesta en formato JSON
   return await response.json();
 };

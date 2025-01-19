@@ -3,22 +3,21 @@ import { Formik, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import DOMPurify from "dompurify";
 import { Button, Form } from "react-bootstrap";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { showSuccessAlert, showErrorAlert } from "../../services/alertService";
-import { fetchAdoptionDogById, adoptDog } from "../../services/dogsService"; // Asegúrate de importar correctamente la función adoptDog
-import "../../assets/styles/admin/FormAdoption.css"; // Estilos personalizados
+import { fetchAdoptionDogById, adoptDog } from "../../services/dogsService";
+import "../../assets/styles/admin/FormAdoption.css";
 
 const FormAdoption = ({ onSuccess }) => {
   const { id } = useParams();
-  //const navigate = useNavigate();
-  const [dogName, setDogName] = useState(""); // Estado para almacenar el nombre del perro
+  const navigate = useNavigate();
+  const [dogName, setDogName] = useState("");
 
-  // Cargar el nombre del perro por ID
   useEffect(() => {
     const loadDogName = async () => {
       try {
-        const dog = await fetchAdoptionDogById(id); // Supone que `fetchAdoptionDogById` devuelve un objeto perro
-        setDogName(dog.name || ""); // Actualiza el estado con el nombre del perro
+        const dog = await fetchAdoptionDogById(id);
+        setDogName(dog.name || "");
       } catch (error) {
         console.error("Error al cargar el perro:", error);
         showErrorAlert("No se pudo cargar la información del perro.");
@@ -30,7 +29,6 @@ const FormAdoption = ({ onSuccess }) => {
     }
   }, [id]);
 
-  // Esquema de validación con Yup
   const validationSchema = Yup.object({
     dog_id: Yup.string().required("El ID del perro es obligatorio."),
     adoption_date: Yup.date().required("La fecha de adopción es obligatoria."),
@@ -179,13 +177,17 @@ const FormAdoption = ({ onSuccess }) => {
               />
             </Form.Group>
 
-            <div className="form-adoption-button-container">
+            <div className="custom-button-container">
+              <Button type="submit" className="custom-button">
+                Registrar
+              </Button>
               <Button
-                type="submit"
-                className="form-adoption-button"
-                disabled={isSubmitting}
+                type="button"
+                variant="secondary"
+                className="custom-button"
+                onClick={() => navigate("/admin/adoption-dogs")}
               >
-                {isSubmitting ? "Registrando..." : "Registrar"}
+                Cancelar
               </Button>
             </div>
           </Form>

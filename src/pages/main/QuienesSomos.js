@@ -32,14 +32,22 @@ const QuienesSomos = () => {
           <div className="qs-culture-cards">
             <InfoCard
               title="Misión"
-              description="Somos miembros de la comunidad politécnica dedicados a la protección y aseguramiento del bienestar de la fauna urbana que habita dentro de la Escuela Politécnica Nacional,
-               con especial énfasis en los perros comunitarios del campus. El trabajo autogestionario y el compromiso de nuestros voluntarios son las piezas fundamentales a través de la cual este proyecto busca la construcción de espacios armónicos de convivencia humano-naturaleza."
+              description="Somos miembros de la comunidad politécnica dedicados a la 
+              protección y aseguramiento del bienestar de la fauna urbana que habita 
+              dentro de la Escuela Politécnica Nacional,
+               con especial énfasis en los perros comunitarios del campus. El trabajo 
+               autogestionario y el compromiso de nuestros voluntarios son las piezas 
+               fundamentales a través de la cual este proyecto busca la construcción 
+               de espacios armónicos de convivencia humano-naturaleza."
               icon="mision"
             />
             <InfoCard
               title="Visión"
               description="Seremos el organismo oficial de bienestar animal 
-              dentro de la EPN, y uno de los principales referentes para otras Instituciones de Educación Superior. A través de la autogestión, la dedicación, y el apoyo institucional y de voluntarios lograremos velar por el bienestar y calidad de vida de los animales de compañía permanentes y temporales del campus 
+              dentro de la EPN, y uno de los principales referentes para 
+              otras Instituciones de Educación Superior. A través de la autogestión, 
+              la dedicación, y el apoyo institucional y de voluntarios lograremos velar 
+              por el bienestar y calidad de vida de los animales de compañía permanentes y temporales del campus 
               y fomentar el respeto hacia otros seres no humanos."
               icon="vision"
             />

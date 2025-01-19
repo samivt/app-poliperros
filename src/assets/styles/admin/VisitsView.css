@@ -1,4 +1,3 @@
-/* Contenedor principal */
 .general-table-container {
   margin: 20px auto;
   max-width: 1000px;
@@ -8,7 +7,6 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Tabla general e historial */
 .general-table,
 .detail-table {
   margin-top: 20px;
@@ -21,18 +19,16 @@
   margin-bottom: 20px;
 }
 
-/* Estilo de las fotos */
 .history-photo {
-  width: 100px; /* Aumenta el tamaño de la imagen */
+  width: 100px;
   height: 100px;
   object-fit: cover;
   border-radius: 5px;
 }
 
-/* Estilo de la columna de fotos */
 .photo-column {
-  text-align: center; /* Centra la imagen en la columna */
-  width: 150px; /* Define un ancho mayor para la columna */
+  text-align: center;
+  width: 150px;
 }
 
 button {

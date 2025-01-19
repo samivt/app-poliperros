@@ -7,14 +7,14 @@ const ProtectedRoute = ({ allowedRoles }) => {
   const userRole = getUserRole();
 
   if (!isAuth) {
-    return <Navigate to="/login" replace />; // Redirige al login si no está autenticado
+    return <Navigate to="/login" replace />;
   }
 
   if (!allowedRoles.includes(userRole)) {
-    return <Navigate to="/unauthorized" replace />; // Redirige si no tiene el rol adecuado
+    return <Navigate to="/unauthorized" replace />;
   }
 
-  return <Outlet />; // Renderiza la ruta protegida
+  return <Outlet />;
 };
 
 export default ProtectedRoute;

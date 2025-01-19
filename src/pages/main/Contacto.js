@@ -2,15 +2,15 @@ import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import Navbar from "../../components/main/Navbar";
 import Footer from "../../components/main/Footer";
-import "../../assets/styles/main/ContactPage.css"; // Archivo CSS para los estilos
+import "../../assets/styles/main/ContactPage.css";
 
 const ContactPage = () => {
-  const whatsappNumber = "593983023135"; // Número con código de país
+  const whatsappNumber = "593983023135";
   const whatsappLink = `https://api.whatsapp.com/send/?phone=${whatsappNumber}&text&type=phone_number&app_absent=0`;
 
-  const email = "poliperros@epn.edu.ec"; // Cambia al correo que quieras usar
+  const email = "poliperros@epn.edu.ec";
   const phone = "0983023135";
-  const address = "https://maps.app.goo.gl/myhAriRGshFiAkz97"; // Enlace de Google Maps
+  const address = "https://maps.app.goo.gl/myhAriRGshFiAkz97";
 
   return (
     <>

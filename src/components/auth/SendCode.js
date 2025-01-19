@@ -9,13 +9,12 @@ const SendCode = () => {
   const [email, setEmail] = useState("");
   const navigate = useNavigate();
 
-  // Valida si el correo tiene un formato válido
   const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    const sanitizedEmail = email.trim(); // Sanitizar entrada
+    const sanitizedEmail = email.trim();
 
     if (!sanitizedEmail) {
       showErrorAlert("El correo electrónico es obligatorio.", "Error");
@@ -36,7 +35,7 @@ const SendCode = () => {
         "Se ha enviado un correo con instrucciones para restablecer tu contraseña.",
         "Correo enviado"
       );
-      navigate("/verify-reset-code"); // Redirige a la página de verificación del código
+      navigate("/verify-reset-code");
     } catch (error) {
       console.error("Error al enviar el correo de restablecimiento:", error);
       showErrorAlert(
@@ -47,7 +46,7 @@ const SendCode = () => {
   };
 
   const handleCancel = () => {
-    navigate("/login"); // Redirige al login
+    navigate("/login");
   };
 
   return (
@@ -63,9 +62,9 @@ const SendCode = () => {
               type="email"
               placeholder="Correo electrónico"
               value={email}
-              onChange={(e) => setEmail(e.target.value.trim())} // Sanitiza mientras escribe
+              onChange={(e) => setEmail(e.target.value.trim())}
               required
-              isInvalid={!isValidEmail(email) && email.trim() !== ""} // Valida el formato en tiempo real
+              isInvalid={!isValidEmail(email) && email.trim() !== ""}
             />
             <Form.Control.Feedback type="invalid">
               Ingresa un correo electrónico válido.

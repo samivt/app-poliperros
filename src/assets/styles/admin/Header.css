@@ -1,4 +1,3 @@
-/* Estilo base del Header */
 .header {
   height: 60px;
   width: 100%;
@@ -7,7 +6,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 10px; /* Ajusta el padding */
+  padding: 0 10px;
   position: fixed;
   top: 0;
   left: 0;
@@ -15,32 +14,29 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* Título del Header */
 .header-title {
   font-size: 18px;
   font-weight: bold;
   margin: 0;
   text-align: center;
-  flex: 1; /* Permite que el título ocupe el espacio restante */
+  flex: 1;
 }
 
-/* Botón de Toggle */
 .sidebar-toggle {
   background: none;
   border: none;
   color: white;
   font-size: 20px;
   cursor: pointer;
-  display: none; /* Oculto por defecto */
+  display: none;
 }
 
 @media (max-width: 768px) {
   .sidebar-toggle {
-    display: block; /* Visible solo en pantallas pequeñas */
+    display: block;
   }
 }
 
-/* Botón de Cerrar Sesión */
 .logout-button {
   background: none;
   border: none;
@@ -50,7 +46,7 @@
   display: flex;
   align-items: center;
   gap: 5px;
-  white-space: nowrap; /* Evita que el texto se corte */
+  white-space: nowrap;
 }
 
 .logout-button:hover {

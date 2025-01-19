@@ -6,7 +6,6 @@
   justify-content: space-around;
   align-items: center;
   padding: 20px 10px;
-  font-family: "Nunito", sans-serif;
 }
 
 .footer-logo {
@@ -43,7 +42,6 @@
   margin-right: 10px;
 }
 
-/* Redes sociales */
 .social-media {
   flex: 1;
   text-align: center;
