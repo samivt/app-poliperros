@@ -478,7 +478,7 @@ export const unadoptDog = async (dogId) => {
 // Actualiza la información de un dueño.
 export const updateOwner = async (idOwner, ownerData) => {
   try {
-    const token = getToken(); // Obtener el token desde el almacenamiento local o contexto
+    const token = getToken();
 
     if (!token) {
       throw new Error("Token de autenticación no disponible.");
@@ -494,24 +494,35 @@ export const updateOwner = async (idOwner, ownerData) => {
       body: JSON.stringify(ownerData),
     });
 
-    if (!response.ok) {
-      const errorDetails = await response.json();
-      //console.error(
-      // `Error del servidor: ${response.status} - ${
-      //   errorDetails.detail || "Sin mensaje específico"
-      // }`
-      // );
-      throw new Error(
-        errorDetails.detail || "Error al actualizar la información del dueño."
-      );
-    }
+    // Verifica si la respuesta es exitosa
+    if (response.ok) {
+      // Obtener la respuesta JSON
+      const data = await response.json();
 
-    return await response.json(); // Devuelve la respuesta en JSON si la solicitud fue exitosa
+      // Si la respuesta contiene el detalle, lo mostramos
+      return data; // Retornamos la respuesta JSON
+    } else {
+      // Si la respuesta no es exitosa, manejamos el error
+      const contentType = response.headers.get("Content-Type");
+
+      if (contentType && contentType.includes("application/json")) {
+        const errorDetails = await response.json();
+        throw new Error(
+          errorDetails.detail || "Error al actualizar la información del dueño."
+        );
+      } else {
+        const errorText = await response.text();
+        throw new Error(
+          `Error inesperado del servidor: ${response.status}. ${errorText}`
+        );
+      }
+    }
   } catch (error) {
-    // console.error("Error en updateOwner:", error.message || error);
-    throw error;
+    console.error("Error en updateOwner:", error.message || error);
+    throw error; // Re-lanzar el error para manejarlo en el componente que lo invoca
   }
 };
+
 //Actualizar perro adoptado
 export const updateAdoptedDog = async (idDog, dogData) => {
   try {
@@ -545,4 +556,66 @@ export const updateAdoptedDog = async (idDog, dogData) => {
     //console.error("Error al actualizar el perro adoptado:", error);
     throw error;
   }
+};
+//obtener todos lo dueños
+
+export const fetchAllOwners = async () => {
+  try {
+    const token = getToken();
+
+    if (!token) {
+      throw new Error("Token de autenticación no disponible.");
+    }
+
+    // Realiza la solicitud GET al endpoint
+    const response = await fetchWithAuth(`${API_URL}/owner/all/`, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      const errorDetails = await response.json();
+      throw new Error(
+        errorDetails.detail || "Error al obtener la lista de dueños."
+      );
+    }
+
+    const data = await response.json();
+
+    return data;
+  } catch (error) {
+    console.error(
+      "Error al obtener la lista de dueños:",
+      error.message || error
+    );
+    throw error;
+  }
+};
+//adopcion dueño existente
+export const adoptDogOwner = async (dogId, adoptionDate, ownerId) => {
+  const token = getToken(); // Método para obtener el token de autenticación
+  const url = `${API_URL}/dog/adoption_dog/adopt/${dogId}/${ownerId}/${adoptionDate}`;
+
+  // Realizamos la solicitud POST
+  const response = await fetchWithAuth(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`, // Enviar el token en el encabezado
+      accept: "application/json",
+    },
+    body: "", // El cuerpo está vacío, ya que los datos se envían a través de la URL
+  });
+
+  // Verificamos si la respuesta fue exitosa
+  if (!response.ok) {
+    const error = await response.json(); // Obtenemos el mensaje de error
+    throw new Error(error.message || "Error al registrar la adopción.");
+  }
+
+  // Si la respuesta es exitosa, devolvemos la respuesta en formato JSON
+  return await response.json();
 };

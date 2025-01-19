@@ -17,11 +17,11 @@ const ContactPage = () => {
       <Navbar />
 
       {/* Página de Contacto */}
-      <Container>
+      <Container className="contact-page">
         {/* Título */}
         <h2 className="contact-title">Contáctanos</h2>
 
-        <Row>
+        <Row className="contact-page">
           <Col>
             <img
               src={require("../../assets/images/logo_poliperros.png")}

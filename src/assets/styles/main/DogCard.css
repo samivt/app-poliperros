@@ -1,77 +1,69 @@
-/* Contenedor de la tarjeta */
 .dog-card {
-  border-radius: 10px; /* Bordes redondeados */
-  border: none; /* Elimina el borde para dar protagonismo a la sombra */
-  background-color: #ffffff; /* Fondo blanco */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra sutil */
-  font-family: "Nunito", sans-serif;
+  border-radius: 16px;
+  border: none;
+  background-color: #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
   margin: 20px auto;
-  max-width: 300px; /* Limita el ancho para mantener proporción */
-  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Efecto de hover */
+  max-width: 300px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
-
-/* Efecto hover */
 .dog-card:hover {
-  transform: translateY(-10px); /* Eleva la tarjeta */
-  box-shadow: 0 8px 20px rgba(86, 93, 33, 0.15); /* Sombra más pronunciada */
+  transform: translateY(-10px);
+  box-shadow: 0 8px 20px rgba(86, 93, 33, 0.15);
 }
 
-/* Imagen de la tarjeta */
 .dog-card img {
-  border-radius: 10px 10px 0 0; /* Redondea solo las esquinas superiores */
+  border-radius: 16px 16px 0 0;
   width: 100%;
-  height: 200px; /* Tamaño fijo para las imágenes */
-  object-fit: cover; /* Ajusta la imagen sin distorsionarla */
+  height: 200px;
+  object-fit: cover;
 }
 
-/* Título de la tarjeta */
 .dog-card h3 {
-  color: #f38b32; /* Mismo color que el título del Home */
+  color: #f38b32;
   font-weight: 700;
-  margin-top: 10px;
-  font-size: 1.4rem;
+  margin-top: 16px;
+  font-size: 22px;
 }
 
-/* Botón de la tarjeta */
 .dog-card-button {
-  background-color: #f38b32; /* Mismo color que el título */
+  background-color: #f38b32;
   color: white;
   border: none;
-  padding: 0.5rem 1.5rem;
+  padding: 8px 24px;
   cursor: pointer;
   font-weight: 600;
-  border-radius: 5px; /* Bordes redondeados */
+  border-radius: 8px;
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-/* Efecto hover del botón */
 .dog-card-button:hover {
-  background-color: #e59400; /* Color ligeramente más oscuro */
-  transform: scale(1.05); /* Aumenta ligeramente el tamaño */
+  background-color: #e59400;
+  transform: scale(1.05);
 }
 
-/* Ajustes responsivos */
 @media (max-width: 768px) {
   .dog-card {
-    max-width: 90%; /* Tarjetas más grandes en pantallas medianas */
+    max-width: 90%;
   }
   .dog-card img {
-    height: 180px; /* Ajusta la altura de la imagen en pantallas medianas */
+    height: 300px;
   }
   .dog-card h3 {
-    font-size: 1.2rem; /* Título más pequeño */
+    font-size: 20px;
   }
 }
 
 @media (max-width: 576px) {
   .dog-card img {
-    height: 150px; /* Ajusta la altura de la imagen en pantallas pequeñas */
+    height: 200px;
   }
   .dog-card h3 {
-    font-size: 1rem; /* Título más pequeño */
+    font-size: 16px;
   }
   .dog-card-button {
-    font-size: 0.9rem; /* Botón más pequeño */
-    padding: 0.4rem 1rem;
+    font-size: 14px;
+    padding: 6px 16px;
   }
 }

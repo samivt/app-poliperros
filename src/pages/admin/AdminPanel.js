@@ -1,11 +1,5 @@
 import React, { useState } from "react";
-import {
-  Routes,
-  Route,
-  Navigate,
-  useNavigate,
-  useParams,
-} from "react-router-dom";
+import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
 
 import Sidebar from "../../components/admin/Sidebar";
 import Header from "../../components/admin/Header";
@@ -19,6 +13,7 @@ import EditAdoptedDog from "../../components/admin/EditAdoptedDog";
 import AdoptionDogsView from "./AdoptionDogsView";
 import AdoptedDogsView from "./AdoptedDogsView";
 import FormAdoption from "../../components/admin/FormAdoption";
+import FormAdoptionOwner from "../../components/admin/FormAdoptionOwner";
 import FormVisits from "../../components/admin/FormVisits";
 import FormRegisterUser from "../../components/admin/FormRegisterUser";
 import UsersTable from "./UsersTable";
@@ -35,12 +30,11 @@ import useAdminData from "../../hooks/useAdminData";
 import { logout } from "../../services/authService";
 
 import "../../assets/styles/admin/AdminPanel.css";
-import { adoptDog } from "../../services/dogsService";
 
 const AdminPanel = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const navigate = useNavigate();
-  const { id } = useParams();
+  // const { id } = useParams();
 
   const {
     staticDogs,
@@ -60,10 +54,6 @@ const AdminPanel = () => {
 
   const handleAddNewDog = () => {
     navigate("/admin/register-dog");
-  };
-
-  const handleAdoptDog = (dog) => {
-    navigate(`/admin/adopt-dog/${dog.id}`);
   };
 
   const handleAddVisit = () => {
@@ -104,7 +94,6 @@ const AdminPanel = () => {
                 loading={isLoading.adoptionDogs}
                 onDelete={(id) => deleteDog(id, "adoption")}
                 onAddNew={handleAddNewDog}
-                onAdopt={handleAdoptDog}
               />
             }
           />
@@ -165,37 +154,24 @@ const AdminPanel = () => {
             path="adopt-dog/:id"
             element={
               <FormAdoption
-                initialDogId={id}
                 onSuccess={async () => {
                   await loadAdoptedDogs();
                   navigate("/admin/adopted-dogs");
                 }}
-                onSubmit={async (formData) => {
-                  try {
-                    const { dog_id, adoption_date, ...ownerData } = formData;
-                    // Imprimir el payload completo
-                    console.log("Payload enviado:", {
-                      dog_id,
-                      adoption_date,
-                      ownerData,
-                    });
-                    const response = await adoptDog(
-                      dog_id,
-                      adoption_date,
-                      ownerData
-                    );
-
-                    if (response.ok) {
-                      // Verifica si la respuesta fue exitosa
-                      await loadAdoptionDogs();
-                    } else {
-                      throw new Error("Error en la respuesta del servidor");
-                    }
-                  } catch (error) {
-                    console.error("Error al registrar la adopción:", error);
-                    throw error; // Lanza el error para que handleSubmit lo capture
-                  }
+                onSubmit={async (formData) => {}}
+              />
+            }
+          />
+          {/* Formulario de adopción dueño */}
+          <Route
+            path="adopt-dog-owner/:id"
+            element={
+              <FormAdoptionOwner
+                onSuccess={async () => {
+                  await loadAdoptedDogs();
+                  navigate("/admin/adopted-dogs");
                 }}
+                onSubmit={async (formData) => {}}
               />
             }
           />

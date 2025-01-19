@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import { useNavigate, useLocation } from "react-router-dom";
-import DOMPurify from "dompurify"; // Importar DOMPurify
+import DOMPurify from "dompurify";
 import "../../assets/styles/admin/FormVisits.css";
 import { updateOwner } from "../../services/dogsService";
 import {
@@ -11,76 +11,78 @@ import {
 } from "../../services/alertService";
 
 const EditOwnerForm = ({ onOwnerUpdated }) => {
-  const location = useLocation(); // Obtener los datos del estado de navegación
+  const location = useLocation();
   const navigate = useNavigate();
 
-  const { owner } = location.state || {}; // Extraer los datos del dueño
+  const { owner } = location.state || {};
+
   const [formData, setFormData] = useState({
     name: owner?.name || "",
     direction: owner?.direction || "",
     cellphone: owner?.cellphone || "",
   });
 
-  const [phoneError, setPhoneError] = useState(false); // Estado para validar teléfono
+  const [errors, setErrors] = useState({
+    name: "",
+    direction: "",
+    cellphone: "",
+  });
 
-  // Función para sanitizar entradas
   const sanitizeInput = (value) => DOMPurify.sanitize(value);
 
-  // Validar que el nombre solo contenga letras y espacios
-  const validateName = (name) => /^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ\s]+$/.test(name);
+  const validateField = (name, value) => {
+    let error = "";
 
-  // Validar que el teléfono sea numérico y tenga máximo 10 dígitos
-  const validatePhone = (phone) => /^[0-9]{1,10}$/.test(phone);
-
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-
-    // Sanitizar la entrada del usuario
-    const sanitizedValue = sanitizeInput(value);
-
-    if (name === "cellphone") {
-      // Validar teléfono
-      if (!validatePhone(sanitizedValue)) {
-        setPhoneError(true);
-        return; // No actualiza el estado si no pasa la validación
-      } else {
-        setPhoneError(false);
+    if (name === "name") {
+      if (!value.trim()) {
+        error = "El nombre es obligatorio.";
+      } else if (!/^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ\s]+$/.test(value)) {
+        error = "El nombre solo puede contener letras y espacios.";
       }
     }
 
-    setFormData({ ...formData, [name]: sanitizedValue });
+    if (name === "direction") {
+      if (!value.trim()) {
+        error = "La dirección es obligatoria.";
+      }
+    }
+
+    if (name === "cellphone") {
+      if (!value.trim()) {
+        error = "El teléfono es obligatorio.";
+      } else if (!/^[0-9]{1,10}$/.test(value)) {
+        error = "El teléfono debe contener solo números y máximo 10 dígitos.";
+      }
+    }
+
+    return error;
   };
 
-  const validateForm = () => {
-    if (!formData.name.trim()) {
-      showErrorAlert("El nombre es obligatorio.");
-      return false;
-    }
-    if (!validateName(formData.name)) {
-      showErrorAlert("El nombre solo puede contener letras y espacios.");
-      return false;
-    }
-    if (!formData.direction.trim()) {
-      showErrorAlert("La dirección es obligatoria.");
-      return false;
-    }
-    if (!formData.cellphone.trim()) {
-      showErrorAlert("El teléfono es obligatorio.");
-      return false;
-    }
-    if (!validatePhone(formData.cellphone)) {
-      showErrorAlert(
-        "El teléfono debe contener solo números y máximo 10 dígitos."
-      );
-      return false;
-    }
-    return true;
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    const sanitizedValue = sanitizeInput(value);
+
+    // Validar el campo en tiempo real
+    const error = validateField(name, sanitizedValue);
+
+    setFormData({ ...formData, [name]: sanitizedValue });
+    setErrors({ ...errors, [name]: error });
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    if (!validateForm()) return;
+    const newErrors = {
+      name: validateField("name", formData.name),
+      direction: validateField("direction", formData.direction),
+      cellphone: validateField("cellphone", formData.cellphone),
+    };
+
+    setErrors(newErrors);
+
+    if (Object.values(newErrors).some((error) => error)) {
+      return;
+    }
 
     const confirmed = await showConfirmationAlert(
       "¿Estás seguro de actualizar la información del dueño?",
@@ -90,28 +92,29 @@ const EditOwnerForm = ({ onOwnerUpdated }) => {
     if (!confirmed) return;
 
     try {
-      // Sanitizar el payload antes de enviarlo al backend
       const sanitizedData = {
         name: sanitizeInput(formData.name),
         direction: sanitizeInput(formData.direction),
         cellphone: sanitizeInput(formData.cellphone),
       };
 
-      await updateOwner(owner.id, sanitizedData); // Llamada al servicio usando el ID del dueño
-      showSuccessAlert(
-        "Información del dueño actualizada correctamente.",
-        "¡Éxito!"
-      );
+      const response = await updateOwner(owner.id, sanitizedData);
 
-      if (onOwnerUpdated) {
-        onOwnerUpdated(); // Callback para actualizar la lista o redirigir
+      // Si la respuesta tiene el campo 'detail', lo mostramos
+      if (response && response.detail) {
+        showSuccessAlert(response.detail, "¡Éxito!");
+      } else {
+        showSuccessAlert(
+          "Información del dueño actualizada correctamente.",
+          "¡Éxito!"
+        );
       }
 
-      navigate("/admin/adopted-dogs"); // Redirigir después de la actualización
+      navigate("/admin/adopted-dogs"); // Redirigir al listado de perros adoptados
     } catch (error) {
-      console.error("Error al actualizar el dueño:", error.message);
       showErrorAlert(
-        "No se pudo actualizar la información del dueño. Inténtalo nuevamente."
+        error.message ||
+          "No se pudo actualizar la información del dueño. Inténtelo nuevamente."
       );
     }
   };
@@ -125,7 +128,7 @@ const EditOwnerForm = ({ onOwnerUpdated }) => {
       <h2 className="form-title">Editar Información del Dueño</h2>
 
       <Form onSubmit={handleSubmit}>
-        {/* Información del dueño */}
+        {/* Nombre */}
         <Form.Group className="mb-4">
           <Form.Label className="custom-label">
             Nombre: <span className="required">*</span>
@@ -135,11 +138,14 @@ const EditOwnerForm = ({ onOwnerUpdated }) => {
             name="name"
             value={formData.name}
             onChange={handleInputChange}
-            className={formData.name.trim() ? "is-valid" : "is-invalid"}
-            required
+            isInvalid={!!errors.name}
           />
+          {errors.name && (
+            <Form.Text className="text-danger">{errors.name}</Form.Text>
+          )}
         </Form.Group>
 
+        {/* Dirección */}
         <Form.Group className="mb-4">
           <Form.Label className="custom-label">
             Dirección: <span className="required">*</span>
@@ -149,11 +155,14 @@ const EditOwnerForm = ({ onOwnerUpdated }) => {
             name="direction"
             value={formData.direction}
             onChange={handleInputChange}
-            className={formData.direction.trim() ? "is-valid" : "is-invalid"}
-            required
+            isInvalid={!!errors.direction}
           />
+          {errors.direction && (
+            <Form.Text className="text-danger">{errors.direction}</Form.Text>
+          )}
         </Form.Group>
 
+        {/* Teléfono */}
         <Form.Group className="mb-4">
           <Form.Label className="custom-label">
             Teléfono: <span className="required">*</span>
@@ -163,13 +172,10 @@ const EditOwnerForm = ({ onOwnerUpdated }) => {
             name="cellphone"
             value={formData.cellphone}
             onChange={handleInputChange}
-            className={!phoneError ? "is-valid" : "is-invalid"}
-            required
+            isInvalid={!!errors.cellphone}
           />
-          {phoneError && (
-            <Form.Text className="text-danger">
-              El teléfono debe contener solo números y máximo 10 dígitos.
-            </Form.Text>
+          {errors.cellphone && (
+            <Form.Text className="text-danger">{errors.cellphone}</Form.Text>
           )}
         </Form.Group>
 

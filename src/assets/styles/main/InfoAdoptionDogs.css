@@ -1,17 +1,16 @@
 /* Contenedor general de la vista */
 .info-adoption-section {
   background-color: #f7f9fc;
-  padding: 2rem;
-  font-family: "Nunito", sans-serif;
+  padding: 32px; /* 2rem convertido a px */
 }
 
 /* Título principal */
 .info-adoption-title {
   text-align: center;
-  font-size: 2.5rem;
+  font-size: 40px; /* 2.5rem convertido a px */
   font-weight: bold;
   color: #f38b32;
-  margin-bottom: 2rem;
+  margin-bottom: 32px; /* 2rem convertido a px */
   text-transform: uppercase;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
 }
@@ -31,10 +30,10 @@
 }
 
 .info-adoption-image {
-  max-width: 300px;
+  max-width: 250px;
   height: auto;
   border-radius: 10px;
-  margin: 10px;
+  margin: 16px; /* 10px convertido a px */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -44,31 +43,30 @@
 }
 
 .info-adoption-name {
-  font-size: 2rem;
+  font-size: 32px; /* 2rem convertido a px */
   color: #008eb6;
-  margin-bottom: 10px;
+  margin-bottom: 16px; /* 10px convertido a px */
 }
 
 .info-adoption-about {
-  font-size: 1.2rem;
+  font-size: 19px; /* 1.2rem convertido a px */
   line-height: 1.5;
   color: #555;
-  margin: 10px 0;
+  margin: 16px 0; /* 10px y 0 convertido a px */
 }
 
-/* Botones */
 .info-adoption-buttons {
   margin-top: 20px;
   display: flex;
-  gap: 10px;
+  gap: 16px; /* 10px convertido a px */
 }
 
 .info-adoption-btn-adopt {
   background-color: #f38b32;
   color: white;
   border: none;
-  padding: 10px 20px;
-  font-size: 1rem;
+  padding: 16px 32px; /* 10px 20px convertido a px */
+  font-size: 16px; /* 1rem convertido a px */
   font-weight: bold;
   border-radius: 10px;
   cursor: pointer;
@@ -83,8 +81,8 @@
   background-color: #008eb6;
   color: white;
   border: none;
-  padding: 10px 20px;
-  font-size: 1rem;
+  padding: 16px 32px; /* 10px 20px convertido a px */
+  font-size: 16px; /* 1rem convertido a px */
   font-weight: bold;
   border-radius: 10px;
   cursor: pointer;
@@ -95,7 +93,6 @@
   background-color: #005f8d;
 }
 
-/* Loading Spinner */
 .info-adoption-loading-container {
   display: flex;
   justify-content: center;
@@ -105,7 +102,7 @@
 }
 
 .info-adoption-paw-spinner {
-  font-size: 3rem;
+  font-size: 48px; /* 3rem convertido a px */
   color: #f38b32;
   animation: spin 1s linear infinite;
 }
@@ -119,10 +116,9 @@
   }
 }
 
-/* Mensaje de error */
 .info-adoption-error {
   text-align: center;
-  font-size: 1.5rem;
+  font-size: 24px; /* 1.5rem convertido a px */
   color: #ff6b6b;
   margin-top: 20px;
 }

@@ -53,17 +53,14 @@ const CoursesPage = () => {
       ) : (
         <div className="courses-container mt-3">
           <h2 className="section-title text-center mb-4">Cursos</h2>
-          <p className="courses-description text-center">
-            Explora nuestros cursos y adquiere nuevas habilidades. Inscríbete
-            ahora para aprovechar esta oportunidad.
-          </p>
+          <p className="courses-description text-center">Inscribete!!</p>
           <Row className="justify-content-center">
             {courses.map((course) => (
               <Col md={6} lg={4} key={course.id} className="mb-4">
                 <div className="info-course shadow">
                   <h3 id="name-course">{course.name}</h3>
                   <div className="info-content">
-                    <p>{course.description}</p>
+                    <div className="description">{course.description}</div>
                     <p>
                       <strong>Fecha Inicio:</strong> {course.start_date}
                       <br />

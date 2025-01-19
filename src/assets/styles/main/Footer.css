@@ -1,16 +1,14 @@
-/* Contenedor principal del footer */
 .footer {
-  background-color: #f38b32; /* Color cálido para el fondo */
+  background-color: #f38b32;
   color: white;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-around; /* Distribuye las secciones uniformemente */
+  justify-content: space-around;
   align-items: center;
   padding: 20px 10px;
   font-family: "Nunito", sans-serif;
 }
 
-/* Logo del footer */
 .footer-logo {
   flex: 1;
   text-align: center;
@@ -20,14 +18,13 @@
   width: auto;
   height: 100px;
   border-radius: 10%;
-  transition: transform 0.3s ease; /* Animación al pasar el cursor */
+  transition: transform 0.3s ease;
 }
 
 .footer-logo img:hover {
-  transform: scale(1.1); /* Aumenta ligeramente el tamaño */
+  transform: scale(1.1);
 }
 
-/* Información de contacto */
 .contact-info {
   flex: 1;
   text-align: center;
@@ -36,14 +33,14 @@
 
 .contact-info p {
   margin: 5px 0;
-  font-size: 1rem;
+  font-size: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .contact-info i {
-  margin-right: 10px; /* Espaciado entre ícono y texto */
+  margin-right: 10px;
 }
 
 /* Redes sociales */
@@ -54,7 +51,7 @@
 
 .social-media a {
   margin: 0 15px;
-  text-decoration: none; /* Elimina el subrayado */
+  text-decoration: none;
   transition: color 0.3s ease, transform 0.3s ease;
 }
 
@@ -64,23 +61,22 @@
 }
 
 .social-media a:hover i {
-  color: #008eb6; /* Cambia el color al pasar el cursor */
-  transform: scale(1.2); /* Aumenta ligeramente el tamaño */
+  color: #008eb6;
+  transform: scale(1.2);
 }
 
-/* Créditos del footer */
 .footer-credits {
-  flex-basis: 100%; /* Ocupa toda la fila */
+  flex-basis: 100%;
   text-align: center;
   margin-top: 10px;
-  font-size: 0.9rem;
+  font-size: 14px;
   color: #f0f0f0;
   font-weight: 600;
 }
 .footer-credits p {
   margin-bottom: 0px;
 }
-/* Responsividad */
+
 @media (max-width: 768px) {
   .footer {
     flex-direction: column;
@@ -88,15 +84,15 @@
   }
 
   .contact-info p {
-    font-size: 0.9rem; /* Reduce el tamaño del texto */
+    font-size: 14px;
   }
 
   .footer-logo img {
-    height: 60px; /* Reduce el tamaño del logo */
+    height: 60px;
   }
 
   .social-media i {
-    font-size: 25px; /* Íconos más pequeños */
+    font-size: 25px;
   }
 
   .footer-credits {

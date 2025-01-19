@@ -27,6 +27,7 @@ const AdoptedDogsView = () => {
         ownerName: dog.owner?.name || "Sin asignar",
         ownerDirection: dog.owner?.direction || "Sin asignar",
         ownerCellphone: dog.owner?.cellphone || "Sin asignar",
+        ownerId: dog.owner?.id,
       }));
 
       setDogs(transformedDogs);
@@ -113,7 +114,7 @@ const AdoptedDogsView = () => {
                         navigate("/admin/edit-owner", {
                           state: {
                             owner: {
-                              id: dog.id,
+                              id: dog.ownerId,
                               name: dog.ownerName,
                               direction: dog.ownerDirection,
                               cellphone: dog.ownerCellphone,

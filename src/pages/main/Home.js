@@ -78,13 +78,8 @@ const Home = () => {
           <div className="col-12 col-md-6 col-lg-4 mb-4">
             <DonationCard
               title="DeUna"
-              content={
-                <img
-                  src={require("../../assets/images/qr_deuna.png")}
-                  alt="QR Code"
-                  className="donation-qr"
-                />
-              }
+              logo={require("../../assets/images/qr_deuna.png")}
+              content={<p></p>}
             />
           </div>
         </div>

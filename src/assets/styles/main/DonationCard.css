@@ -26,7 +26,7 @@
 .donation-card-title {
   color: #f38b32;
   font-size: 1.2rem;
-  margin-bottom: 10px; /* Espacio entre el título y el logo */
+  margin-top: 10px; /* Espacio entre el título y el logo */
   flex-shrink: 0; /* El título no se reduce */
   text-align: center;
 }
@@ -34,9 +34,9 @@
 /* Logo o imagen en las tarjetas */
 .donation-card-logo {
   max-width: 80%; /* Se adapta al 80% del ancho disponible */
-  max-height: 80px; /* Máximo de 80px de alto */
+  max-height: 60% !important; /* Máximo de 80px de alto */
   object-fit: contain; /* Escala la imagen proporcionalmente */
-  margin-bottom: 10px; /* Espacio adicional debajo del logo */
+  /* margin-bottom: 10px; /* Espacio adicional debajo del logo */
   flex-shrink: 0; /* La imagen no se reduce más allá del tamaño mínimo */
 }
 
@@ -45,13 +45,14 @@
   font-size: 0.9rem;
   color: #555;
   text-align: center;
+  padding: 0px;
   line-height: 1.2;
-  flex-grow: 1; /* El contenido ocupa el espacio disponible */
+  margin: 10px;
+  /*flex-grow: 1; /* El contenido ocupa el espacio disponible */
   display: flex;
   flex-direction: column;
   justify-content: center; /* Centra verticalmente el contenido */
   overflow: hidden; /* Evita que el contenido adicional altere el tamaño */
-  text-overflow: ellipsis; /* Texto adicional se trunca */
 }
 
 /* Enlace de PayPal */
@@ -71,10 +72,10 @@
 /* Estilo del QR */
 .donation-qr {
   width: 100%; /* Ocupa todo el ancho disponible */
-  max-width: 150px; /* Máximo tamaño del QR */
-  max-height: 150px; /* Máximo tamaño del QR en altura */
+  max-width: 500px; /* Máximo tamaño del QR */
+  max-height: 500px; /* Máximo tamaño del QR en altura */
   object-fit: contain; /* Mantiene la proporción de la imagen */
-  margin-top: 10px;
+  margin-top: 0px !important;
   flex-shrink: 0; /* El QR no se reduce más allá del tamaño mínimo */
   border-radius: 5px;
 }

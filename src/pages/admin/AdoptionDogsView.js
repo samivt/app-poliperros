@@ -3,13 +3,7 @@ import { Button, Table, Spinner, Modal } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import "../../assets/styles/admin/DogsView.css";
 
-const AdoptionDogsView = ({
-  dogs = [],
-  loading,
-  onDelete,
-  onAddNew,
-  onAdopt,
-}) => {
+const AdoptionDogsView = ({ dogs = [], loading, onDelete, onAddNew }) => {
   const [showModal, setShowModal] = useState(false);
   const [selectedDog, setSelectedDog] = useState(null); // Estado para almacenar el perro seleccionado
   const navigate = useNavigate();
@@ -21,9 +15,16 @@ const AdoptionDogsView = ({
   };
 
   const handleAdoptOption = (option) => {
-    console.log(option); // Aquí puedes manejar la lógica según la opción seleccionada
     if (selectedDog) {
-      onAdopt(selectedDog); // Llamar a la función onAdopt con el perro seleccionado
+      // Redirigir a la ruta de adopción
+      navigate(`/admin/adopt-dog/${selectedDog.id}`);
+    }
+    setShowModal(false); // Cerrar el modal
+  };
+  const handleAdoptOwnerOption = (option) => {
+    if (selectedDog) {
+      // Redirigir a la ruta de adopción
+      navigate(`/admin/adopt-dog-owner/${selectedDog.id}`);
     }
     setShowModal(false); // Cerrar el modal
   };
@@ -139,7 +140,7 @@ const AdoptionDogsView = ({
             Nuevo dueño
           </Button>
           <Button
-            onClick={() => handleAdoptOption("Dueño existente")}
+            onClick={() => handleAdoptOwnerOption("Dueño existente")}
             className="btn-modal"
           >
             Dueño existente

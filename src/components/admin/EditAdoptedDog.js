@@ -9,6 +9,7 @@ import {
   showSuccessAlert,
   showErrorAlert,
   showConfirmationAlert,
+  showWarningAlert,
 } from "../../services/alertService";
 
 const EditAdoptedDog = ({ onSave }) => {
@@ -26,6 +27,9 @@ const EditAdoptedDog = ({ onSave }) => {
     about: "",
     entry_date: "",
     image: null, // Base64 de la imagen
+  });
+  const [errors, setErrors] = useState({
+    name: "",
   });
   const [imagePreview, setImagePreview] = useState(null); // Para la vista previa de la imagen
   const navigate = useNavigate();
@@ -61,6 +65,13 @@ const EditAdoptedDog = ({ onSave }) => {
 
   const handleInputChange = (event) => {
     const { name, value, files } = event.target;
+    let error = "";
+
+    if (name === "name") {
+      if (/[^a-zA-Z\sáéíóúÁÉÍÓÚñÑ]/.test(value)) {
+        error = "Solo se permiten letras y espacios";
+      }
+    }
 
     if (name === "image" && files.length > 0) {
       const file = files[0];
@@ -74,11 +85,18 @@ const EditAdoptedDog = ({ onSave }) => {
     } else {
       setFormData({ ...formData, [name]: value });
     }
+    setErrors({
+      ...errors,
+      [name]: error,
+    });
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
+    if (errors.name) {
+      showWarningAlert("Corrija los errores antes de enviar.");
+      return;
+    }
     // Validación de campos requeridos
     if (!formData.name || !formData.age || !formData.gender) {
       showErrorAlert("Los campos requeridos no pueden estar vacíos.");
@@ -132,7 +150,7 @@ const EditAdoptedDog = ({ onSave }) => {
         <Form.Group className="mb-4">
           <Form.Label className="custom-label">Nº Chip:</Form.Label>
           <Form.Control
-            type="text"
+            type="number"
             name="id_chip"
             value={formData.id_chip}
             onChange={handleInputChange}
@@ -142,14 +160,18 @@ const EditAdoptedDog = ({ onSave }) => {
 
         {/* Nombre */}
         <Form.Group className="mb-4">
-          <Form.Label className="custom-label">Nombre2:</Form.Label>
+          <Form.Label className="custom-label">Nombre:</Form.Label>
           <Form.Control
             type="text"
             name="name"
             value={formData.name}
             onChange={handleInputChange}
+            isInvalid={!!errors.name}
             required
           />
+          {errors.name && (
+            <Form.Text style={{ color: "red" }}>{errors.name}</Form.Text>
+          )}
         </Form.Group>
 
         {/* Fecha de adopcion */}

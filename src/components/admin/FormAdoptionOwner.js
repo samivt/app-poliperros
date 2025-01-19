@@ -1,17 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { Formik, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import DOMPurify from "dompurify";
 import { Button, Form } from "react-bootstrap";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { showSuccessAlert, showErrorAlert } from "../../services/alertService";
-import { fetchAdoptionDogById, adoptDog } from "../../services/dogsService"; // Asegúrate de importar correctamente la función adoptDog
+import {
+  fetchAdoptionDogById,
+  fetchAllOwners,
+  adoptDogOwner,
+} from "../../services/dogsService"; // Servicios para obtener el perro, los dueños y realizar la adopción
 import "../../assets/styles/admin/FormAdoption.css"; // Estilos personalizados
 
-const FormAdoption = ({ onSuccess }) => {
+const FormAdoptionOwner = ({ onSuccess }) => {
   const { id } = useParams();
-  //const navigate = useNavigate();
+  const navigate = useNavigate();
   const [dogName, setDogName] = useState(""); // Estado para almacenar el nombre del perro
+  const [owners, setOwners] = useState([]); // Estado para almacenar la lista de dueños
 
   // Cargar el nombre del perro por ID
   useEffect(() => {
@@ -25,48 +29,41 @@ const FormAdoption = ({ onSuccess }) => {
       }
     };
 
+    const loadOwners = async () => {
+      try {
+        const ownersList = await fetchAllOwners(); // Suponiendo que este servicio devuelve una lista de dueños
+        setOwners(ownersList); // Actualiza el estado con la lista de dueños
+      } catch (error) {
+        console.error("Error al cargar los dueños:", error);
+        showErrorAlert("No se pudo cargar la lista de dueños.");
+      }
+    };
+
     if (id) {
       loadDogName();
     }
+    loadOwners();
   }, [id]);
 
   // Esquema de validación con Yup
   const validationSchema = Yup.object({
-    dog_id: Yup.string().required("El ID del perro es obligatorio."),
     adoption_date: Yup.date().required("La fecha de adopción es obligatoria."),
-    name: Yup.string()
-      .transform((value) => DOMPurify.sanitize(value.trim()))
-      .matches(
-        /^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ\s]+$/,
-        "El nombre solo puede contener letras y espacios."
-      )
-      .required("El nombre es obligatorio."),
-    direction: Yup.string()
-      .transform((value) => DOMPurify.sanitize(value.trim()))
-      .required("La dirección es obligatoria."),
-    cellphone: Yup.string()
-      .transform((value) => DOMPurify.sanitize(value.trim()))
-      .matches(/^[0-9]{1,10}$/, "El teléfono debe tener máximo 10 dígitos.")
-      .required("El teléfono es obligatorio."),
+    owner_id: Yup.string().required("Debe seleccionar un dueño."),
   });
 
   const handleSubmit = async (values, { setSubmitting, resetForm }) => {
     try {
-      // Realiza la adopción
-      const { dog_id, adoption_date, name, direction, cellphone } = values;
-      const response = await adoptDog(dog_id, adoption_date, {
-        name,
-        direction,
-        cellphone,
-      });
+      const { adoption_date, owner_id } = values;
+      // Llamada al servicio adoptDog para realizar la adopción
+      const response = await adoptDogOwner(id, adoption_date, owner_id);
 
-      // Verifica si la adopción fue exitosa
-      if (response && response.detail === "Perro Adoptado.") {
+      // Verificar si la adopción fue exitosa con el mensaje esperado
+      if (response && response.detail === "Perro Adoptado creado") {
         showSuccessAlert("¡La adopción se registró correctamente!");
         resetForm();
         if (onSuccess) onSuccess(); // Acción posterior a la adopción exitosa
+        navigate("/admin/adopted-dogs"); // Redirige a la página de perros adoptados
       } else {
-        // Si el mensaje de respuesta no es el esperado
         showErrorAlert("No se pudo registrar la adopción.");
       }
     } catch (error) {
@@ -86,9 +83,7 @@ const FormAdoption = ({ onSuccess }) => {
         initialValues={{
           dog_id: id || "",
           adoption_date: "",
-          name: "",
-          direction: "",
-          cellphone: "",
+          owner_id: "",
         }}
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
@@ -125,55 +120,25 @@ const FormAdoption = ({ onSuccess }) => {
               />
             </Form.Group>
 
-            {/* Nombre del dueño */}
+            {/* Seleccionar dueño */}
             <Form.Group className="mb-4">
               <Form.Label className="custom-label">
-                Nombre del Dueño:<span className="required">*</span>
+                Dueño del Perro:<span className="required">*</span>
               </Form.Label>
               <Field
-                type="text"
-                name="name"
-                placeholder="Ingrese el nombre del dueño"
+                as="select"
+                name="owner_id"
                 className="form-adoption-input"
-              />
+              >
+                <option value="">Selecciona un dueño</option>
+                {owners.map((owner) => (
+                  <option key={owner.id} value={owner.id}>
+                    {owner.name}
+                  </option>
+                ))}
+              </Field>
               <ErrorMessage
-                name="name"
-                component="div"
-                className="form-adoption-error"
-              />
-            </Form.Group>
-
-            {/* Dirección */}
-            <Form.Group className="mb-4">
-              <Form.Label className="custom-label">
-                Dirección:<span className="required">*</span>
-              </Form.Label>
-              <Field
-                type="text"
-                name="direction"
-                placeholder="Ingrese la dirección"
-                className="form-adoption-input"
-              />
-              <ErrorMessage
-                name="direction"
-                component="div"
-                className="form-adoption-error"
-              />
-            </Form.Group>
-
-            {/* Teléfono */}
-            <Form.Group className="mb-4">
-              <Form.Label className="custom-label">
-                Teléfono:<span className="required">*</span>
-              </Form.Label>
-              <Field
-                type="tel"
-                name="cellphone"
-                placeholder="Ingrese el teléfono"
-                className="form-adoption-input"
-              />
-              <ErrorMessage
-                name="cellphone"
+                name="owner_id"
                 component="div"
                 className="form-adoption-error"
               />
@@ -195,4 +160,4 @@ const FormAdoption = ({ onSuccess }) => {
   );
 };
 
-export default FormAdoption;
+export default FormAdoptionOwner;

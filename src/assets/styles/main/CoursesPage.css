@@ -1,4 +1,3 @@
-/* Sin estilos para el contenedor principal */
 .courses-container {
   margin-top: 50px !important;
   margin-bottom: 50px !important;
@@ -6,18 +5,19 @@
 .courses-description {
   font-size: 18px;
 }
-/* Tarjeta del curso con tamaño fijo */
+
 .info-course {
   background-color: #ffffff;
   border-radius: 15px;
-  padding: 20px;
+  padding: 15px;
+  margin: 20px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  height: auto; /* Tamaño fijo */
+  height: auto;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  overflow: hidden; /* Para contenido extra */
+  overflow: hidden;
   text-align: center;
 }
 
@@ -26,7 +26,6 @@
   box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
 }
 
-/* Título centrado */
 #name-course {
   color: #4a90e2;
   font-size: 24px;
@@ -35,15 +34,19 @@
   text-align: center;
 }
 
-/* Contenido interno con scroll si es necesario */
 .info-content {
-  overflow-y: auto; /* Habilita scroll interno si el contenido excede */
   text-align: left;
   width: 100%;
-  height: calc(100% - 70px); /* Altura dinámica basada en el botón y título */
+  height: calc(100% - 70px);
 }
 
-/* Horarios */
+.description {
+  overflow-y: auto;
+  word-wrap: break-word;
+  width: 100%;
+  height: 100px;
+}
+
 .schedule-list {
   list-style-type: none;
   padding: 0;
@@ -55,7 +58,6 @@
   margin-bottom: 5px;
 }
 
-/* Botón de inscripción centrado */
 .ver-mas {
   text-align: center;
 }
@@ -77,11 +79,10 @@
   transform: scale(1.05);
 }
 
-/* Responsividad */
 @media (max-width: 768px) {
   .info-course {
     padding: 15px;
-    height: auto; /* Ajusta altura dinámica para móviles */
+    height: auto;
   }
 
   #name-course {

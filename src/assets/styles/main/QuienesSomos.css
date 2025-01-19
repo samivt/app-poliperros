@@ -1,15 +1,14 @@
-/* General */
 .quienes-somos-page {
   font-family: "Nunito", sans-serif;
-  background-color: #f7f9fc; /* Fondo claro */
-  color: #333; /* Color del texto */
+  background-color: #ffffff;
+  color: #333;
   margin: 0;
   padding: 0;
 }
 
 /* Cabecera */
 .qs-header {
-  background-image: url("../../images/slide1.jpg"); /* Imagen de fondo */
+  background-image: url("../../images/slide1.jpg");
   background-size: cover;
   background-position: center;
   height: 300px;
@@ -17,7 +16,7 @@
 }
 
 .qs-header-overlay {
-  background: rgba(0, 0, 0, 0.5); /* Oscurece la imagen */
+  background: rgba(0, 0, 0, 0.5);
   height: 100%;
   display: flex;
   justify-content: center;
@@ -25,36 +24,34 @@
 }
 
 .qs-title {
-  font-size: 3rem;
+  font-size: 48px;
   color: white;
   font-weight: bold;
   text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8);
   text-transform: uppercase;
 }
 
-/* Contenido Principal */
 .qs-content {
-  padding: 2rem;
+  padding: 32px;
   margin: auto;
   max-width: 1200px;
 }
 
-/* Introducción */
 .qs-intro {
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: 32px;
 }
 
 .qs-subtitle {
-  font-size: 2rem;
+  font-size: 32px;
   color: #f38b32;
   font-weight: bold;
   text-transform: uppercase;
-  margin-bottom: 1rem;
+  margin-bottom: 16px;
 }
 
 .qs-description {
-  font-size: 1.2rem;
+  font-size: 19px;
   line-height: 1.8;
   color: #555;
   margin: 0 auto;
@@ -62,7 +59,6 @@
   text-align: justify;
 }
 
-/* Cultura */
 .qs-culture {
   text-align: center;
 }
@@ -71,7 +67,8 @@
   display: flex;
   justify-content: center;
   gap: 50px;
-  flex-wrap: wrap; /* Permite apilar tarjetas en pantallas pequeñas */
+  flex-wrap: wrap;
+  align-items: center;
 }
 
 .qs-culture-cards .card {
@@ -81,6 +78,7 @@
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   max-width: 500px;
   width: 100%;
+  margin-bottom: 20px;
 }
 
 .qs-culture-cards .card:hover {
@@ -88,22 +86,65 @@
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
-/* Responsividad */
+.qs-values {
+  text-align: center;
+}
+
+.qs-values-container {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  margin-top: 30px;
+}
+
+.qs-value-item {
+  background-color: #ffffff;
+  border-radius: 10px;
+  padding: 20px;
+  margin: 10px;
+  width: 150px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px 8px rgba(195, 105, 105, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.qs-value-item:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.qs-value-item i {
+  font-size: 30px;
+  color: #f38b32;
+  margin-bottom: 10px;
+}
+
+.qs-value-item h3 {
+  font-size: 18px;
+  font-weight: bold;
+  color: #000000;
+}
+
 @media (max-width: 768px) {
   .qs-title {
-    font-size: 2.5rem;
+    font-size: 40px;
   }
 
   .qs-subtitle {
-    font-size: 1.5rem;
+    font-size: 24px;
   }
 
   .qs-description {
-    font-size: 1rem;
+    font-size: 16px;
   }
 
   .qs-culture-cards {
-    flex-direction: column; /* Apila las tarjetas */
+    flex-direction: column;
     gap: 15px;
+    align-items: center;
   }
 }
