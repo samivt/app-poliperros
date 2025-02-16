@@ -1,5 +1,7 @@
+// components/ApplicantsByCourse.jsx
+
 import React, { useEffect, useState } from "react";
-import { Table, Spinner, Button } from "react-bootstrap";
+import { Table, Spinner, Button, Form } from "react-bootstrap";
 import {
   fetchApplicantsByCourse,
   fetchApplicantImage,
@@ -15,10 +17,11 @@ import {
 
 const ApplicantsByCourse = () => {
   const [courses, setCourses] = useState([]);
-  const [selectedCourseId, setSelectedCourseId] = useState(null);
+  const [selectedCourseId, setSelectedCourseId] = useState("");
   const [applicants, setApplicants] = useState([]);
   const [loadingCourses, setLoadingCourses] = useState(true);
   const [loadingApplicants, setLoadingApplicants] = useState(false);
+  const [deletingApplicantId, setDeletingApplicantId] = useState(null); // Para manejar el estado de eliminación
 
   useEffect(() => {
     const loadCourses = async () => {
@@ -27,6 +30,7 @@ const ApplicantsByCourse = () => {
         setCourses(data);
       } catch (error) {
         console.error("Error al cargar los cursos:", error);
+        showErrorAlert("Error al cargar los cursos.");
       } finally {
         setLoadingCourses(false);
       }
@@ -35,28 +39,41 @@ const ApplicantsByCourse = () => {
     loadCourses();
   }, []);
 
-  const handleCourseClick = async (courseId) => {
-    setSelectedCourseId(courseId);
-    setLoadingApplicants(true);
-
-    try {
-      const applicantsData = await fetchApplicantsByCourse(courseId);
-
-      const applicantsWithImages = await Promise.all(
-        applicantsData.map(async (applicant) => {
-          const imageUrl = await fetchApplicantImage(applicant.id).catch(
-            () => null
-          );
-          return { ...applicant, imageUrl };
-        })
-      );
-
-      setApplicants(applicantsWithImages);
-    } catch (error) {
-      console.error("Error al cargar los solicitantes:", error);
-    } finally {
-      setLoadingApplicants(false);
+  useEffect(() => {
+    if (!selectedCourseId) {
+      setApplicants([]);
+      return;
     }
+
+    const loadApplicants = async () => {
+      setLoadingApplicants(true);
+      try {
+        const applicantsData = await fetchApplicantsByCourse(selectedCourseId);
+
+        const applicantsWithImages = await Promise.all(
+          applicantsData.map(async (applicant) => {
+            const imageUrl = await fetchApplicantImage(applicant.id).catch(
+              () => null
+            );
+            return { ...applicant, imageUrl };
+          })
+        );
+
+        setApplicants(applicantsWithImages);
+      } catch (error) {
+        console.error("Error al cargar los solicitantes:", error);
+        showErrorAlert("Error al cargar los solicitantes.");
+      } finally {
+        setLoadingApplicants(false);
+      }
+    };
+
+    loadApplicants();
+  }, [selectedCourseId]);
+
+  const handleCourseChange = (e) => {
+    const courseId = e.target.value;
+    setSelectedCourseId(courseId);
   };
 
   const handleDeleteApplicant = async (idVisit, idApplicant) => {
@@ -66,6 +83,9 @@ const ApplicantsByCourse = () => {
     );
 
     if (!confirmed) return;
+
+    setDeletingApplicantId(idApplicant); // Indica que se está eliminando este solicitante
+
     try {
       await deleteApplicant(idVisit, idApplicant);
       setApplicants((prevApplicants) =>
@@ -73,7 +93,10 @@ const ApplicantsByCourse = () => {
       );
       showSuccessAlert("Solicitante eliminado exitosamente.");
     } catch (error) {
+      console.error("Error al eliminar el solicitante:", error);
       showErrorAlert("Error al eliminar el solicitante.");
+    } finally {
+      setDeletingApplicantId(null); // Resetea el estado de eliminación
     }
   };
 
@@ -89,33 +112,32 @@ const ApplicantsByCourse = () => {
             </Spinner>
           </div>
         ) : courses.length > 0 ? (
-          <div className="table-responsive">
-            <Table striped bordered hover>
-              <thead>
-                <tr>
-                  <th>Nombre del Curso</th>
-                </tr>
-              </thead>
-              <tbody>
+          <Form>
+            <Form.Group controlId="courseSelect">
+              <Form.Label>Selecciona un curso:</Form.Label>
+              <Form.Select
+                value={selectedCourseId}
+                onChange={handleCourseChange}
+                aria-label="Seleccionar curso"
+              >
+                <option value="" disabled>
+                  Selecciona un curso
+                </option>
                 {courses.map((course) => (
-                  <tr
-                    key={course.id}
-                    onClick={() => handleCourseClick(course.id)}
-                    className="clickable-row"
-                  >
-                    <td>{course.name}</td>
-                  </tr>
+                  <option key={course.id} value={course.id}>
+                    {course.name}
+                  </option>
                 ))}
-              </tbody>
-            </Table>
-          </div>
+              </Form.Select>
+            </Form.Group>
+          </Form>
         ) : (
           <p className="text-muted">No hay cursos disponibles.</p>
         )}
       </div>
 
       {/* Solicitantes */}
-      <div className="applicants-section">
+      <div className="applicants-section mt-4">
         <h4>Inscritos</h4>
         {loadingApplicants ? (
           <div className="text-center">
@@ -125,7 +147,7 @@ const ApplicantsByCourse = () => {
           </div>
         ) : selectedCourseId && applicants.length > 0 ? (
           <div className="applicants-table">
-            <Table striped bordered hover>
+            <Table striped bordered hover responsive>
               <thead>
                 <tr>
                   <th>Acciones</th>
@@ -142,11 +164,23 @@ const ApplicantsByCourse = () => {
                     <td>
                       <Button
                         variant="danger"
+                        size="sm"
                         onClick={() =>
                           handleDeleteApplicant(selectedCourseId, applicant.id)
                         }
+                        disabled={deletingApplicantId === applicant.id}
                       >
-                        <i className="fas fa-trash"></i>
+                        {deletingApplicantId === applicant.id ? (
+                          <Spinner
+                            as="span"
+                            animation="border"
+                            size="sm"
+                            role="status"
+                            aria-hidden="true"
+                          />
+                        ) : (
+                          <i className="fas fa-trash"></i>
+                        )}
                       </Button>
                     </td>
                     <td>{applicant.first_name}</td>
@@ -162,6 +196,7 @@ const ApplicantsByCourse = () => {
                           onClick={() =>
                             window.open(applicant.imageUrl, "_blank")
                           }
+                          style={{ cursor: "pointer", maxWidth: "100px" }}
                         />
                       ) : (
                         "Sin imagen"
@@ -172,11 +207,11 @@ const ApplicantsByCourse = () => {
               </tbody>
             </Table>
           </div>
+        ) : selectedCourseId ? (
+          <p className="text-muted">No hay inscritos para este curso.</p>
         ) : (
           <p className="text-muted">
-            {selectedCourseId
-              ? "No hay inscritos para este curso."
-              : "Selecciona un curso para ver los inscritos."}
+            Selecciona un curso para ver los inscritos.
           </p>
         )}
       </div>

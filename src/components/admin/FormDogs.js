@@ -18,21 +18,26 @@ const FormDogs = ({ onSave = () => {} }) => {
   const [imagePreview, setImagePreview] = useState(null);
   const validationSchema = Yup.object({
     id_chip: Yup.string()
-      .transform((value) => DOMPurify.sanitize(value.trim())) // Sanitización
+      .transform((value) => DOMPurify.sanitize(value.trim()))
       .matches(/^\d*$/, "Solo se permiten números")
-      .nullable(),
+
+      .test(
+        "is-greater-than-zero",
+        "La edad debe ser mayor que 0",
+        (value) => parseInt(value, 10) > 0
+      ),
     name: Yup.string()
-      .transform((value) => DOMPurify.sanitize(value.trim())) // Sanitización
+      .transform((value) => DOMPurify.sanitize(value.trim()))
       .matches(
         /^[a-zA-Z\sáéíóúÁÉÍÓÚñÑ]*$/,
         "Solo se permiten letras y espacios"
       )
       .required("El nombre es obligatorio"),
     about: Yup.string()
-      .transform((value) => DOMPurify.sanitize(value.trim())) // Sanitización
+      .transform((value) => DOMPurify.sanitize(value.trim()))
       .max(500, "La descripción no puede exceder 500 caracteres"),
     age: Yup.string()
-      .transform((value) => DOMPurify.sanitize(value.trim())) // Sanitización
+      .transform((value) => DOMPurify.sanitize(value.trim()))
       .matches(/^\d+$/, "Debe ser un número positivo")
       .required("La edad es obligatoria")
       .test(
@@ -41,14 +46,14 @@ const FormDogs = ({ onSave = () => {} }) => {
         (value) => parseInt(value, 10) > 0
       ),
     gender: Yup.string()
-      .transform((value) => DOMPurify.sanitize(value)) // Sanitización
+      .transform((value) => DOMPurify.sanitize(value))
       .required("El género es obligatorio"),
     entry_date: Yup.date().nullable(),
     is_vaccinated: Yup.boolean(),
     is_sterilized: Yup.boolean(),
     is_dewormed: Yup.boolean(),
     operation: Yup.string()
-      .transform((value) => DOMPurify.sanitize(value.trim())) // Sanitiza entrada
+      .transform((value) => DOMPurify.sanitize(value.trim()))
       .max(100, "La operación no puede exceder 100 caracteres")
       .nullable(),
   });
@@ -180,7 +185,7 @@ const FormDogs = ({ onSave = () => {} }) => {
                 Edad (en años): <span className="required">*</span>
               </Form.Label>
               <Field
-                type="text"
+                type="number"
                 name="age"
                 className="form-control"
                 placeholder="Ingrese la edad del perro"

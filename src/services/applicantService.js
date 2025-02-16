@@ -37,6 +37,8 @@ export const createApplicant = async (applicantData) => {
  * @param {number} courseId - ID del curso.
  * @returns {Promise<Array>} - Lista de solicitantes.
  */
+// services/applicantService.js
+
 export const fetchApplicantsByCourse = async (courseId) => {
   const token = getToken();
 
@@ -54,9 +56,17 @@ export const fetchApplicantsByCourse = async (courseId) => {
 
     if (!response.ok) {
       const errorData = await response.json();
-      throw new Error(
-        errorData.message || "Error al obtener los solicitantes del curso."
-      );
+      // Verificar si el error es un 404 con el detalle específico
+      if (
+        response.status === 404 &&
+        errorData.detail === "No hay solicitudes"
+      ) {
+        return []; // Retornar un arreglo vacío en lugar de lanzar una excepción
+      } else {
+        throw new Error(
+          errorData.message || "Error al obtener los solicitantes del curso."
+        );
+      }
     }
 
     return await response.json();

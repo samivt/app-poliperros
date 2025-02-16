@@ -81,7 +81,7 @@ export const updateStaticDog = async (id, dogData) => {
 
     return await response.json();
   } catch (error) {
-    // console.error("Error actualizando el perro:", error);
+    console.error("Error actualizando el perro:", error);
     throw error;
   }
 };

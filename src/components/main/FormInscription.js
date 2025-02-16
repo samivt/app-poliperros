@@ -107,7 +107,7 @@ const FormInscription = () => {
               {/* Email */}
               <Form.Group className="mb-3">
                 <Form.Label className="custom-label">
-                  Email: <span className="required">*</span>
+                  Correo electrónico: <span className="required">*</span>
                 </Form.Label>
                 <Field
                   name="email"
@@ -142,9 +142,10 @@ const FormInscription = () => {
 
               {/* Comprobante */}
               <div className="bank-info">
-                <h5 className="bank-info-title">
-                  Datos bancarios Banco Pichincha
-                </h5>
+                <h5 className="bank-info-title">Datos bancarios</h5>
+                <p className="bank-info-text">
+                  <strong> Banco Pichincha</strong>
+                </p>
                 <p className="bank-info-text">
                   <strong>Tipo de cuenta:</strong> Ahorros
                 </p>

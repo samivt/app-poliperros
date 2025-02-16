@@ -11,7 +11,6 @@ export const login = async (username, password) => {
     body.append("scope", "");
     body.append("client_id", "string");
     body.append("client_secret", "string");
-
     const response = await fetch(`${API_URL}/auth/token`, {
       method: "POST",
       headers: {
@@ -20,9 +19,7 @@ export const login = async (username, password) => {
       },
       body: body.toString(),
     });
-
     const responseBody = await response.text();
-
     if (!response.ok) {
       let errorMessage = "Error al iniciar sesión";
       try {
@@ -36,7 +33,6 @@ export const login = async (username, password) => {
       }
       throw new Error(errorMessage);
     }
-
     return JSON.parse(responseBody);
   } catch (error) {
     console.error("Error en login:", error.message);

@@ -53,7 +53,11 @@ const CoursesPage = () => {
       ) : (
         <div className="courses-container mt-3">
           <h2 className="section-title text-center mb-4">Cursos</h2>
-          <p className="courses-description text-center">Inscribete!!</p>
+          <div className="courses-description text-center">
+            Para inscribirte en cualquiera de nuestros cursos debes realizar un
+            depósito o transferencia a los datos que se encuentran dentro del
+            formulario de inscripción.
+          </div>
           <Row className="justify-content-center">
             {courses.map((course) => (
               <Col md={6} lg={4} key={course.id} className="mb-4">

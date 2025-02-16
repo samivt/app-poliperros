@@ -78,7 +78,6 @@ export const updatePassword = async (actualPassword, newPassword) => {
   if (!token) {
     throw new Error("El usuario no está autenticado.");
   }
-
   try {
     const response = await fetchWithAuth(
       `${API_URL}/auth/update/password?actual_password=${encodeURIComponent(
@@ -92,17 +91,14 @@ export const updatePassword = async (actualPassword, newPassword) => {
         },
       }
     );
-
     if (!response.ok) {
       const errorDetails = await response.json();
       const errorMessage =
         errorDetails.detail || "Error al actualizar la contraseña.";
       throw new Error(errorMessage);
     }
-
     return await response.json();
   } catch (error) {
-    //console.error("Error en updatePassword:", error.message);
     throw error;
   }
 };
