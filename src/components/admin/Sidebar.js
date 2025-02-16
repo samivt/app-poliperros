@@ -16,7 +16,10 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
 
   const categories = {
     personal: links.filter((link) => link.category === "personal"),
-    dogs: links.filter((link) => link.category === "dogs"),
+    dogs:
+      userRole === "admin"
+        ? links.filter((link) => link.category === "dogs")
+        : [],
     visits: links.filter((link) => link.category === "visits"),
     users:
       userRole === "admin"
@@ -77,34 +80,36 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
         </div>
 
         {/* Gestión de Perros */}
-        <div className="sidebar-category">
-          <div
-            className="category-title"
-            onClick={() => toggleCategory("dogs")}
-          >
-            <i className="fas fa-dog category-icon"></i>
-            Gestión de Perros
-            <i
-              className={`fas ${
-                expandedCategory === "dogs"
-                  ? "fa-chevron-up"
-                  : "fa-chevron-down"
-              } chevron-icon`}
-            ></i>
+        {categories.dogs.length > 0 && (
+          <div className="sidebar-category">
+            <div
+              className="category-title"
+              onClick={() => toggleCategory("dogs")}
+            >
+              <i className="fas fa-dog category-icon"></i>
+              Gestión de Perros
+              <i
+                className={`fas ${
+                  expandedCategory === "dogs"
+                    ? "fa-chevron-up"
+                    : "fa-chevron-down"
+                } chevron-icon`}
+              ></i>
+            </div>
+            {expandedCategory === "dogs" &&
+              categories.dogs.map((link) => (
+                <Nav.Link
+                  key={link.path}
+                  as={Link}
+                  to={`/admin/${link.path}`}
+                  className="sidebar-sublink"
+                  onClick={toggleSidebar}
+                >
+                  <i className={`${link.icon} sidebar-icon`}></i> {link.label}
+                </Nav.Link>
+              ))}
           </div>
-          {expandedCategory === "dogs" &&
-            categories.dogs.map((link) => (
-              <Nav.Link
-                key={link.path}
-                as={Link}
-                to={`/admin/${link.path}`}
-                className="sidebar-sublink"
-                onClick={toggleSidebar}
-              >
-                <i className={`${link.icon} sidebar-icon`}></i> {link.label}
-              </Nav.Link>
-            ))}
-        </div>
+        )}
 
         {/* Visitas y Seguimiento */}
         <div className="sidebar-category">

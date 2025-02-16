@@ -23,9 +23,15 @@ const validationSchema = Yup.object({
     .email("Correo no válido")
     .required("El correo es obligatorio"),
   cellphone: Yup.string()
-    .transform((value) =>
-      DOMPurify.sanitize(value.replace(/[^0-9]/g, "").slice(0, 10))
-    )
+    .transform((value) => {
+      if (typeof value === "string") {
+        const sanitized = DOMPurify.sanitize(value);
+        return sanitized.replace(/[^0-9]/g, "");
+      }
+      return value;
+    })
+    .min(10, "El número de teléfono debe tener exactamente 10 dígitos")
+    .max(10, "El número de teléfono debe tener exactamente 10 dígitos")
     .matches(/^\d{10}$/, "Debe contener exactamente 10 dígitos")
     .required("El teléfono es obligatorio"),
   image: Yup.mixed().nullable().required("El comprobante es obligatorio"),
@@ -49,8 +55,7 @@ const FormInscription = () => {
       await createApplicant(values);
       navigate("/thank-you");
     } catch (error) {
-      //console.error("Error al registrar la inscripción:", error);
-      showErrorAlert(error);
+      showErrorAlert(error.message);
     } finally {
       setSubmitting(false);
     }

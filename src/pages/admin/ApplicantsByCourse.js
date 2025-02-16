@@ -61,8 +61,8 @@ const ApplicantsByCourse = () => {
 
         setApplicants(applicantsWithImages);
       } catch (error) {
-        console.error("Error al cargar los solicitantes:", error);
-        showErrorAlert("Error al cargar los solicitantes.");
+        //console.error("Error al cargar los inscritos:", error);
+        showErrorAlert("Error al cargar los inscritos.");
       } finally {
         setLoadingApplicants(false);
       }
@@ -91,10 +91,10 @@ const ApplicantsByCourse = () => {
       setApplicants((prevApplicants) =>
         prevApplicants.filter((applicant) => applicant.id !== idApplicant)
       );
-      showSuccessAlert("Solicitante eliminado exitosamente.");
+      showSuccessAlert("Inscripción eliminada exitosamente.");
     } catch (error) {
-      console.error("Error al eliminar el solicitante:", error);
-      showErrorAlert("Error al eliminar el solicitante.");
+      // console.error("Error al eliminar la inscripción:", error);
+      showErrorAlert("Error al eliminar la inscripción.");
     } finally {
       setDeletingApplicantId(null); // Resetea el estado de eliminación
     }

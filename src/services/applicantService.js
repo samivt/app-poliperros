@@ -18,11 +18,12 @@ export const createApplicant = async (applicantData) => {
       body: JSON.stringify(applicantData),
     });
     if (!response.ok) {
-      // const errorData = await response.text(); // Lee el texto del error
-      //console.error("Error del servidor:", errorData);
-      throw new Error(
-        "Error al registrar la inscripción. Revisa los datos enviados."
-      );
+      const errorData = await response.json();
+      const errorMessage =
+        errorData.detail ||
+        errorData.message ||
+        "Error al registrar la adopcion.";
+      throw new Error(errorMessage);
     }
 
     return await response.json(); // Si es exitoso, parsea el JSON

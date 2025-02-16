@@ -93,12 +93,7 @@ export const rolePermissions = {
       icon: "fas fa-key",
       category: "personal",
     },
-    {
-      path: "adopted-dogs",
-      label: "Perros Adoptados",
-      icon: "fas fa-hand-holding-heart",
-      category: "dogs",
-    },
+
     {
       path: "form-visit",
       label: "Registrar Visita",
