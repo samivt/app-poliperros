@@ -92,6 +92,7 @@ export const fetchStaticDogs = async () => {
     //console.log("Iniciando fetchStaticDogs..."); // Log inicial
     const response = await fetch(`${API_URL}/dog/static_dog/`, {
       method: "GET",
+      mode: "cors",
       headers: {
         "Content-Type": "application/json",
       },

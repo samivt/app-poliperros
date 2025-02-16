@@ -19,13 +19,8 @@ const FormDogs = ({ onSave = () => {} }) => {
   const validationSchema = Yup.object({
     id_chip: Yup.string()
       .transform((value) => DOMPurify.sanitize(value.trim()))
-      .matches(/^\d*$/, "Solo se permiten números")
+      .matches(/^\d*$/, "Solo se permiten números positivos"),
 
-      .test(
-        "is-greater-than-zero",
-        "La edad debe ser mayor que 0",
-        (value) => parseInt(value, 10) > 0
-      ),
     name: Yup.string()
       .transform((value) => DOMPurify.sanitize(value.trim()))
       .matches(
