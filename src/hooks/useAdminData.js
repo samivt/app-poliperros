@@ -34,10 +34,7 @@ const useAdminData = () => {
     try {
       const data = await fetchStaticDogs();
       setStaticDogs(data);
-      //showSuccessAlert("Perros permanentes cargados correctamente.");
     } catch (error) {
-      //console.error("Error al cargar los perros permanentes:", error);
-      //showErrorAlert("No se pudieron cargar los perros permanentes.");
     } finally {
       setIsLoading((prev) => ({ ...prev, staticDogs: false }));
     }
@@ -51,10 +48,8 @@ const useAdminData = () => {
     try {
       const data = await fetchAdoptionDogs();
       setAdoptionDogs(data);
-      // showSuccessAlert("Perros en adopción cargados correctamente.");
     } catch (error) {
       console.error("Error al cargar los perros en adopción:", error);
-      //showErrorAlert("No se pudieron cargar los perros en adopción.");
     } finally {
       setIsLoading((prev) => ({ ...prev, adoptionDogs: false }));
     }
@@ -68,10 +63,7 @@ const useAdminData = () => {
     try {
       const data = await fetchAdoptedDogs();
       setAdoptedDogs(data);
-      //showSuccessAlert("Perros adoptados cargados correctamente.");
     } catch (error) {
-      console.error("Error al cargar los perros adoptados:", error);
-      //showErrorAlert("No se pudieron cargar los perros adoptados.");
     } finally {
       setIsLoading((prev) => ({ ...prev, adoptedDogs: false }));
     }
