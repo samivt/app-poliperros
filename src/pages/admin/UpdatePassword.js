@@ -40,7 +40,7 @@ const UpdatePassword = () => {
       showSuccessAlert("Contraseña actualizada correctamente.", "¡Éxito!");
       resetForm();
     } catch (error) {
-      console.error("Error al actualizar la contraseña:", error.message);
+      //console.error("Error al actualizar la contraseña:", error.message);
       showErrorAlert(
         error.message || "Hubo un problema al actualizar la contraseña.",
         "Error"

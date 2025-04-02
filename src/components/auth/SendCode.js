@@ -37,7 +37,7 @@ const SendCode = () => {
       );
       navigate("/verify-reset-code");
     } catch (error) {
-      console.error("Error al enviar el correo de restablecimiento:", error);
+      //console.error("Error al enviar el correo de restablecimiento:", error);
       showErrorAlert(
         "No se pudo enviar el correo. Por favor, verifica tu correo e inténtalo nuevamente.",
         "Error"

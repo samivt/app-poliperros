@@ -30,7 +30,7 @@ const AdoptedDogsView = () => {
       }));
       setAdoptedDogs(transformedDogs);
     } catch (error) {
-      console.error("Error al cargar los perros adoptados:", error);
+      //console.error("Error al cargar los perros adoptados:", error);
     } finally {
       setLoading(false);
     }
@@ -58,7 +58,7 @@ const AdoptedDogsView = () => {
 
       navigate("/admin/adopted-dogs"); // Redirigir a la vista de adopción
     } catch (error) {
-      console.error("Error al quitar la adopción:", error);
+      //console.error("Error al quitar la adopción:", error);
       showErrorAlert(
         error.message || "No se pudo quitar la adopción. Inténtalo nuevamente.",
         "Error"

@@ -17,7 +17,7 @@ const InfoAdoptionDogs = () => {
         const data = await fetchAdoptionDogById(dog_id);
         setDog(data);
       } catch (error) {
-        console.error("Error al cargar el perro:", error);
+        //console.error("Error al cargar el perro:", error);
         setDog(null);
       } finally {
         setIsLoading(false);

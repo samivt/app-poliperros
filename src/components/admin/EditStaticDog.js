@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Form, Button } from "react-bootstrap";
+
 import {
   fetchStaticDogById,
   updateStaticDog,
@@ -27,6 +28,7 @@ const EditStaticDog = ({ onSave }) => {
     entry_date: "",
     image: null,
   });
+
   const [errors, setErrors] = useState({
     name: "",
   });
@@ -52,7 +54,7 @@ const EditStaticDog = ({ onSave }) => {
         });
         setImagePreview(dogData.image);
       } catch (error) {
-        console.error("Error al cargar el perro:", error);
+        // console.error("Error al cargar el perro:", error);
         showErrorAlert("No se pudo cargar la información del perro.");
         navigate("/admin/static-dogs");
       }
@@ -67,7 +69,7 @@ const EditStaticDog = ({ onSave }) => {
 
     if (name === "name") {
       if (/[^a-zA-Z\sáéíóúÁÉÍÓÚñÑ]/.test(value)) {
-        error = "Solo se permiten letras y espacios";
+        error = "Solo se permiten letras";
       }
     }
 
@@ -132,7 +134,7 @@ const EditStaticDog = ({ onSave }) => {
 
       navigate("/admin/static-dogs");
     } catch (error) {
-      console.error("Error al actualizar el perro:", error);
+      // console.error("Error al actualizar el perro:", error);
       showErrorAlert("No se pudo actualizar la información del perro.");
     }
   };
@@ -150,7 +152,6 @@ const EditStaticDog = ({ onSave }) => {
             name="id_chip"
             value={formData.id_chip}
             onChange={handleInputChange}
-            required
           />
         </Form.Group>
 
@@ -169,7 +170,16 @@ const EditStaticDog = ({ onSave }) => {
             <Form.Text style={{ color: "red" }}>{errors.name}</Form.Text>
           )}
         </Form.Group>
-
+        {/* Descripción */}
+        <Form.Group className="mb-4">
+          <Form.Label className="custom-label">Descripción:</Form.Label>
+          <Form.Control
+            as="textarea"
+            name="about"
+            value={formData.about}
+            onChange={handleInputChange}
+          />
+        </Form.Group>
         {/* Edad */}
         <Form.Group className="mb-4">
           <Form.Label className="custom-label">Edad:</Form.Label>
@@ -196,6 +206,16 @@ const EditStaticDog = ({ onSave }) => {
             <option value="male">Macho</option>
             <option value="female">Hembra</option>
           </Form.Control>
+        </Form.Group>
+        {/* Fecha de ingreso */}
+        <Form.Group className="mb-4">
+          <Form.Label className="custom-label">Fecha de ingreso:</Form.Label>
+          <Form.Control
+            type="date"
+            name="entry_date"
+            value={formData.entry_date}
+            onChange={handleInputChange}
+          />
         </Form.Group>
 
         {/* ¿Está vacunado? */}
@@ -247,28 +267,6 @@ const EditStaticDog = ({ onSave }) => {
             type="text"
             name="operation"
             value={formData.operation}
-            onChange={handleInputChange}
-          />
-        </Form.Group>
-
-        {/* Descripción */}
-        <Form.Group className="mb-4">
-          <Form.Label className="custom-label">Descripción:</Form.Label>
-          <Form.Control
-            as="textarea"
-            name="about"
-            value={formData.about}
-            onChange={handleInputChange}
-          />
-        </Form.Group>
-
-        {/* Fecha de ingreso */}
-        <Form.Group className="mb-4">
-          <Form.Label className="custom-label">Fecha de ingreso:</Form.Label>
-          <Form.Control
-            type="date"
-            name="entry_date"
-            value={formData.entry_date}
             onChange={handleInputChange}
           />
         </Form.Group>

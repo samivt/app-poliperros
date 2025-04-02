@@ -36,7 +36,7 @@ const VerifyResetCode = () => {
       showSuccessAlert("Código verificado correctamente.", "Éxito");
       navigate(`/reset-password?code=${sanitizedCode}`);
     } catch (error) {
-      console.error("Error al verificar el código:", error);
+      // console.error("Error al verificar el código:", error);
       showErrorAlert(
         "No se pudo verificar el código. Inténtalo nuevamente.",
         "Error"

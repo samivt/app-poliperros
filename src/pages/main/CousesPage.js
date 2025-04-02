@@ -27,7 +27,7 @@ const CoursesPage = () => {
         const data = await fetchCourses();
         setCourses(data);
       } catch (error) {
-        console.error("Error al cargar los cursos:", error);
+        //console.error("Error al cargar los cursos:", error);
       } finally {
         setLoading(false);
       }

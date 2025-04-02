@@ -20,7 +20,7 @@ const UsersTable = () => {
         const data = await fetchAllUsers();
         setUsers(data);
       } catch (error) {
-        console.error("Error al cargar los usuarios:", error);
+        //console.error("Error al cargar los usuarios:", error);
       } finally {
         setLoading(false);
       }
@@ -41,7 +41,7 @@ const UsersTable = () => {
       setUsers((prev) => prev.filter((user) => user.id !== userId));
       showSuccessAlert("El usuario ha sido eliminado exitosamente.");
     } catch (error) {
-      console.error("Error al eliminar el usuario:", error);
+      //console.error("Error al eliminar el usuario:", error);
       showErrorAlert(error);
     }
   };

@@ -64,7 +64,7 @@ const ResetPassword = () => {
       showSuccessAlert("Contraseña restablecida exitosamente.", "¡Éxito!");
       navigate("/login");
     } catch (error) {
-      console.error("Error al restablecer la contraseña:", error);
+      //console.error("Error al restablecer la contraseña:", error);
 
       let errorMessage =
         "No se pudo restablecer la contraseña. Inténtalo nuevamente.";
@@ -75,7 +75,7 @@ const ResetPassword = () => {
             "El enlace para restablecer la contraseña ha expirado o es inválido. Solicita un nuevo código.";
         }
       } catch (parseError) {
-        console.error("No se pudo procesar el error del backend:", parseError);
+        //console.error("No se pudo procesar el error del backend:", parseError);
       }
 
       setError(errorMessage);

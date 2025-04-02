@@ -40,7 +40,7 @@ const FormRegisterUser = () => {
         showSuccessAlert("Usuario generado exitosamente.", "¡Éxito!");
         navigate("/admin/list-users");
       } catch (error) {
-        console.error("Error al generar el usuario:", error.message);
+        //console.error("Error al generar el usuario:", error.message);
         showErrorAlert(
           error.message ||
             "No se pudo registrar el usuario. Inténtelo nuevamente."

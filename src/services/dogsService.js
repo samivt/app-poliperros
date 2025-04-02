@@ -53,7 +53,7 @@ export const createStaticDog = async (dogData) => {
 
     return await response.json();
   } catch (error) {
-    console.error("Error al registrar el perro:", error.message || error);
+    //console.error("Error al registrar el perro:", error.message || error);
     throw error; // Lanza el error para que sea manejado en el frontend
   }
 };
@@ -75,13 +75,13 @@ export const updateStaticDog = async (id, dogData) => {
 
     if (!response.ok) {
       const errorData = await response.json();
-      console.error("Detalle del error del backend:", errorData);
+      //console.error("Detalle del error del backend:", errorData);
       throw new Error("Error al actualizar el perro");
     }
 
     return await response.json();
   } catch (error) {
-    console.error("Error actualizando el perro:", error);
+    //console.error("Error actualizando el perro:", error);
     throw error;
   }
 };
@@ -132,7 +132,7 @@ export const fetchStaticDogById = async (id) => {
 
     return await response.json();
   } catch (error) {
-    console.error(error);
+    //console.error(error);
     throw error;
   }
 };
@@ -219,14 +219,14 @@ export const createAdoptionDog = async (dogData) => {
 
     if (!response.ok) {
       const errorData = await response.json();
-      console.error("Error del backend recibido:", errorData);
+      //console.error("Error del backend recibido:", errorData);
 
       if (errorData.detail && Array.isArray(errorData.detail)) {
         const detailedErrors = errorData.detail.map(
           (err) =>
             `Campo: ${err.loc?.join(".") || "desconocido"} - Error: ${err.msg}`
         );
-        console.error("Errores detallados del backend:", detailedErrors);
+        //console.error("Errores detallados del backend:", detailedErrors);
         throw new Error(detailedErrors.join("; "));
       }
 
@@ -241,7 +241,7 @@ export const createAdoptionDog = async (dogData) => {
     // Devuelve la respuesta del servidor en caso de éxito
     return await response.json();
   } catch (error) {
-    console.error("Error al registrar el perro:", error.message || error);
+    //console.error("Error al registrar el perro:", error.message || error);
     throw error; // Lanza el error para que sea manejado en el frontend
   }
 };
@@ -279,7 +279,7 @@ export const updateAdoptionDog = async (dogId, dogData) => {
     // Retornar los datos de la respuesta si la solicitud es exitosa
     return await response.json();
   } catch (error) {
-    console.error("Error actualizando el perro:", error);
+    //console.error("Error actualizando el perro:", error);
     throw error; // Lanza el error para manejarlo en el componente
   }
 };
@@ -300,7 +300,7 @@ export const fetchAdoptionDogs = async () => {
 
     return await response.json();
   } catch (error) {
-    console.error("Error en fetchAdoptionDogs:", error);
+    //console.error("Error en fetchAdoptionDogs:", error);
     throw error;
   }
 };
@@ -321,7 +321,7 @@ export const deleteAdoptionDog = async (id) => {
       throw new Error(`Error al eliminar el perro en adopción con ID ${id}.`);
     }
   } catch (error) {
-    console.error("Error en deleteAdoptionDog:", error);
+    //console.error("Error en deleteAdoptionDog:", error);
     throw error;
   }
 };
@@ -436,7 +436,7 @@ export const fetchAdoptedDogById = async (id) => {
 
     return await response.json();
   } catch (error) {
-    console.error("Error al obtener la información del perro adoptado:", error);
+    //console.error("Error al obtener la información del perro adoptado:", error);
     throw error;
   }
 };
@@ -504,7 +504,7 @@ export const updateOwner = async (idOwner, ownerData) => {
       }
     }
   } catch (error) {
-    console.error("Error en updateOwner:", error.message || error);
+    //console.error("Error en updateOwner:", error.message || error);
     throw error;
   }
 };
@@ -571,10 +571,7 @@ export const fetchAllOwners = async () => {
 
     return data;
   } catch (error) {
-    console.error(
-      "Error al obtener la lista de dueños:",
-      error.message || error
-    );
+    //console.error("Error al obtener la lista de dueños:", error.message || error);
     throw error;
   }
 };

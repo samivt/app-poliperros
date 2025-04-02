@@ -43,7 +43,7 @@ const VisitsTable = () => {
         ];
         setDogNames(uniqueDogNames);
       } catch (error) {
-        console.error("Error al cargar las visitas:", error);
+        //console.error("Error al cargar las visitas:", error);
       } finally {
         setLoading(false);
       }
@@ -77,7 +77,7 @@ const VisitsTable = () => {
       );
       setVisits(visitsWithImages);
     } catch (error) {
-      console.error("Error al filtrar las visitas:", error);
+      //console.error("Error al filtrar las visitas:", error);
     } finally {
       setLoading(false);
     }
@@ -100,7 +100,7 @@ const VisitsTable = () => {
       setVisits((prev) => prev.filter((visit) => visit.id !== visitId));
       showSuccessAlert("La visita ha sido eliminada exitosamente.");
     } catch (error) {
-      console.error("Error al eliminar la visita:", error);
+      //console.error("Error al eliminar la visita:", error);
       showErrorAlert("Ocurrió un error al intentar eliminar la visita.");
     }
   };

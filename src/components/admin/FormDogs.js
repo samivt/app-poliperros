@@ -3,7 +3,7 @@ import { Form, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { Formik, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import DOMPurify from "dompurify"; // Para sanitizar entradas
+import DOMPurify from "dompurify";
 import "../../assets/styles/admin/FormDogs.css";
 import { createStaticDog, createAdoptionDog } from "../../services/dogsService";
 import {
@@ -165,7 +165,7 @@ const FormDogs = ({ onSave = () => {} }) => {
                 as="textarea"
                 name="about"
                 className="form-control"
-                placeholder="Ingrese una descripción (opcional)"
+                placeholder="Ingrese una descripción"
               />
               <ErrorMessage
                 name="about"

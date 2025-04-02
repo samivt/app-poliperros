@@ -39,7 +39,7 @@ const Dogs = () => {
         const data = await fetchStaticDogs();
         setDogs(data);
       } catch (error) {
-        console.error("Error al cargar los perros:", error);
+        //console.error("Error al cargar los perros:", error);
         setDogs([]);
       } finally {
         setIsLoading(false);

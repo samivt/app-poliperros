@@ -23,8 +23,8 @@ const FormAdoptionOwner = ({ onSuccess }) => {
         const dog = await fetchAdoptionDogById(id);
         setDogName(dog.name || "");
       } catch (error) {
-        console.error("Error al cargar el perro:", error);
-        //showErrorAlert("No se pudo cargar la información del perro.");
+        //console.error("Error al cargar el perro:", error);
+        showErrorAlert("No se pudo cargar la información del perro.");
       }
     };
 
@@ -33,7 +33,7 @@ const FormAdoptionOwner = ({ onSuccess }) => {
         const ownersList = await fetchAllOwners();
         setOwners(ownersList);
       } catch (error) {
-        console.error("Error al cargar los dueños:", error);
+        //console.error("Error al cargar los dueños:", error);
         showErrorAlert("No se pudo cargar la lista de dueños.");
       }
     };
@@ -64,7 +64,7 @@ const FormAdoptionOwner = ({ onSuccess }) => {
         showErrorAlert("No se pudo registrar la adopción.");
       }
     } catch (error) {
-      console.error("Error al registrar la adopción:", error);
+      //console.error("Error al registrar la adopción:", error);
       showErrorAlert(
         "Ocurrió un error al registrar la adopción. Intenta nuevamente."
       );

@@ -35,7 +35,7 @@ export const login = async (username, password) => {
     }
     return JSON.parse(responseBody);
   } catch (error) {
-    console.error("Error en login:", error.message);
+    //console.error("Error en login:", error.message);
     throw error;
   }
 };
@@ -48,7 +48,7 @@ export const decodeToken = (token) => {
     //console.log(decode);
     return decode;
   } catch (error) {
-    console.error("Error al decodificar el token:", error);
+    //console.error("Error al decodificar el token:", error);
     return null;
   }
 };
@@ -101,7 +101,7 @@ export const sendPasswordResetEmail = async (email) => {
 
     return await response.json();
   } catch (error) {
-    console.error("Error al enviar el correo de restablecimiento:", error);
+    //console.error("Error al enviar el correo de restablecimiento:", error);
     throw error;
   }
 };
@@ -126,7 +126,7 @@ export const verifyResetCode = async (code) => {
 
     return await response.json();
   } catch (error) {
-    console.error("Error en verifyResetCode:", error);
+    //console.error("Error en verifyResetCode:", error);
     throw error;
   }
 };
@@ -152,7 +152,7 @@ export const resetPassword = async (code, newPassword) => {
 
     return await response.json();
   } catch (error) {
-    console.error("Error en resetPassword:", error);
+    //console.error("Error en resetPassword:", error);
     throw error;
   }
 };
@@ -185,7 +185,7 @@ export const fetchWithAuth = async (url, options = {}) => {
 
     return response; // Devuelve la respuesta si no es 401
   } catch (error) {
-    console.error("Error en fetchWithAuth:", error);
+    //console.error("Error en fetchWithAuth:", error);
     throw error; // Vuelve a lanzar el error para manejarlo en otros lugares si es necesario
   }
 };

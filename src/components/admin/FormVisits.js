@@ -25,7 +25,7 @@ const FormVisits = ({ onVisitCreated }) => {
         const data = await fetchAdoptedDogs();
         setAdoptedDogs(data);
       } catch (error) {
-        console.error("No hay perros adoptados:", error);
+        // console.error("No hay perros adoptados:", error);
       }
     };
     loadAdoptedDogs();
@@ -65,7 +65,7 @@ const FormVisits = ({ onVisitCreated }) => {
       setImagePreview(null);
       navigate("/admin/visits-table");
     } catch (error) {
-      console.error("Error al registrar la visita:", error);
+      // console.error("Error al registrar la visita:", error);
       showErrorAlert("No se pudo registrar la visita. Inténtalo nuevamente.");
     } finally {
       setSubmitting(false);
@@ -196,7 +196,7 @@ const FormVisits = ({ onVisitCreated }) => {
                 as="textarea"
                 name="observations"
                 className="form-control"
-                placeholder="Ingrese una descripción (opcional)"
+                placeholder="Ingrese una descripción"
               />
               <ErrorMessage
                 name="observations"
@@ -206,12 +206,8 @@ const FormVisits = ({ onVisitCreated }) => {
             </Form.Group>
 
             <div className="custom-button-container">
-              <Button
-                type="submit"
-                className="custom-button"
-                disabled={isSubmitting}
-              >
-                {isSubmitting ? "Registrando..." : "Registrar"}
+              <Button type="submit" className="custom-button">
+                Registrar
               </Button>
             </div>
           </Form>

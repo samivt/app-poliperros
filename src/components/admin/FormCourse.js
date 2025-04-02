@@ -49,7 +49,7 @@ const FormCourse = () => {
               : [{ day: "", start_hour: "", end_hour: "" }],
           });
         } catch (error) {
-          console.error("Error al cargar el curso:", error);
+          //console.error("Error al cargar el curso:", error);
         }
       };
       loadCourseData();
@@ -108,7 +108,7 @@ const FormCourse = () => {
       }
       navigate("/admin/list-courses");
     } catch (error) {
-      console.error("Error al procesar el curso:", error);
+      //console.error("Error al procesar el curso:", error);
       showErrorAlert("No se pudo procesar el curso. Inténtalo nuevamente.");
     } finally {
       setSubmitting(false);
@@ -241,7 +241,7 @@ const FormCourse = () => {
                     <Row key={index} className="mb-3 schedule-container">
                       <Col>
                         <Form.Label className="custom-label">
-                          Seleccionar: <span className="required">*</span>
+                          Seleccionar día: <span className="required">*</span>
                         </Form.Label>
                         <Field
                           as="select"

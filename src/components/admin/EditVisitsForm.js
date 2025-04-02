@@ -41,7 +41,7 @@ const EditVisitsView = ({ onVisitUpdated }) => {
         const evidenceUrl = await fetchEvidenceImage(visitId);
         setImagePreview(evidenceUrl);
       } catch (error) {
-        console.error("Error al cargar los datos de la visita:", error);
+        //console.error("Error al cargar los datos de la visita:", error);
       }
     };
 
@@ -98,7 +98,7 @@ const EditVisitsView = ({ onVisitUpdated }) => {
 
       navigate("/admin/visits-table");
     } catch (error) {
-      console.error("Error al actualizar la visita:", error);
+      // console.error("Error al actualizar la visita:", error);
       showErrorAlert("No se pudo actualizar la visita. Inténtalo nuevamente.");
     }
   };

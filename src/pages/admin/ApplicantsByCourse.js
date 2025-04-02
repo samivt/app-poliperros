@@ -1,5 +1,3 @@
-// components/ApplicantsByCourse.jsx
-
 import React, { useEffect, useState } from "react";
 import { Table, Spinner, Button, Form } from "react-bootstrap";
 import {
@@ -29,8 +27,8 @@ const ApplicantsByCourse = () => {
         const data = await fetchCourses();
         setCourses(data);
       } catch (error) {
-        console.error("Error al cargar los cursos:", error);
-        showErrorAlert("Error al cargar los cursos.");
+        //console.error("Error al cargar los cursos:", error);
+        // showErrorAlert("Error al cargar los cursos.");
       } finally {
         setLoadingCourses(false);
       }

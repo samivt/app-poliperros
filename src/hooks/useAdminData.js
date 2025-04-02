@@ -49,7 +49,7 @@ const useAdminData = () => {
       const data = await fetchAdoptionDogs();
       setAdoptionDogs(data);
     } catch (error) {
-      console.error("Error al cargar los perros en adopción:", error);
+      // console.error("Error al cargar los perros en adopción:", error);
     } finally {
       setIsLoading((prev) => ({ ...prev, adoptionDogs: false }));
     }
@@ -93,7 +93,7 @@ const useAdminData = () => {
         showSuccessAlert("Perro en adopción eliminado correctamente.");
       }
     } catch (error) {
-      console.error(`Error al eliminar el perro (${type}):`, error);
+      //console.error(`Error al eliminar el perro (${type}):`, error);
       showErrorAlert(
         `No se pudo eliminar el perro (${type}). Inténtalo nuevamente.`
       );

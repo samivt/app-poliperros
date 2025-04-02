@@ -39,7 +39,7 @@ const UserProfileUpdate = ({ user, token }) => {
         showWarningAlert("Respuesta inesperada del servidor.");
       }
     } catch (error) {
-      console.error("Error capturado en handleSubmit:", error);
+      //console.error("Error capturado en handleSubmit:", error);
       showErrorAlert(
         "Hubo un problema al actualizar los datos. Inténtelo de nuevo.",
         "Error de actualización"
@@ -51,7 +51,7 @@ const UserProfileUpdate = ({ user, token }) => {
 
   return (
     <div className="custom-form-container">
-      <h2 className="form-title">Actualizar Perfil</h2>
+      <h2 className="form-title">Editar Perfil</h2>
       <Formik
         initialValues={{
           username: user?.username || "",
@@ -65,7 +65,7 @@ const UserProfileUpdate = ({ user, token }) => {
             {/* Nombre de usuario */}
             <div className="mb-3">
               <label htmlFor="username" className="custom-label">
-                Nombre de usuario
+                Usuario:
               </label>
               <Field
                 type="text"
@@ -84,7 +84,7 @@ const UserProfileUpdate = ({ user, token }) => {
             {/* Correo electrónico */}
             <div className="mb-3">
               <label htmlFor="email" className="custom-label">
-                Correo Electrónico
+                Correo Electrónico:
               </label>
               <Field
                 type="email"
@@ -102,12 +102,8 @@ const UserProfileUpdate = ({ user, token }) => {
 
             {/* Botón para enviar */}
             <div className="custom-button-container">
-              <button
-                type="submit"
-                className="btn custom-button"
-                disabled={isSubmitting}
-              >
-                {isSubmitting ? "Actualizando..." : "Actualizar Perfil"}
+              <button type="submit" className="btn custom-button">
+                Guardar cambios
               </button>
             </div>
           </Form>

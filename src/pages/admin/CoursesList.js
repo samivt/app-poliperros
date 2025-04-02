@@ -19,7 +19,7 @@ const CoursesList = () => {
         const data = await fetchCourses();
         setCourses(data);
       } catch (error) {
-        console.error("Error al cargar los cursos:", error);
+        //console.error("Error al cargar los cursos:", error);
         //showErrorAlert("No se pudieron cargar los cursos.");
       } finally {
         setLoading(false);
@@ -44,7 +44,7 @@ const CoursesList = () => {
       );
       showSuccessAlert("Curso eliminado exitosamente.");
     } catch (error) {
-      console.error("Error al eliminar el curso:", error);
+      //console.error("Error al eliminar el curso:", error);
       showErrorAlert("No se pudo eliminar el curso. Inténtalo nuevamente.");
     }
   };

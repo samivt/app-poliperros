@@ -29,7 +29,7 @@ const Dogs = () => {
         setDogs(data);
         setError(false);
       } catch (error) {
-        console.error("Error al cargar los perros:", error);
+        //console.error("Error al cargar los perros:", error);
         setError(true);
       } finally {
         setIsLoading(false);

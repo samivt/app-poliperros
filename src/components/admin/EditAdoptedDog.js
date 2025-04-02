@@ -54,7 +54,7 @@ const EditAdoptedDog = ({ onSave }) => {
         });
         setImagePreview(dogData.image);
       } catch (error) {
-        console.error("Error al cargar el perro:", error);
+        // console.error("Error al cargar el perro:", error);
         showErrorAlert("No se pudo cargar la información del perro.");
         navigate("/admin/adopted-dogs");
       }
@@ -69,7 +69,7 @@ const EditAdoptedDog = ({ onSave }) => {
 
     if (name === "name") {
       if (/[^a-zA-Z\sáéíóúÁÉÍÓÚñÑ]/.test(value)) {
-        error = "Solo se permiten letras y espacios";
+        error = "Solo se permiten letras";
       }
     }
 
@@ -135,7 +135,7 @@ const EditAdoptedDog = ({ onSave }) => {
 
       navigate("/admin/adopted-dogs");
     } catch (error) {
-      console.error("Error al actualizar el perro:", error);
+      // console.error("Error al actualizar el perro:", error);
       showErrorAlert("No se pudo actualizar la información del perro.");
     }
   };
@@ -153,7 +153,6 @@ const EditAdoptedDog = ({ onSave }) => {
             name="id_chip"
             value={formData.id_chip}
             onChange={handleInputChange}
-            required
           />
         </Form.Group>
 
@@ -172,14 +171,13 @@ const EditAdoptedDog = ({ onSave }) => {
             <Form.Text style={{ color: "red" }}>{errors.name}</Form.Text>
           )}
         </Form.Group>
-
-        {/* Fecha de adopcion */}
+        {/* Descripción */}
         <Form.Group className="mb-4">
-          <Form.Label className="custom-label">Fecha de adopcion:</Form.Label>
+          <Form.Label className="custom-label">Descripción:</Form.Label>
           <Form.Control
-            type="date"
-            name="adopted_date"
-            value={formData.adopted_date}
+            as="textarea"
+            name="about"
+            value={formData.about}
             onChange={handleInputChange}
           />
         </Form.Group>
@@ -209,6 +207,16 @@ const EditAdoptedDog = ({ onSave }) => {
             <option value="male">Macho</option>
             <option value="female">Hembra</option>
           </Form.Control>
+        </Form.Group>
+        {/* Fecha de ingreso */}
+        <Form.Group className="mb-4">
+          <Form.Label className="custom-label">Fecha de ingreso:</Form.Label>
+          <Form.Control
+            type="date"
+            name="entry_date"
+            value={formData.entry_date}
+            onChange={handleInputChange}
+          />
         </Form.Group>
 
         {/* ¿Está vacunado? */}
@@ -260,28 +268,6 @@ const EditAdoptedDog = ({ onSave }) => {
             type="text"
             name="operation"
             value={formData.operation}
-            onChange={handleInputChange}
-          />
-        </Form.Group>
-
-        {/* Descripción */}
-        <Form.Group className="mb-4">
-          <Form.Label className="custom-label">Descripción:</Form.Label>
-          <Form.Control
-            as="textarea"
-            name="about"
-            value={formData.about}
-            onChange={handleInputChange}
-          />
-        </Form.Group>
-
-        {/* Fecha de ingreso */}
-        <Form.Group className="mb-4">
-          <Form.Label className="custom-label">Fecha de ingreso:</Form.Label>
-          <Form.Control
-            type="date"
-            name="entry_date"
-            value={formData.entry_date}
             onChange={handleInputChange}
           />
         </Form.Group>

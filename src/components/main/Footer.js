@@ -48,7 +48,7 @@ const Footer = () => {
         </a>
       </div>
       <div className="footer-credits">
-        <p>© 2024 Poli Perros. Todos los derechos reservados.</p>
+        <p>© 2025 Poli Perros. Todos los derechos reservados.</p>
       </div>
     </footer>
   );

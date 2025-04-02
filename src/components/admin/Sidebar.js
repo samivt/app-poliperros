@@ -141,38 +141,6 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
             ))}
         </div>
 
-        {/* Gestión de Usuarios (solo admin) */}
-        {categories.users.length > 0 && (
-          <div className="sidebar-category">
-            <div
-              className="category-title"
-              onClick={() => toggleCategory("users")}
-            >
-              <i className="fas fa-users category-icon"></i>
-              Gestión de Usuarios
-              <i
-                className={`fas ${
-                  expandedCategory === "users"
-                    ? "fa-chevron-up"
-                    : "fa-chevron-down"
-                } chevron-icon`}
-              ></i>
-            </div>
-            {expandedCategory === "users" &&
-              categories.users.map((link) => (
-                <Nav.Link
-                  key={link.path}
-                  as={Link}
-                  to={`/admin/${link.path}`}
-                  className="sidebar-sublink"
-                  onClick={toggleSidebar}
-                >
-                  <i className={`${link.icon} sidebar-icon`}></i> {link.label}
-                </Nav.Link>
-              ))}
-          </div>
-        )}
-
         {/* Gestión de Cursos (solo admin) */}
         {categories.courses.length > 0 && (
           <div className="sidebar-category">
@@ -192,6 +160,37 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
             </div>
             {expandedCategory === "courses" &&
               categories.courses.map((link) => (
+                <Nav.Link
+                  key={link.path}
+                  as={Link}
+                  to={`/admin/${link.path}`}
+                  className="sidebar-sublink"
+                  onClick={toggleSidebar}
+                >
+                  <i className={`${link.icon} sidebar-icon`}></i> {link.label}
+                </Nav.Link>
+              ))}
+          </div>
+        )}
+        {/* Gestión de Usuarios (solo admin) */}
+        {categories.users.length > 0 && (
+          <div className="sidebar-category">
+            <div
+              className="category-title"
+              onClick={() => toggleCategory("users")}
+            >
+              <i className="fas fa-users category-icon"></i>
+              Gestión de Usuarios
+              <i
+                className={`fas ${
+                  expandedCategory === "users"
+                    ? "fa-chevron-up"
+                    : "fa-chevron-down"
+                } chevron-icon`}
+              ></i>
+            </div>
+            {expandedCategory === "users" &&
+              categories.users.map((link) => (
                 <Nav.Link
                   key={link.path}
                   as={Link}
